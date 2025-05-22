@@ -18,3 +18,7 @@ History:
 - Tele-operated the robot to find optimal workspace position
 - Workspace Table clamped onto the robot table
 - Brainstorm the navigation and camera mounting position
+
+
+To run the code use the command line terminal and activate the virtual environment 
+you can do so by run `pipenv shell` you can also install the required dependencies using `pipenv sync` however on windows you may have to prepend the commands with `py -m pipenv ...` (WIP)
