@@ -1,0 +1,100 @@
+move here +y(50)
+move here +z(50)
+move here +x(50)
+move here +y(20)
+go WBL1
+move here +y(70)
+move here -x(100)
+move here +x(50)
+local 1, WBL1, Wtl1, WTR1
+local 1, (BottomLeft : WBottomLeft), (TopRight : WTopRight)
+local 1, WBL1, Wtr1, WTl1
+accels 100
+AccelR
+Speed
+Local 1, WBL1, Wtl1, WTr1
+move TopLeft
+go WBL1
+move wtl1
+move WTR1
+move WTl1
+move WTR1
+move WBR1
+move WBL1
+move BottomRight
+local 1, WBL1, WTL1, WBR1
+go BottomLeft
+reset
+go BottomLeft
+motor On
+go BottomLeft
+local 1, WBL1, WTr1, Wtl1
+go BottomLeft
+Local 1,(BottomLeft:WBottomLeft),(TopRight:WTopRight)
+go BottomLeft
+go BottomRight
+go BottomLeft
+local 1, WBL1, WTr1, Wtl1
+go BottomLeft
+go BottomRight
+move BottomLeft
+move BottomRight
+move BottomLeft
+Local 1,(BottomLeft:WBottomLeft),(TopRight:WTopRight)
+move BottomLeft
+go BottomLeft
+local 1, WBL1, WTl1, Wtr1
+go BottomLeft
+move BottomRight
+move topright
+move TopLeft
+move BottomLeft
+local 1, WBL1, WTr1, Wbr1
+go BottomLeft
+Reset
+move BottomLeft
+go BottomLeft
+local 1, WBL1, Wbr1, Wtr1
+go BottomLeft
+move TopLeft
+move BottomLeft
+move BottomRight
+local 1, WBL1, Wbr1, Wtr1
+move BottomLeft
+move BottomRight
+move topright
+move TopLeft
+move BottomLeft
+move WBL2
+go WBL2
+move WBR2
+move mtr2
+move WTR2
+move WTl2
+move WTR2
+move WTl2
+move WBL2
+move WBR2
+go WBL2
+move WBR2
+move WTR2
+Local 1, WBL2, WBR2, WTR2
+go WBL2
+move WBR2
+go WBL2
+Local 1, WBL1, WBR2, WTR2
+go WBL2
+go WBL1
+Local 1, WBL1, WBR1, WTR1
+go WBL1
+move WBL1
+LocalClr 1
+Local 1, WBL1, WBR1, WTR1
+go bottomleft
+Local 1, WBL1, WBR2, WTR2
+Local 1, WBL2, WBR2, WTR2
+go bottomleft
+go BottomRight
+go TopRight
+go TopLeft
+go BottomLeft

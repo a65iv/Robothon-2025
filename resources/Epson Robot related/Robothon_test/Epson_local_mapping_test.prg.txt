@@ -1,0 +1,39 @@
+Function main
+	Motor On
+	Power High
+	Speed 100
+	AccelS 60
+	
+	
+'	Go TopLeft LJM
+'	Go TopRight LJM
+'	Go BottomRight LJM
+'	Go BottomLeft LJM
+'	Go TopLeft LJM
+	
+	Local 1,(BottomLeft:WBottomLeft),(TopRight:WTopRight)
+	
+	Go BottomLeft
+	Move BottomRight
+	Move TopRight
+	Move TopLeft
+	Move BottomLeft
+	
+	Local 1, WBL1, WBR1, WTR1
+	
+	Go BottomLeft
+	Move BottomRight
+	Move TopRight
+	Move TopLeft
+	Move BottomLeft
+	
+	Local 1, WBL2, WBR2, WTR2
+	
+	Go BottomLeft
+	Move BottomRight
+	Move TopRight
+	Move TopLeft
+	Move BottomLeft
+	
+Fend
+

@@ -1,0 +1,274 @@
+> print here
+ X:    0.000 Y:  580.000 Z:  832.000 U:    0.000 V:  -90.000 W:  -90.000 /R /A /NF /J6F0 /J4F0 /0
+> print topleft
+ X: -100.000 Y:  300.000 Z:  500.000 U:    0.000 V:    0.000 W:    0.000 /R /A /NF /J6F0 /J4F0 /1
+> go TopLeft
+!!Error: 4001, Arm reached the limit of motion range.
+> 
+> 
+> go here :u(0)
+> 
+> 
+> 
+> go here :y(700)
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> go here :w(-90)
+> go here :z(500)
+> 
+!!Error: 4001, Arm reached the limit of motion range.
+> 
+> go WBottomRight
+!!Error: 4001, Arm reached the limit of motion range.
+> print here
+ X:    0.000 Y:  700.000 Z:  500.000 U:    0.000 V:    0.000 W:  -90.000 /R /A /F /J6F0 /J4F0 /0
+> 
+!!Error: 4001, Arm reached the limit of motion range.
+> go WTopLeft
+!!Error: 4001, Arm reached the limit of motion range.
+> move WTopLeft
+!!Error: 4001, Arm reached the limit of motion range.
+> move WBottomRight
+!!Error: 4001, Arm reached the limit of motion range.
+> jump3 here, here +z(50), WBottomRight
+> go WBottomRight 
+> go here :x(0)
+> go here /j1 1
+!!Error: 3205, Point is not specified.
+> go here :J1(1)
+!!Error: 3205, Point is not specified.
+> go here /J1Flag 1
+!!Error: 3205, Point is not specified.
+> 
+> go here 1
+!!Error: 3100, Syntax error.
+> 
+!!Error: 4007, Coordinates conversion error. The end/mid point is out of the motion area. Jogging to the outside of the motion area.
+> 
+> 
+> 
+> go here :x(0) ljm
+> 
+> go WBottomRight ljm
+> 
+> go WTopLeft ljm
+> 
+> 
+> local 1, (BottomLeft : WBottomLeft), (TopRight : WTopRight)
+> go TopLeft
+> go WBottomLeft ljm
+!!Error: 4001, Arm reached the limit of motion range.
+> go WTopRight ljm
+> go BottomRight ljm
+!!Error: 4001, Arm reached the limit of motion range.
+> go BottomLeft ljm
+!!Error: 4001, Arm reached the limit of motion range.
+> 
+!!Error: 4001, Arm reached the limit of motion range.
+> 
+> 
+> 
+> 
+!!Error: 3202, Expected '('.
+> 
+> 
+!!Error: 4001, Arm reached the limit of motion range.
+> 
+> 
+> go WBottomLeft ljm
+!!Error: 4001, Arm reached the limit of motion range.
+> 
+!!Error: 4001, Arm reached the limit of motion range.
+> 
+> 
+!!Error: 10000, Command aborted by user
+> 
+!!Error: 4001, Arm rego 
+!!Error: 3100, Syntax error.
+> go here :v(0)
+> go here :x(0)
+>print here
+ X:    3.804 Y:  595.828 Z:  484.765 U:  176.270 V:  -11.337 W:  101.895 /R /A /F /J6F0 /J4F0 /0
+> go here :v(0)
+> go here :w(90)
+> go here :x(0)
+> go here :u(180)
+> go here :y(600) :z(500)
+> go here -x(100) -y(100)
+> go here +y(200) m
+> go here -x(100) ljm
+> 
+>go here +x(200) ljm
+> go here -y(200) ljm
+> go here +x(200) ljm
+> go here _y(200) ljm
+!!Error: 3100, Syntax error.
+> go here +y(200) ljmgo
+> 
+> go WBottomLeft ljm
+> go WBL1 ljm
+> go WTR1 ljm
+> 
+> 
+!!Error: 4001, Arm reached the limit of motion range.
+> 
+> power High
+> speed 100
+> accels 100
+> AccelR
+	  100.000	  100.000
+> Speed
+	 100
+	 100	 100
+> 
+> go TopLeft
+> 
+> 
+!!Error: 4001, Arm reached the limit of motion range.
+> local 1, (BottomLeft : WBottomLeft), (TopRight : WTopRight)
+> 
+> 
+> go WBL1
+!!Error: 10000, Command aborted by user
+> local 1, (BottomLeft : WBL1) , (TopRight : wtr1)
+> local 1, WBL1, WBR1, WTR1
+> go WBL1
+> local 1, WBL1, Wtr1, WTl1
+> Local 1, WBL1, Wtl1, WTr1
+> move TopLeft
+!!Error: 4241, Overspeed during low power mode was detected.
+> 
+> 
+> 
+> 
+> go WBr1
+> go WBL1
+> go WTR1
+> move WBL1
+> move wtl1
+> move WTl1
+> move WTR1
+> move WBR1
+> move WBL1
+> move BottomRight
+!!Error: 4241, Overspeed during low power mode was detected.
+> 
+> 
+> 
+> go WBL1
+> 
+> 
+> 
+> move here +x(50)
+> 
+> 
+> 
+> move here +y(70)
+> 
+> 
+> move here +z(50)
+> 
+!!Error: 3205, Point is not specified.
+> 
+> go WTR1
+> 
+> go WBR1
+> 
+> LocalClr
+!!Error: 3101, Parameter count error.
+> LocalClr 1
+> 
+> local 1, WBL1, Wbr1, Wtr1
+> 
+> 
+> 
+> 
+> 
+> 
+> move BottomLeft
+> 
+!!Error: 4001, Arm reached the limit of motion range.
+> 
+!!Error: 4035, Only the tool orientation was attempted to be changed by the CP statement.
+> go BottomLeft
+> 
+!!Error: 4001, Arm reached the limit of motion range.
+> 
+!!Error: 4001, Arm reached the limit of motion range.
+> Reset
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> Local 1,(BottomLeft:WBottomLeft),(TopRight:WTopRight)
+> 
+> 
+> move BottomRight
+> 
+> 
+> move topright
+> 
+> move TopLeft
+> 
+> 
+> move BottomLeft
+> move WBL2
+> 
+!!Error: 4035, Only the tool orientation was attempted to be changed by the CP statement.
+> go WBL1
+> 
+> 
+> 
+> 
+> 
+> move WBR2
+> 
+> move WTR2
+> 
+> 
+> 
+> move mtr2
+!!Error: 2513, Specified point label is not defined.
+> move WTl2
+> 
+> move WTR2
+> 
+> Local 1, WBL2, WBR2, WTR2
+> 
+> 
+> 
+> Local 1, WBL1, WBR1, WTR1
+> 
+> go bottomleft
+> go BottomRight
+> go TopRight
+> go TopLeft
+> go BottomLeft
+> 
+> 
+> move WBL1
+> LocalClr 1
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+!!Error: 4031, Cannot execute a motion command when the motor is in the off state.
+> motor On
+> 
+!!Error: 2318, Cannot execute a motion command when an error has been detected.
+> reset
+> 
+> 
