@@ -22,4 +22,4 @@ path = pathlib.Path("./pic.png")
 
 
 calibrator.detect_circles(path)
-calibrator.fix_camera_points()
+# calibrator.fix_camera_points()
