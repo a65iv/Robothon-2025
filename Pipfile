@@ -4,6 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+opencv-python = "*"
+yolov5 = "*"
+scikit-learn = "*"
+pyserial = "*"
+keras = "*"
 
 [dev-packages]
 
