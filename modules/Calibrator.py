@@ -1,10 +1,11 @@
+import os
 import csv
 import cv2
 import argparse
 import numpy as np  
 from sklearn.linear_model import LinearRegression
-CAMERA_DATA_PATH = './output/camera_points.csv'
-ROBOT_DATA_PATH = './Modules/calibration/robot_points_new.csv'
+CAMERA_DATA_PATH = './modules/calibration/fixed_camera_points.csv'
+ROBOT_DATA_PATH = './modules/calibration/fixed_robot_points.csv'
 class Calibrator(): 
     """
     The Calibrator class is responsible for calibrating the camera mounted to the EPSON Robot.
@@ -13,8 +14,13 @@ class Calibrator():
     def __init__(self, camera_data_path = CAMERA_DATA_PATH, robot_data_path = ROBOT_DATA_PATH, calibrate = True) -> None:
         # Load the camera calibration data and the robot's calibration data, if available
         # If not available, the class will use the data in the cache or prompt the user to calibrate the camera and the robot
+        print("path exists:", os.path.exists(camera_data_path))
+        print(os.listdir("modules"))
         self.camera_points = self.read_csv(camera_data_path)
         self.robot_points = self.read_csv(robot_data_path)
+
+        self.calibration_path = "./modules/calibration"
+
         self.x_model = LinearRegression()
         self.y_model = LinearRegression()
 
@@ -25,11 +31,16 @@ class Calibrator():
             self.calibrate()
         pass
 
-    def fix_camera_points(self):
-        sorted_indices = np.lexsort((-self.camera_points[:, 0], self.camera_points[:, 1]))
-        sorted_data = self.camera_points[sorted_indices]
-        sorted_data = sorted_data[::-1]
-        np.savetxt('output/fixed_camera.csv', sorted_data, delimiter=',', fmt='%d')
+    def sort_points(self, target, output_file:str, sort_order = None, flip=True):
+        if sort_order == None:
+            sort_order= (target[:, 1], -target[:, 0]); 
+
+        # sorts the csv based on the highest x and the highest y
+        sorted_indices = np.lexsort(sort_order)
+        sorted_data = target[sorted_indices]
+        if flip:
+            sorted_data = sorted_data[::-1]
+        np.savetxt(output_file, sorted_data, delimiter=',', header='x,y', fmt='%d', comments='')
 
     def calibrate(self) -> None:
         """
@@ -85,6 +96,20 @@ class Calibrator():
         pass
 
 
+        # Generate and save world coordinate points in one go
+    def generate_robot_points(self, x: float, y: float, spacing: float) -> None:
+        with open( f"{self.calibration_path}/robot_points.csv", mode="w", newline="") as file:
+            writer = csv.writer(file)
+            writer.writerow(["x", "y"])
+            writer.writerows(
+                [(x + i * spacing, y + j * spacing) for i in range(5) for j in range(5)]
+            )
+
+        target = self.read_csv(f"{self.calibration_path}/robot_points.csv")
+        sort_order = (-target[:, 1], target[:, 0]) 
+        self.sort_points(target, f"{self.calibration_path}/fixed_robot_points.csv", sort_order, False)
+
+
     def predict(self, coordinate, world = True) -> tuple:
         print("printing coordinates", coordinate)
         """
@@ -121,11 +146,16 @@ class Calibrator():
                 cv2.putText(targetImage, f"({x}, {y})", (x-5, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1)
 
             # write coordinates to CSV file
-            with open('output/camera_points.csv', 'w', newline='') as csvfile:
+            with open(f'{self.calibration_path}/camera_points.csv', 'w', newline='') as csvfile:
                 csv_writer = csv.writer(csvfile)
                 csv_writer.writerow(['x', 'y'])
+
+                
                 csv_writer.writerows(circle_coordinates)
                 print("Coordinates saved to camera_points.csv")
+            
+            target = self.read_csv(f"{self.calibration_path}/camera_points.csv")
+            self.sort_points(target, f"{self.calibration_path}/fixed_camera_points.csv")
 
             # show the output image
             outputImage = np.hstack([targetImage])
@@ -140,25 +170,29 @@ class Calibrator():
             print("No circles were found.")
     
 
-    def read_csv(self, path: str) -> np.ndarray:
+    def read_csv(self, path: str):
         """
         Read the camera calibration data from a CSV file.
         """
-        result = []
-        with open(path, newline='', encoding='utf-8-sig') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                result.append([row["x"], row["y"]])
-                pass
-        result = np.array(result)
-        return result.astype(np.float32)
+        try: 
+            result = []
+            with open(path, newline='', encoding='utf-8-sig') as csvfile:
+                reader = csv.DictReader(csvfile)
+                for row in reader:
+                    result.append([row["x"], row["y"]])
+                    pass
+            result = np.array(result)
+            return result.astype(np.float32)
+        except Exception as e:
+            print("Failed to read csv file at:", path, e) 
+            return None
 
 
 
 def main():
     parser = argparse.ArgumentParser(description="This is the calibrator class it is responsible for every aspect of calibration")
     parser.add_argument("--circles", type=str, help="Uses opencv to draw circles on the image and save the coordinates to a csv file, you need to specify the path to the image")
-    parser.add_argument("--fix_camera", type=str, help="Fixes the camera points by sorting the y values in descending order")
+    # parser.add_argument("--fix_camera", type=str, help="Fixes the camera points by sorting the y values in descending order")
     parser.add_argument("--predict", metavar=("x", "y"), type=float, nargs=2, help="Predict the robot's coordinates based on the camera's coordinates")
 
 
@@ -166,10 +200,10 @@ def main():
 
     
 
-    if args.fix_camera:
-        calibrator = Calibrator(camera_data_path=args.fix_camera, calibrate=False)
-        calibrator.fix_camera_points()
-    elif args.circles: 
+    # if args.fix_camera:
+    #     calibrator = Calibrator(camera_data_path=args.fix_camera, calibrate=False)
+    #     calibrator.fix_camera_points()
+    if args.circles: 
         calibrator = Calibrator(calibrate=False)
         calibrator.detect_circles(args.circles)
     elif args.predict:
