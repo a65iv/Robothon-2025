@@ -1,25 +1,23 @@
 from modules.Calibrator import Calibrator
 
-import cv2
 import pathlib
-calibrator = Calibrator(calibrate=False)
-path = pathlib.Path("./pic.png")
+# calibrator = Calibrator(calibrate=False)
+calibrator = Calibrator()
 
-"""
-    REAL_X_POS_END = -136.203
-    REAL_Y_POS_END = 787.229
-    REAL_Z_POS = 395.870 
-    
-    REAL_X_POS_START = 163.371
-    REAL_Y_POS_START = 558.528
-    REAL_Z_POS = 390.094
-"""
 
-# image = cv2.imread(filename=path)
-
-# for i in 
+print(calibrator.predict({'x':150, 'y': 88}))
+# path = pathlib.Path("./modules/calibration/calibration.png")
 
 
 
-calibrator.detect_circles(path)
-# calibrator.fix_camera_points()
+# camera_csv_file = pathlib.Path("./modules/calibration/camera_points.csv")
+# robot_csv_file = pathlib.Path("./modules/calibration/robot_points.csv")
+
+
+# calibrator.detect_circles(path)
+# calibrator.generate_robot_points(x=-100, y=550, spacing=50)
+
+
+
+
+
