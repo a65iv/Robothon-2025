@@ -102,7 +102,7 @@ class Calibrator():
             writer = csv.writer(file)
             writer.writerow(["x", "y"])
             writer.writerows(
-                [(x + i * spacing, y + j * spacing) for i in range(5) for j in range(5)]
+                [(x + i * spacing, y + j * spacing) for i in range(7) for j in range(5)]
             )
 
         target = self.read_csv(f"{self.calibration_path}/robot_points.csv")
