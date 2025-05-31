@@ -1,0 +1,83 @@
+﻿{
+  "docking_layout": "<DockSiteLayout xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" SerializationFormat=\"All\" Version=\"2\">\r\n\t<AutoHideHost />\r\n\t<Content xsi:type=\"SplitContainer\" Orientation=\"Vertical\" DockedSize=\"1363.2,719.64\">\r\n\t\t<UIElement xsi:type=\"SplitContainer\" Orientation=\"Horizontal\" DockedSize=\"1576,431\">\r\n\t\t\t<UIElement xsi:type=\"ToolWindowContainer\" DockedSize=\"189,431\" SelectedWindowUniqueId=\"7563665f-9445-4ce8-aeb1-3560f87049a3\">\r\n\t\t\t\t<UIElement xsi:type=\"ToolWindowRef\" UniqueId=\"7563665f-9445-4ce8-aeb1-3560f87049a3\" />\r\n\t\t\t</UIElement>\r\n\t\t\t<UIElement xsi:type=\"SplitContainer\" Orientation=\"Vertical\" DockedSize=\"780,431\">\r\n\t\t\t\t<UIElement xsi:type=\"SplitContainer\" Orientation=\"Horizontal\" DockedSize=\"780,786.84\">\r\n\t\t\t\t\t<UIElement xsi:type=\"ToolWindowContainer\" DockedSize=\"0,0\">\r\n\t\t\t\t\t\t<UIElement xsi:type=\"Track\" CreationDateTime=\"2025-03-01T10:41:07.1861096+04:00\" UniqueId=\"7563665f-9445-4ce8-aeb1-3560f87049a3\" />\r\n\t\t\t\t\t</UIElement>\r\n\t\t\t\t\t<UIElement xsi:type=\"Workspace\">\r\n\t\t\t\t\t\t<Content xsi:type=\"TabbedMdiHost\">\r\n\t\t\t\t\t\t\t<Content xsi:type=\"TabbedMdiContainer\" SelectedWindowUniqueId=\"f712298b-ef76-4ef3-b9aa-e5e159baec31\">\r\n\t\t\t\t\t\t\t\t<UIElement xsi:type=\"DocumentWindowRef\" UniqueId=\"f712298b-ef76-4ef3-b9aa-e5e159baec31\" />\r\n\t\t\t\t\t\t\t\t<UIElement xsi:type=\"Track\" ContainerDockedSize=\"1170,616\" CreationDateTime=\"2025-05-06T20:57:23.3127025+04:00\" UniqueId=\"33c7c0d4-a542-4b58-a848-e37b87839c33\" />\r\n\t\t\t\t\t\t\t\t<UIElement xsi:type=\"Track\" ContainerDockedSize=\"1170,616\" CreationDateTime=\"2025-04-27T17:13:15.3432541+04:00\" UniqueId=\"805f32cd-2557-4311-ad91-2197340cc32f\" />\r\n\t\t\t\t\t\t\t\t<UIElement xsi:type=\"Track\" CreationDateTime=\"2025-04-12T14:03:31.9128464+04:00\" UniqueId=\"fe3e0cdc-e9f9-4422-8da3-5c6778a80a89\" />\r\n\t\t\t\t\t\t\t</Content>\r\n\t\t\t\t\t\t</Content>\r\n\t\t\t\t\t</UIElement>\r\n\t\t\t\t</UIElement>\r\n\t\t\t\t<UIElement xsi:type=\"ToolWindowContainer\" DockedSize=\"0,0\">\r\n\t\t\t\t\t<UIElement xsi:type=\"Track\" CreationDateTime=\"2025-03-01T10:41:07.1953647+04:00\" UniqueId=\"17288996-5567-48b6-91c4-e569614d9c55\" />\r\n\t\t\t\t</UIElement>\r\n\t\t\t</UIElement>\r\n\t\t</UIElement>\r\n\t\t<UIElement xsi:type=\"ToolWindowContainer\" DockedSize=\"1001,99\" SelectedWindowUniqueId=\"17288996-5567-48b6-91c4-e569614d9c55\">\r\n\t\t\t<UIElement xsi:type=\"ToolWindowRef\" UniqueId=\"17288996-5567-48b6-91c4-e569614d9c55\" />\r\n\t\t</UIElement>\r\n\t</Content>\r\n\t<DocumentWindows>\r\n\t\t<DocumentWindow UniqueId=\"f712298b-ef76-4ef3-b9aa-e5e159baec31\" SerializationId=\"MainDockingView.ProgramFileEditor:Main.prg\" IsOpen=\"true\" LastActiveDateTime=\"2025-05-23T19:37:12.6920768+04:00\" State=\"Document\" Type=\"Epson.RoboticsShared.Common.ViewVMs.Components.DocumentWindow, Epson.RoboticsShared.Common\" FileName=\"Main.prg\" />\r\n\t\t<DocumentWindow UniqueId=\"9a58c0be-12cf-4868-aa64-3e2ae1d70c36\" SerializationId=\"MainDockingView.RunWindow\" ContainerDockedSize=\"1198.8,631.6\" IsOpen=\"false\" LastActiveDateTime=\"2025-05-06T21:03:01.2311102+04:00\" State=\"Document\" Type=\"Epson.RoboticsShared.Common.ViewVMs.Components.DocumentWindow, Epson.RoboticsShared.Common\" FileName=\"Run\" />\r\n\t\t<DocumentWindow UniqueId=\"7592eebd-6949-406e-98fd-f3c9fc948bf3\" SerializationId=\"MainDockingView.RobotManagerWindow\" ContainerDockedSize=\"1173.2,602.8000000000001\" IsOpen=\"true\" LastActiveDateTime=\"2025-05-06T21:02:44.4325208+04:00\" State=\"Document\" Type=\"Epson.RoboticsShared.Common.ViewVMs.Components.DocumentWindow, Epson.RoboticsShared.Common\" FileName=\"Robot Manager\" />\r\n\t\t<DocumentWindow UniqueId=\"805f32cd-2557-4311-ad91-2197340cc32f\" SerializationId=\"MainDockingView.GUIBuilderWindow\" ContainerDockedSize=\"1170,616\" IsOpen=\"false\" LastActiveDateTime=\"2025-04-27T17:13:03.3710993+04:00\" State=\"Document\" Type=\"Epson.RoboticsShared.Common.ViewVMs.Components.DocumentWindow, Epson.RoboticsShared.Common\" FileName=\"GUI Builder\" />\r\n\t</DocumentWindows>\r\n\t<RaftingHosts>\r\n\t\t<RaftingHost UniqueId=\"c22fa1dc-4691-4a4e-bff9-9df14778b1db\" Location=\"600.8000000000001,182.4\" Size=\"1196.8,629.6\" WindowState=\"Normal\">\r\n\t\t\t<AutoHideHost />\r\n\t\t\t<Content xsi:type=\"ToolWindowContainer\" DockedSize=\"0,0\">\r\n\t\t\t\t<UIElement xsi:type=\"Track\" ContainerDockedSize=\"1194.8,627.6\" CreationDateTime=\"2025-05-06T20:58:12.5013871+04:00\" UniqueId=\"fe3e0cdc-e9f9-4422-8da3-5c6778a80a89\" />\r\n\t\t\t</Content>\r\n\t\t</RaftingHost>\r\n\t\t<RaftingHost UniqueId=\"4f55ef1e-6a5b-41ae-9e23-7dd72ed4e937\" Location=\"711.2,362.40000000000003\" Size=\"1175.2,632.8000000000001\" WindowState=\"Normal\">\r\n\t\t\t<AutoHideHost />\r\n\t\t\t<Content xsi:type=\"Workspace\">\r\n\t\t\t\t<Content xsi:type=\"TabbedMdiHost\">\r\n\t\t\t\t\t<Content xsi:type=\"TabbedMdiContainer\" DockedSize=\"0,0\">\r\n\t\t\t\t\t\t<UIElement xsi:type=\"Track\" ContainerDockedSize=\"1173.2,602.8000000000001\" CreationDateTime=\"2025-05-23T19:31:52.7467073+04:00\" UniqueId=\"7592eebd-6949-406e-98fd-f3c9fc948bf3\" />\r\n\t\t\t\t\t</Content>\r\n\t\t\t\t</Content>\r\n\t\t\t</Content>\r\n\t\t</RaftingHost>\r\n\t\t<RaftingHost UniqueId=\"76785834-3dfd-4f3a-bc85-e7406aba791f\" Location=\"554.4,268\" Size=\"1200.8,661.6\" WindowState=\"Normal\">\r\n\t\t\t<AutoHideHost />\r\n\t\t\t<Content xsi:type=\"Workspace\">\r\n\t\t\t\t<Content xsi:type=\"TabbedMdiHost\">\r\n\t\t\t\t\t<Content xsi:type=\"TabbedMdiContainer\" DockedSize=\"0,0\">\r\n\t\t\t\t\t\t<UIElement xsi:type=\"Track\" ContainerDockedSize=\"1198.8,631.6\" CreationDateTime=\"2025-05-06T21:01:41.8295425+04:00\" UniqueId=\"fe3e0cdc-e9f9-4422-8da3-5c6778a80a89\" />\r\n\t\t\t\t\t\t<UIElement xsi:type=\"Track\" ContainerDockedSize=\"1198.8,631.6\" CreationDateTime=\"2025-05-06T21:03:04.0803823+04:00\" UniqueId=\"9a58c0be-12cf-4868-aa64-3e2ae1d70c36\" />\r\n\t\t\t\t\t</Content>\r\n\t\t\t\t</Content>\r\n\t\t\t</Content>\r\n\t\t</RaftingHost>\r\n\t</RaftingHosts>\r\n\t<ToolWindows>\r\n\t\t<ToolWindow UniqueId=\"7563665f-9445-4ce8-aeb1-3560f87049a3\" SerializationId=\"MainDockingView.ProjectExplorerWindow\" ContainerDockedSize=\"189,431\" IsOpen=\"true\" LastActiveDateTime=\"2025-04-28T10:52:22.5823654+04:00\" State=\"Docked\" Type=\"Epson.RoboticsShared.Common.ViewVMs.Components.ToolWindow, Epson.RoboticsShared.Common\" />\r\n\t\t<ToolWindow UniqueId=\"17288996-5567-48b6-91c4-e569614d9c55\" SerializationId=\"MainDockingView.StatusWindow\" ContainerDockedSize=\"1001,99\" IsOpen=\"true\" LastActiveDateTime=\"2025-05-06T21:02:06.4498742+04:00\" State=\"Docked\" Type=\"Epson.RoboticsShared.Common.ViewVMs.Components.ToolWindow, Epson.RoboticsShared.Common\" />\r\n\t\t<ToolWindow UniqueId=\"fe3e0cdc-e9f9-4422-8da3-5c6778a80a89\" SerializationId=\"MainDockingView.CommandWindow\" ContainerDockedSize=\"1198.8,631.6\" IsOpen=\"false\" LastActiveDateTime=\"2025-05-06T20:58:12.5693653+04:00\" State=\"Document\" Type=\"Epson.RoboticsShared.Common.ViewVMs.Components.ToolWindow, Epson.RoboticsShared.Common\" />\r\n\t\t<ToolWindow UniqueId=\"33c7c0d4-a542-4b58-a848-e37b87839c33\" SerializationId=\"MainDockingView.TaskManagerWindow\" ContainerDockedSize=\"1170,616\" IsOpen=\"true\" LastActiveDateTime=\"2025-04-28T10:49:05.9190299+04:00\" State=\"Document\" Type=\"Epson.RoboticsShared.Common.ViewVMs.Components.ToolWindow, Epson.RoboticsShared.Common\" />\r\n\t</ToolWindows>\r\n</DockSiteLayout>",
+  "program_files": [
+    {
+      "name": "Main.prg",
+      "hash_code": "5F-FB-42-3A-0D-C1-8C-73-50-F6-FA-2C-15-C7-37-5C-52-34-34-3E-E6-4A-E1-09-0E-49-64-BB-6A-C6-79-FE",
+      "break_points": [],
+      "editor_view_state": "\"{\\\"cursorState\\\":[{\\\"inSelectionMode\\\":false,\\\"selectionStart\\\":{\\\"lineNumber\\\":1,\\\"column\\\":1},\\\"position\\\":{\\\"lineNumber\\\":1,\\\"column\\\":1}}],\\\"viewState\\\":{\\\"scrollLeft\\\":0,\\\"firstPosition\\\":{\\\"lineNumber\\\":1,\\\"column\\\":1},\\\"firstPositionDeltaTop\\\":2},\\\"contributionsState\\\":{\\\"editor.contrib.folding\\\":{\\\"lineCount\\\":5,\\\"provider\\\":\\\"syntax\\\"}}}\""
+    }
+  ],
+  "force_guide_files": [],
+  "i_o_monitor": {
+    "opened": false,
+    "window": {
+      "left": -1,
+      "top": -1,
+      "width": -1,
+      "height": -1
+    },
+    "layout_data": ""
+  },
+  "project_explorer": {
+    "project_opened": true,
+    "programs_opened": true,
+    "includes_opened": true,
+    "labels_opened": false,
+    "macros_opened": false,
+    "functions_opened": false,
+    "vision_opened": false,
+    "vision_sequences_opened": false,
+    "vision_calibs_opened": false,
+    "g_u_i_b_opened": false,
+    "g_u_i_b_forms_opened": false,
+    "robot_points_opened": true,
+    "common_points_opened": true,
+    "forces_opened": false,
+    "common_forces_opened": false,
+    "robots_openeds": [
+      true
+    ],
+    "force_guide_opened": false,
+    "force_sequences_opened": false,
+    "other_files_opened": false,
+    "curve_files_opened": false
+  },
+  "run_window": {
+    "num_of_displays": 1,
+    "displays": [],
+    "display_vision": false,
+    "splitter_distance": 0.0
+  },
+  "force_guide": {
+    "show_flow_chart": true,
+    "splitter_distance1": 0,
+    "splitter_distance2": 0,
+    "splitter_distance3": 0,
+    "splitter_distance4": 0,
+    "splitter_distance5": 0,
+    "splitter_distance6": 0,
+    "splitter_distance7": 0,
+    "splitter_distance8": 0,
+    "selected_tab": 0
+  },
+  "vision_guide": {
+    "show_flow_chart": true,
+    "splitter_distance1": 0,
+    "splitter_distance2": 0,
+    "splitter_distance3": 0,
+    "splitter_distance4": 0,
+    "splitter_distance5": 0,
+    "splitter_distance6": 0,
+    "splitter_distance7": 0
+  },
+  "force_files": [],
+  "g_u_i_builder": {
+    "splitter_distance1": 0,
+    "splitter_distance2": 0,
+    "splitter_distance3": 0,
+    "splitter_distance4": 0,
+    "splitter_distance5": 0,
+    "splitter_distance6": 0
+  }
+}

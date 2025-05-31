@@ -1,0 +1,100 @@
+go :z(800)
+go here :z(800)
+go here :z(700)
+go here :x(-150) :y(550)
+power
+power High
+go here :x(-150) :y(550)
+move here :x(150) :y(750)
+move here :x(-150) :y(550)
+move here :x(150) :y(750)
+speed 70
+move here :x(150) :y(750)
+move here :x(-100) :y(550)
+move here :x(-150) :y(550)
+move here -x(10)
+move here +x(5)
+arc3 here +x(5) +y(5), here +x(10) +y(0)
+arc3 here +x(-5) +y(-5), here +x(-10) +y(0)
+arc3 here +x(5) +y(5), here +x(10) +y(0) CP
+arc3 here +x(-5) +y(-5), here +x(-10) +y(0)
+arc3 here +x(5) +y(5), here +x(10) +y(0) CP
+arc3 here +x(-5) +y(-5), here +x(-10) +y(0)
+arc3 here +x(5) +y(5), here +x(10) +y(0) CP
+move here :z(-10)
+move here :z(+150)
+move here :x(-150) :y(550)
+move here +z(10)
+move here :x(-150) :y(550)
+move here :z(401.5)
+move here :z(400.3)
+go CameraPoint
+move here :x(24.5) :y(806.8)
+go CameraPoint
+move here :x(-124) :y(548.7)
+move here :x(24) :y(681.2)
+power High
+speed 80
+AccelS 50
+move here :x(24) :y(681.2)
+AccelS 70
+move here :x(24) :y(681.2)
+move here :x(125.8) :y(687)
+move here :x(-124) :y(548.7)
+move here :x(-124) :y(674.3)
+move here :x(24) :y(806.8)
+move here :x(-78.1) :y(701.7)
+go CameraPoint
+move here :x(494) :y(593)
+power High
+go CameraPoint
+power High
+move here :x(494) :y(593)
+go CameraPoint
+move here :x(28) :y(678)
+go CameraPoint
+move here :x(126) :y(675)
+go CameraPoint
+move here :x(-126) :y(675)
+go CameraPoint
+move here :x(-150) :y(550)
+go CameraPoint
+move here :x(-150) :y(750)
+go CameraPoint
+move here :x(-150) :y(750)
+move here :x(-150) :y(550) :Z(450)
+move here :x(-150) :y(550) :Z(400)
+move here :x(150) :y(550) :Z(400)
+power High
+speed 100
+move here :x(150) :y(550) :Z(400)
+move here :x(0) :y(550) :Z(400)
+move here :x(150) :y(550) :Z(400)
+go CameraPoint
+go here +z(100)
+move here :x(-150) :y(550)
+go CameraPoint
+go here +z(100)
+move here :x(-116.83) :y(673.22) :Z(500)
+move here :x(116.83) :y(673.22) :Z(500)
+move here :x(0) :y(673.22) :Z(500)
+move here :x(-27.45) :y(673.22) :Z(500)
+go here +z(100)
+go CameraPoint
+go here +z(100)
+move here :x(134.3) :y(721.8) :Z(500)
+move here :x(134.3) :y(732.8) :Z(500)
+go CameraPoint
+go here +z(100)
+go CameraPoint
+move here :x(104.5) :y(651.31) :Z(500)
+go CameraPoint
+move here :x(110.17) :y(610.96) :Z(600)
+go CameraPoint
+move here :x(-94.78) :y(684.7)
+move here :x(-64.7) :y(599.48)
+move here :x(83.46) :y(610.96) :Z(600)
+move here :x(-83.46) :y(599.48)
+go here -z(100)
+p101 = p1
+p102 = p2

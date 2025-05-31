@@ -1,0 +1,239 @@
+> move here :x(0) 
+> Reset
+> go here :z(800)
+> 
+!!Error: 2318, Cannot execute a motion command when an error has been detected.
+> 
+!!Error: 4001, Arm reached the limit of motion range.
+> 
+> move here -z(50)
+> move here :x(-30)
+> move here :y(645)
+> move here :z(408)
+> move here :z(700)
+> move here :y(750)
+> move here :x(0)
+> 
+> GO CameraPoint
+> move here :z(600)
+> 
+> jump3 here, here -x(10), here -y(10)
+> jump3 here, here +x(10), here +y(10)
+> 
+move here :y(800)
+> go CameraPoint
+> go here u:(0)
+!!Error: 3100, Syntax error.
+> 
+!!Error: 3100, Syntax error.
+> move here :u(0)
+!!Error: 4035, Only the tool orientation was attempted to be changed by the CP statement.
+> 
+> move here :u(0)
+!!Error: 4035, Only the tool orientation was attempted to be changed by the CP statement.
+> move here :y(720)
+> 
+> 
+> 
+> 
+> 
+> move here :x(163.371)
+> 
+> !!Error: 10000, Command aborted by user
+> 
+> move here :y(558.528)
+> 
+> 
+> 
+> move here :z(700)
+!!Error: 4241, Overspeed during low power mode was detected.
+> 
+> 
+> Go CameraPoint
+> GO here :x(0) ljm
+> GO here :y(720) 
+> Move Here :X(0) :Y(720) :Z(800)
+> move here :x(-100) :y(700)
+> print here
+ X: -100.105 Y:  555.289 Z:  800.316 U:   -0.702 V:   -0.004 W:  -90.163 /R /A /F /J6F0 /J4F0 /0
+> move here :y(750)
+> 
+> move here +x(50)
+!!Error: 4241, Overspeed during low power mode was detected.
+> 
+> Reset
+> motor on
+> power High
+> move here :x(-50)
+> move here :x(-100) :y(550)
+> 
+> move here :v(0)
+!!Error: 4035, Only the tool orientation was attempted to be changed by the CP statement.
+> go here :w(-90)
+> move here :x(-100)
+> move here :z(392.5)
+> move here +y(50)
+> go CameraPoint
+> 
+> 
+> 
+> go here +z(100)
+!!Error: 10000, Command aborted by user
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+!!Error: 4031, Cannot execute a motion command when the motor is in the off state.
+> 
+> go here :z(700)
+> move here :x(-150) :y(550) 
+> 
+> 
+> 
+> 
+!!Error: 10000, Command aborted by user
+> speed 70
+> 
+!!Error: 10000, Command aborted by user
+> move here :x(104.5) :y(651.31) :Z(500)
+> go CameraPoint
+!!Error: 10000, Command aborted by user
+> move here :x(-94.78) :y(684.7)
+> 
+> move here :x(-83.46) :y(599.48)
+>go here -z(100)
+> 
+> 
+> move here :x(83.46) :y(610.96) :Z(600)
+!!Error: 10000, Command aborted by user
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+!!Error: 10000, Command aborted by user
+> 
+!!Error: 10000, Command aborted by user
+> power High
+> speed 100
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> move here :z(400.3)
+> go CameraPoint
+> 
+!!Error: 10000, Command aborted by user
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> move here :x(28) :y(678)
+> 
+> 
+!!Error: 4241, Overspeed during low power mode was detected.
+> 
+> move here +z(10)
+> 
+> 
+> 
+> 
+> 
+> move here -x(10) 
+> move here +x(5)
+> arc3 here +x(5) +y(5), here +x(10) +y(0) CP
+> move here :z(+150)
+!!Error: 10000, Command aborted by user
+> 
+!!Error: 10000, Command aborted by user
+> 
+> 
+> 
+> arc3 here +x(-5) +y(-5), here +x(-10) +y(0) 
+> 
+> 
+> 
+> move here :x(24.5) :y(806.8)
+> go CameraPoint
+> move here :x(-124) :y(548.7)
+> 
+> move here :x(24) :y(681.2)
+> 
+!!Error: 10000, Command aborted by user
+> 
+!!Error: 10000, Command aborted by user
+> power High
+> speed 100
+> AccelS 70
+> 
+> move here :x(125.8) :y(687)
+> 
+> move here :x(24) :y(806.8)
+> 
+> move here :x(-124) :y(674.3)
+> move here :x(-78.1) :y(701.7)
+> 
+> 
+> power 
+!!Error: 3216, High/Low was not specified.
+> power High
+> 
+> 
+!!Error: 3205, Point is not specified.
+> 8
+> 
+> 
+> 
+> 
+!!Error: 4035, Only the tool orientation was attempted to be changed by the CP statement.
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+!!Error: 4241, Overspeed during low power mode was detected.
+> power High
+> 
+!!Error: 4241, Overspeed during low power mode was detected.
+> 
+!!Error: 4241, Overspeed during low power mode was detected.
+> 
+!!Error: 3100, Syntax error.
+> 
+!!Error: 3100, Syntax error.
+> 
+!!Error: 4031, Cannot execute a motion command when the motor is in the off state.
+> 
+> 
+> 
+> 
+> 
+> p101 = p1
+> p102 = p2
+> 
