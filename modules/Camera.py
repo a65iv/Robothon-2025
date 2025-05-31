@@ -1,28 +1,36 @@
 import cv2
 import csv
 import math
-import argparse
 import os
+import argparse
+import platform
+
 os.environ["OPENCV_VIDEOIO_MSMF_ENABLE_HW_TRANSFORMS"] = "0"
 
 class Cam:
-
     def __init__(self, index = None):
         self.count = 0
         self.points = []
         # Initialize the camera (you may need to adjust the camera index)
         if index != None:
-            print(type(index))
-            self.cap = cv2.VideoCapture(index, cv2.CAP_DSHOW)
-            # self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
-            # self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+            print(f"Initialize camera at index {index}")
+
+            os_name = platform.system()
+
+            if os_name == "Windows":
+                self.cap = cv2.VideoCapture(index, cv2.CAP_DSHOW)
+            elif os_name == "Linux":
+                self.cap = cv2.VideoCapture(index)  # Default backend is usually fine
+            elif os_name == "Darwin":  # macOS
+                self.cap = cv2.VideoCapture(index)
+
             if not self.cap.isOpened():
                 raise Exception("Error: Unable to open the camera.")
 
             # Initialize variables to store selected point
             self.selected_point = None
 
-    def take_picture(self, duration = 10, filename = "pic.png"):
+    def take_picture(self, duration = 10, filename = "pic1.png"):
         image = None
         count_duration = 0
         self.cap.open(0)
@@ -94,10 +102,10 @@ class Cam:
     def get_points(self):
         return self.points
     
-    def dump_points(self, filename = "output/saved_camera_points.csv"):
+    def dump_points(self, filename = "saved_camera_points.csv"):
         with open(filename, 'w', newline='') as csvfile:
             csv_writer = csv.writer(csvfile)
-            csv_writer.writerow(['name', 'x', 'y'])
+            csv_writer.writerow(['x', 'y'])
             csv_writer.writerows(self.points)
             print("Coordinates saved to camera_points.csv")
         return filename, self.points
@@ -107,15 +115,15 @@ class Cam:
 
 def main():
     parser = argparse.ArgumentParser(description="Perform Camera Operations like picture taking or live feed")
-    parser.add_argument("--take_picture", action="store_true", help="Take a picture from the camera")
+    parser.add_argument("--take_picture", type=int, nargs='?', const=0, help="Take a picture from the camera")
     parser.add_argument("--live_feed", action="store_true", help="Show a live feed from the camera")
-    parser.add_argument("--point", type=str, help="Index of the camera to use")
+    parser.add_argument("--point", type=str, help="Pick points on an image and get the pixel coordinates")
 
 
     args = parser.parse_args()
 
-    if args.take_picture:
-        cam = Cam(0)
+    if args.take_picture is not None:
+        cam = Cam(args.take_picture)
         cam.take_picture()
     elif args.live_feed:
         cam = Cam(0)
