@@ -5,8 +5,7 @@ import argparse
 from Camera import Cam
 from Calibrator import Calibrator
 # setting up constants
-ESPON_ROBOT_IP = "192.168.150.2"
-
+ESPON_ROBOT_IP = "192.168.1.2"
 
 XGRADIENT = 0.3258
 XINTERCEPT =-281.96
