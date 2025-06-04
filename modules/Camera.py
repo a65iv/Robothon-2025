@@ -17,8 +17,11 @@ class Cam:
             os_name = platform.system()
             if os_name == "Windows":
                 self.cap = cv2.VideoCapture(index, cv2.CAP_DSHOW)
-                self.cap.set(cv2.CAP_PROP_FPS, 30.0)
-                self.cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter.fourcc('m','j','p','g'))
+
+                self.cap.set(cv2.CAP_PROP_FPS, 30)
+                self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+                self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+                self.cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter.fourcc('M','J','P','G'))
             elif os_name == "Linux":
                 self.cap = cv2.VideoCapture(index)  # Default backend is usually fine
             elif os_name == "Darwin":  # macOS
@@ -33,7 +36,6 @@ class Cam:
     def take_picture(self, duration = 10, filename = "pic1.png"):
         image = None
         count_duration = 0
-        self.cap.open(0)
 
         while(count_duration < duration and image == None):
             open, frame = self.cap.read()
