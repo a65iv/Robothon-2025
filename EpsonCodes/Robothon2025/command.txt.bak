@@ -1,241 +1,289 @@
-> move here :x(0) 
-> Reset
-> go here :z(800)
+> go cameraPoint
 > 
-!!Error: 2318, Cannot execute a motion command when an error has been detected.
+> 
+!!Error: 4031, Cannot execute a motion command when the motor is in the off state.
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> go CameraPoint ljm
+> 
+> 
+> go here :u(0) ljm
+> go here :v(0)
+> go here :w(-90)
+> 
+> 
+> 
+> 
+> 
+!!Error: 10000, Command aborted by user
+> 
+> print here
+ X:    0.000 Y:  750.000 Z:  800.000 U:   -0.697 V:   -0.004 W:  -90.177 /R /A /F /J6F0 /J4F0 /0
+> 
+
+> P10 = 0, 0, 800, 0, 0, 0 / 5
+> 
+> 
+> P11 = -64.99, 577.57, 800, -0.697, -0.004, -90.177
+> 
+> 
+> 
+> 
+> P12 = 192.29, 0, 800, 0, 0, 0 / 5
+> 
+> 
+> 
+> 
+> 
+> P13 = 128.34, 581.58, 800, -0.697, -0.004, -90.177
+> 
+> 
+> 
+> print here
+ X:    0.000 Y:  750.000 Z:  800.000 U:   -0.697 V:   -0.004 W:  -90.177 /R /A /F /J6F0 /J4F0 /0
+print here
+ X:  -68.860 Y:  570.016 Z:  436.163 U:   -0.688 V:   -0.004 W:  -90.150 /R /A /F /J6F0 /J4F0 /0
+> go here :x(123.43)
+> Local 5, (P10: P11),(P12: P13) 
+> 
+> 
+> 
+> 
+> BMove XY(0, 0)
+!!Error: 3101, Parameter count error.
+> 
+!!Error: 4007, Coordinates conversion error. The end/mid point is out of the motion area. Jogging to the outside of the motion area.
+> 
+!!Error: 4007, Coordinates conversion error. The end/mid point is out of the motion area. Jogging to the outside of the motion area.
+>GO P10
+> GO XY(0, 0, 800, 0.01, 0.00, -90.177)/5!!Error: 10000, Command aborted by user
+!!Error: 3100, Syntax error.
+> GO XY(0, -6.027, 700, 0.00, 0.00, -90.0)/5
+> 
+> move here :X(-150) :Y(550)
+> power High
+> speeds 60
+> speedr 60
+> move here :Y(750)
+> move here :x(-50) :Y(700)
+> go CameraPoint ljm
+!!Error: 4031, Cannot execute a motion command when the motor is in the off state.
+> move here :z(410)
+> move here +x(100)
+> move here :z(-50)
+!!Error: 4062, Orientation variation is over 360 degrees.
+> 
+!!Error: 4062, Orientation variation is over 360 degrees.
+> 
+> 
+> 
+> P332 = Here :X(-91.124) :Y(625.500) :Z(500)
+> 
+>
+> p333 = here :x(85.133) :y(551.750) :z(500)
+> go p332 ljm
+> go here :x(-91.124) :y(625.5) ljm
+> 
+> 
+> Local 1,( BlueButton :P332),( RedButton :P333)
+> print P332
+!!Error: 7007, Specified point number was not defined. Specify a teach point number.
+> 
+!!Error: 7007, Specified point number was not defined. Specify a teach point number.
+> 
+> 
+> go BlueButton ljm
+> 
+!!Error: 10000, Command aborted by user
+> go here +z(50)
+> go CameraPoint ljm
+> 
+> go BlueButton ljm
+!!Error: 10000, Command aborted by user
+> 
+!!Error: 10000, Command aborted by user
+> 
+!!Error: 4001, Arm reached the limit of motion range.
+> go RedButton /1 ljm 
+> go p332
+> 
+!!Error: 10000, Command aborted by user
+> 
+> go here :x(0) :y(0) /1 ljm
+> 
+> go BlueButton
+!!Error: 4001, Arm reached the limit of motion range.
+> go CameraPoint ljm
+> go BlueButton ljm
+!!Error: 4001, Arm reached the limit of motion range.
+> move BlueButton
+!!Error: 4001, Arm reached the limit of motion range.
+> go CornerScrew1
+!!Error: 4001, Arm reached the limit of motion range.
+> go LCDTopLeft ljm
+> 
+!!Error: 10000, Command aborted by user
 > 
 !!Error: 4001, Arm reached the limit of motion range.
 > 
-> move here -z(50)
-> move here :x(-30)
-> move here :y(645)
-> move here :z(408)
-> move here :z(700)
-> move here :y(750)
-> move here :x(0)
+!!Error: 4001, Arm reached the limit of motion range.
+> go here -z(50) ljm
 > 
-> GO CameraPoint
-> move here :z(600)
-> 
-> jump3 here, here -x(10), here -y(10)
-> jump3 here, here +x(10), here +y(10)
-> 
-move here :y(800)
-> go CameraPoint
-> go here u:(0)
-!!Error: 3100, Syntax error.
-> 
-!!Error: 3100, Syntax error.
-> move here :u(0)
-!!Error: 4035, Only the tool orientation was attempted to be changed by the CP statement.
-> 
-> move here :u(0)
-!!Error: 4035, Only the tool orientation was attempted to be changed by the CP statement.
-> move here :y(720)
-> 
-> 
-> 
-> 
-> 
-> move here :x(163.371)
-> 
-> !!Error: 10000, Command aborted by user
-> 
-> move here :y(558.528)
-> 
-> 
-> 
-> move here :z(700)
-!!Error: 4241, Overspeed during low power mode was detected.
-> 
-> 
-> Go CameraPoint
-> GO here :x(0) ljm
-> GO here :y(720) 
-> Move Here :X(0) :Y(720) :Z(800)
-> move here :x(-100) :y(700)
-> print here
- X: -100.105 Y:  555.289 Z:  800.316 U:   -0.702 V:   -0.004 W:  -90.163 /R /A /F /J6F0 /J4F0 /0
-> move here :y(750)
-> 
-> move here +x(50)
-!!Error: 4241, Overspeed during low power mode was detected.
-> 
-> Reset
-> motor on
-> power High
-> move here :x(-50)
-> move here :x(-100) :y(550)
-> 
-> move here :v(0)
-!!Error: 4035, Only the tool orientation was attempted to be changed by the CP statement.
-> go here :w(-90)
-> move here :x(-100)
-> move here :z(392.5)
-> move here +y(50)
-> go CameraPoint
-> 
-> 
-> 
-> go here +z(100)
-!!Error: 10000, Command aborted by user
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-!!Error: 4031, Cannot execute a motion command when the motor is in the off state.
-> 
-> go here :z(700)
-> move here :x(-150) :y(550) 
-> 
-> 
-> 
+> AutoLJM
+0
 > 
 !!Error: 10000, Command aborted by user
-> speed 70
 > 
-!!Error: 10000, Command aborted by user
-> move here :x(104.5) :y(651.31) :Z(500)
-> go CameraPoint
-!!Error: 10000, Command aborted by user
-> move here :x(-94.78) :y(684.7)
+!!Error: 4001, Arm reached the limit of motion range.
 > 
-> move here :x(-83.46) :y(599.48)
->go here -z(100)
-> 
-> 
-> move here :x(83.46) :y(610.96) :Z(600)
-!!Error: 10000, Command aborted by user
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
+!!Error: 4001, Arm reached the limit of motion range.
+> go here :x(0) ljm
+!!Error: 4001, Arm reached the limit of motion range.
+> go here +z(150) ljm
 > 
 > 
 > 
 !!Error: 10000, Command aborted by user
 > 
-!!Error: 10000, Command aborted by user
-> power High
-> speed 100
+!!Error: 4001, Arm reached the limit of motion range.
 > 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> move here :z(400.3)
-> go CameraPoint
 > 
 !!Error: 10000, Command aborted by user
 > 
+!!Error: 4001, Arm reached the limit of motion range.
 > 
 > 
-> 
-> 
-> 
-> 
-> move here :x(28) :y(678)
-> 
-> 
-!!Error: 4241, Overspeed during low power mode was detected.
-> 
-> move here +z(10)
-> 
-> 
-> 
-> 
-> 
-> move here -x(10) 
-> move here +x(5)
-> arc3 here +x(5) +y(5), here +x(10) +y(0) CP
-> move here :z(+150)
-!!Error: 10000, Command aborted by user
-> 
-!!Error: 10000, Command aborted by user
-> 
-> 
-> 
-> arc3 here +x(-5) +y(-5), here +x(-10) +y(0) 
-> 
-> 
-> 
-> move here :x(24.5) :y(806.8)
-> go CameraPoint
-> move here :x(-124) :y(548.7)
-> 
-> move here :x(24) :y(681.2)
-> 
-!!Error: 10000, Command aborted by user
-> 
-!!Error: 10000, Command aborted by user
-> power High
-> speed 100
-> AccelS 70
-> 
-> move here :x(125.8) :y(687)
-> 
-> move here :x(24) :y(806.8)
-> 
-> move here :x(-124) :y(674.3)
-> move here :x(-78.1) :y(701.7)
-> 
-> 
-> power 
-!!Error: 3216, High/Low was not specified.
-> power High
-> 
-> 
-!!Error: 3205, Point is not specified.
-> 8
-> 
-> 
-> 
+> go here :u(0) :v(0) :w(-90) ljm
 > 
 !!Error: 4035, Only the tool orientation was attempted to be changed by the CP statement.
 > 
 > 
+> p41 = p1
+> p42 = p2
+> P41 = P1
+> print P1
+ X:    3.065 Y:  901.073 Z:  365.883 U:   -1.420 V:    0.131 W:  -89.447 /R /A /F /J6F0 /J4F0 /0
+> print P41
+ X:    3.065 Y:  901.073 Z:  365.883 U:   -1.420 V:    0.131 W:  -89.447 /R /A /F /J6F0 /J4F0 /0
+> P42 = P2
+> print p2
+ X:    3.065 Y:  529.618 Z:  365.883 U:   -1.420 V:    0.131 W:  -89.447 /R /A /F /J6F0 /J4F0 /0
+> print P2
+ X:    3.065 Y:  529.618 Z:  365.883 U:   -1.420 V:    0.131 W:  -89.447 /R /A /F /J6F0 /J4F0 /0
+> SavePoints
+!!Error: 3208, String formula is missing.
+> SavePoints robot1.pts
+!!Error: 3208, String formula is missing.
+> SavePoints "robot1.pts"
 > 
-> 
-> 
-> 
-> 
-> 
-> 
-!!Error: 4241, Overspeed during low power mode was detected.
-> power High
-> 
-!!Error: 4241, Overspeed during low power mode was detected.
-> 
-!!Error: 4241, Overspeed during low power mode was detected.
-> 
+> p8=p0
+> p9=p0
+> p10=p0
+> p11=p0
+> p12 = p0
+> p13-p0
 !!Error: 3100, Syntax error.
+> p13=p0
+> p14=p0
+> p15=p0
+> p16=p0
+> p17=p0
+> p18=p0
+> p19=p0
+> p20=p0
+> p21=p0
+> p22=p0
+> p23=p0
 > 
-!!Error: 3100, Syntax error.
+> P2 = P1
+> P3=P2
+> P4=P0
+> P5=P0
 > 
-!!Error: 4031, Cannot execute a motion command when the motor is in the off state.
+> P40 = P0
+> 
+!!Error: 4001, Arm reached the limit of motion range.
+> 
+> 
+!!Error: 10000, Command aborted by user
 > 
 > 
 > 
 > 
 > 
-> p101 = p1
-> p102 = p2
-> print here
- X:    0.000 Y:  524.000 Z:  700.000 U:   -0.697 V:   -0.004 W:  -90.177 /R /A /F /J6F0 /J4F0 /0
-> local 1, 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+!!Error: 4250, Arm reached the limit of motion range during the operation.
+> 
+!!Error: 4241, Overspeed during low power mode was detected.
+> 
+!!Error: 4241, Overspeed during low power mode was detected.
+> 
+> 
+!!Error: 4242, Improper acceleration reference was generated.
+> 
+!!Error: 4241, Overspeed during low power mode was detected.
+> 
+!!Error: 4241, Overspeed during low power mode was detected.
+> 
+!!Error: 5057, Collision or abnormality of robot movement was detected in High power mode.
+> 
+> 
+> 
+> 
+> 
+!!Error: 4001, Arm reached the limit of motion range.
+> 
+!!Error: 4001, Arm reached the limit of motion range.
+> 
+!!Error: 4001, Arm reached the limit of motion range.
+> 
+!!Error: 4001, Arm reached the limit of motion range.
+> 
+> 
+> 
+> 
+!!Error: 4241, Overspeed during low power mode was detected.
+> 
+> 
+> 
+!!Error: 4007, Coordinates conversion error. The end/mid point is out of the motion area. Jogging to the outside of the motion area.
+> 
+!!Error: 4007, Coordinates conversion error. The end/mid point is out of the motion area. Jogging to the outside of the motion area.
+> 
+!!Error: 3101, Parameter count error.
+> 
+!!Error: 4007, Coordinates conversion error. The end/mid point is out of the motion area. Jogging to the outside of the motion area.
+> 
+!!Error: 4007, Coordinates conversion error. The end/mid point is out of the motion area. Jogging to the outside of the motion area.
+> 
+!!Error: 4007, Coordinates conversion error. The end/mid point is out of the motion area. Jogging to the outside of the motion area.
+> 
+!!Error: 4007, Coordinates conversion error. The end/mid point is out of the motion area. Jogging to the outside of the motion area.
+> 
+!!Error: 4007, Coordinates conversion error. The end/mid point is out of the motion area. Jogging to the outside of the motion area.
+> 
+!!Error: 4007, Coordinates conversion error. The end/mid point is out of the motion area. Jogging to the outside of the motion area.
+> 
+!!Error: 4007, Coordinates conversion error. The end/mid point is out of the motion area. Jogging to the outside of the motion area.
+> 
+> 

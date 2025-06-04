@@ -77,7 +77,7 @@ Function main
 		ZOffset = 522
 		P332 = Here :X(px1) :Y(py1) :Z(ZOffset) ' blue	
 		P333 = Here :X(px2) :Y(py2) :Z(ZOffset) ' knob
-		Local 1,(LBB:P332),(LK:P333) ' map those points to Local BB and Local Knob at z=521
+		Local 3,(LBB:P332),(LK:P333) ' map those points to Local BB and Local Knob at z=521
 		Power High
 		Speed 20
 		SpeedR 20

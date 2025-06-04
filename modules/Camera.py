@@ -16,7 +16,6 @@ class Cam:
             print(f"Initialize camera at index {index}")
 
             os_name = platform.system()
-
             if os_name == "Windows":
                 self.cap = cv2.VideoCapture(index, cv2.CAP_DSHOW)
             elif os_name == "Linux":

@@ -118,6 +118,9 @@ class Calibrator():
         if world:
             world_x = self.x_model.predict([[coordinate['x']]])[0][0]
             world_y = self.y_model.predict([[coordinate['y']]])[0][0]
+            # compensation for x & y
+            world_y = world_y - 6.5
+            world_x = world_x - (280 - world_x)/150
             return (world_x, world_y)
         else:
             pixel_x = self.x_camera_model.predict([[coordinate['x']]])[0][0]

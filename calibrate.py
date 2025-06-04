@@ -26,7 +26,7 @@ def get_world_points(camera_points):
 #                   {"x": 402, "y": 974},
 #                   {"x": 1421, "y": 947}
 
-get_world_points([ {"x": 591, "y": 491}, {"x": 629, "y": 810} ])  
+get_world_points([ {"x": 172, "y": 271}, {"x": 433, "y": 381}])  
 # print(f"cam ",  calibrator.predict({'x':402, 'y': 974}))
 # path = pathlib.Path("./pic1.png")
 

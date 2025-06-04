@@ -5,7 +5,7 @@ import argparse
 from Camera import Cam
 from Calibrator import Calibrator
 # setting up constants
-ESPON_ROBOT_IP = "192.168.1.2"
+EPSON_ROBOT_IP = "192.168.1.2"
 
 XGRADIENT = 0.3258
 XINTERCEPT =-281.96
@@ -17,7 +17,8 @@ YINTERCEPT = 869.52
 
 HOMEX = 0
 HOMEY= 524
-HOMEZ = 546
+HOMEZ = 500
+
 
 PICKUPZ = 150
 
@@ -45,7 +46,7 @@ class EpsonController:
 
         # setting up socket
         self.clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.clientSocket.connect((ESPON_ROBOT_IP, 2001))
+        self.clientSocket.connect((EPSON_ROBOT_IP, 2001))
         self.clientSocket.settimeout(5) 
 
         # set up calibrator
@@ -185,8 +186,8 @@ def main():
                 epson.goto(x=x_world, y=y_world)
 
         cam = Cam(0)
-        cam.take_picture(filename="output/point_control.png")
-        img = cv2.imread("output/point_control.png")
+        cam.take_picture(filename="./point_control.png")
+        img = cv2.imread("./point_control.png")
         cv2.imshow("point", img)
         cv2.setMouseCallback('point', mouse_callback, {"image": img})
         cv2.waitKey(0)

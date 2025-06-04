@@ -1,100 +1,100 @@
-go here :z(800)
-go here :z(700)
-go here :x(-150) :y(550)
-power
-power High
-go here :x(-150) :y(550)
-move here :x(150) :y(750)
-move here :x(-150) :y(550)
-move here :x(150) :y(750)
-speed 70
-move here :x(150) :y(750)
-move here :x(-100) :y(550)
-move here :x(-150) :y(550)
-move here -x(10)
-move here +x(5)
-arc3 here +x(5) +y(5), here +x(10) +y(0)
-arc3 here +x(-5) +y(-5), here +x(-10) +y(0)
-arc3 here +x(5) +y(5), here +x(10) +y(0) CP
-arc3 here +x(-5) +y(-5), here +x(-10) +y(0)
-arc3 here +x(5) +y(5), here +x(10) +y(0) CP
-arc3 here +x(-5) +y(-5), here +x(-10) +y(0)
-arc3 here +x(5) +y(5), here +x(10) +y(0) CP
-move here :z(-10)
-move here :z(+150)
-move here :x(-150) :y(550)
-move here +z(10)
-move here :x(-150) :y(550)
-move here :z(401.5)
-move here :z(400.3)
-go CameraPoint
-move here :x(24.5) :y(806.8)
-go CameraPoint
-move here :x(-124) :y(548.7)
-move here :x(24) :y(681.2)
-power High
-speed 80
-AccelS 50
-move here :x(24) :y(681.2)
-AccelS 70
-move here :x(24) :y(681.2)
-move here :x(125.8) :y(687)
-move here :x(-124) :y(548.7)
-move here :x(-124) :y(674.3)
-move here :x(24) :y(806.8)
-move here :x(-78.1) :y(701.7)
-go CameraPoint
-move here :x(494) :y(593)
-power High
-go CameraPoint
-power High
-move here :x(494) :y(593)
-go CameraPoint
-move here :x(28) :y(678)
-go CameraPoint
-move here :x(126) :y(675)
-go CameraPoint
-move here :x(-126) :y(675)
-go CameraPoint
-move here :x(-150) :y(550)
-go CameraPoint
-move here :x(-150) :y(750)
-go CameraPoint
-move here :x(-150) :y(750)
-move here :x(-150) :y(550) :Z(450)
-move here :x(-150) :y(550) :Z(400)
-move here :x(150) :y(550) :Z(400)
-power High
-speed 100
-move here :x(150) :y(550) :Z(400)
-move here :x(0) :y(550) :Z(400)
-move here :x(150) :y(550) :Z(400)
-go CameraPoint
-go here +z(100)
-move here :x(-150) :y(550)
-go CameraPoint
-go here +z(100)
-move here :x(-116.83) :y(673.22) :Z(500)
-move here :x(116.83) :y(673.22) :Z(500)
-move here :x(0) :y(673.22) :Z(500)
-move here :x(-27.45) :y(673.22) :Z(500)
-go here +z(100)
-go CameraPoint
-go here +z(100)
-move here :x(134.3) :y(721.8) :Z(500)
-move here :x(134.3) :y(732.8) :Z(500)
-go CameraPoint
-go here +z(100)
-go CameraPoint
-move here :x(104.5) :y(651.31) :Z(500)
-go CameraPoint
-move here :x(110.17) :y(610.96) :Z(600)
-go CameraPoint
-move here :x(-94.78) :y(684.7)
-move here :x(-64.7) :y(599.48)
-move here :x(83.46) :y(610.96) :Z(600)
-move here :x(-83.46) :y(599.48)
-go here -z(100)
-p101 = p1
-p102 = p2
-print here
+move here :x(150)
+move here :Y(750)
+move here :x(-50) :Y(700)
+go CameraPoint ljm
+speeds 60
+speedr 60
+move here +x(100)
+move here -z(50)
+move here :z(-50)
+go CameraPoint ljm
+move here :z(410)
+go CameraPoint ljm
+p41 = p1
+p42 = p2
+P41 = P1
+print P1
+print P41
+P42 = P2
+print p2
+print P2
+SavePoints
+SavePoints robot1.pts
+SavePoints "robot1.pts"
+P40 = P0
+SavePoints "robot1.pts"
+P2 = P1
+P3=P2
+P4=P0
+P5=P0
+SavePoints "robot1.pts"
+p8=p0
+p9=p0
+p10=p0
+p11=p0
+p12 = p0
+p13-p0
+p13=p0
+p14=p0
+p15=p0
+p16=p0
+p17=p0
+p18=p0
+p19=p0
+p20=p0
+p21=p0
+p22=p0
+p23=p0
+SavePoints "robot1.pts"
+go CameraPoint ljm
+P332 = Here :X(172) :Y(271) :Z(500)
+p333 = here :x(433) :y(381) :z(500)
+Local 1,( BlueButton :P332),( RedButton :P333)
+go BlueButton
+go BlueButton ljm
+go RedButton
+go RedButton ljm
+go RedButton /1 ljm
+go here :x(0) :y(0) /1
+go here :x(0) :y(0) /1 ljm
+go here :x(0) ljm
+go here :z(+50) ljm
+go here +z(150) ljm
+go RedButton /1 ljm
+go here +z(150) ljm
+go here :x(0) :y(0) /1 ljm
+go BlueButton
+go here +z(150) ljm
+go BlueButton
+go CameraPoint ljm
+go BlueButton ljm
+move BlueButton
+go CornerScrew1
+go here -z(50)
+go here -z(50) ljm
+AutoLJM
+go here -z(50) ljm
+go CornerScrew1
+go LCDTopLeft
+go LCDTopLeft ljm
+Local 1,( BlueButton :P333),( RedButton :P332)
+go BlueButton ljm
+go here +z(50)
+go CameraPoint ljm
+go BlueButton
+go BlueButton ljm
+go CameraPoint ljm
+P332 = Here :X(-91.124) :Y(625.500) :Z(500)
+p333 = here :x(85.133) :y(551.750) :z(500)
+Local 1,( BlueButton :P332),( RedButton :P333)
+go BlueButton ljm
+go RedButton /1 ljm
+go p332
+go here :x(0) :y(0) /1 ljm
+print p332
+print P332
+P332 = Here :X(-91.124) :Y(625.500) :Z(500)
+p333 = here :x(85.133) :y(551.750) :z(500)
+go p332 ljm
+go here :x(-91.124) :y(625.5) ljm
+go CameraPoint ljm
