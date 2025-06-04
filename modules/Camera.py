@@ -5,19 +5,20 @@ import os
 import argparse
 import platform
 
-os.environ["OPENCV_VIDEOIO_MSMF_ENABLE_HW_TRANSFORMS"] = "0"
 
 class Cam:
     def __init__(self, index = None):
         self.count = 0
         self.points = []
-        # Initialize the camera (you may need to adjust the camera index)
+
         if index != None:
             print(f"Initialize camera at index {index}")
 
             os_name = platform.system()
             if os_name == "Windows":
                 self.cap = cv2.VideoCapture(index, cv2.CAP_DSHOW)
+                self.cap.set(cv2.CAP_PROP_FPS, 30.0)
+                self.cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter.fourcc('m','j','p','g'))
             elif os_name == "Linux":
                 self.cap = cv2.VideoCapture(index)  # Default backend is usually fine
             elif os_name == "Darwin":  # macOS
