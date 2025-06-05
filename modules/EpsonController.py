@@ -5,6 +5,7 @@ import socket
 import argparse
 from Camera import Cam
 from Calibrator import Calibrator
+
 # setting up constants
 EPSON_ROBOT_IP = "192.168.1.2"
 
@@ -74,6 +75,14 @@ class EpsonController:
         DRAW_CIRCLE = "go_drawCircle"
         DRAW_TRIANGLE = "go_drawTriangle"
 
+    class Point():
+        def __init__(self, x: float, y: float ):
+            self.x = x
+            self.y = y
+        
+        def __str__(self):
+            return f"Point: ({self.x}, {self.y})"
+        
     def __init__(self):
 
         # setting up socket
@@ -118,6 +127,18 @@ class EpsonController:
         self.robot_y = y
         self.robot_z = z
 
+
+    def setLocalFrame(self, pointA: Point, pointB: Point):
+        print(f"Setting a new local frame\n pointA: {str(pointA)}\n pointB: {str(pointB)}")
+        command= f"local {pointA.x}, {pointA.y}, {pointB.x}, {pointB.y}\r\n"
+        self.clientSocket.send(command.encode())
+        try:
+            confirmation = self.clientSocket.recv(1023)
+            print("result:", confirmation)
+        except:
+            pass
+
+    
     def goHome(self):
         self.goto(HOMEX, HOMEY, HOMEZ, 90)
         try:
@@ -147,18 +168,6 @@ class EpsonController:
     
     def getLocation(self):
         print(f"x: {self.robot_x}, y: {self.robot_y}, z: {self.robot_z}")
-
-    def getDropPoints(self, object_type):
-        if object_type == "metal":
-            return DROP_METAL_X, DROP_METAL_Y, DROPZ
-        elif object_type == "plastic":
-            return DROP_PLASTIC_X, DROP_PLASTIC_Y, DROPZ
-        elif object_type == "paper":
-            return DROP_PAPER_X, DROP_PAPER_Y, DROPZ
-        elif object_type == "glass":
-            return DROP_GLASS_X, DROP_GLASS_Y, DROPZ
-        else:
-            return DROP_PLASTIC_X, DROP_PLASTIC_Y, DROPZ
 
     def executeTask(self, action):
         if isinstance(action, self.Action):

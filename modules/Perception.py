@@ -4,7 +4,9 @@ import tensorflow as tf
 import cv2
 
 # --- Load the TFLite model ---
-interpreter = tf.lite.Interpreter(model_path="../models/tflite/model.tflite")
+MODEL_PATH = "models/tflite/model.tflite"; 
+assert os.path.exists(MODEL_PATH)
+interpreter = tf.lite.Interpreter(model_path=MODEL_PATH)
 interpreter.allocate_tensors()
 
 input_details = interpreter.get_input_details()
@@ -15,7 +17,7 @@ input_dtype = input_details[0]['dtype']
 img_size = (input_shape[2], input_shape[1])  # (width, height)
 
 # --- Load and preprocess image ---
-image = cv2.imread("your_image.jpg")
+image = cv2.imread("./red_on.png")
 image_resized = cv2.resize(image, img_size)
 input_tensor = np.expand_dims(image_resized, axis=0).astype(input_dtype)
 
