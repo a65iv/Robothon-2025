@@ -1,0 +1,16 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+EpsonCodes/
+
+# Virtual environment directories
+env/
+venv/
+.venv/
+
+# Environment variable files
+.env
+
+# Editor-specific directories
+.vscode/
+.idea/

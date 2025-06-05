@@ -4,13 +4,12 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+numpy = "*"
+tensorflow = "*"
 opencv-python = "*"
-yolov5 = "*"
 scikit-learn = "*"
-pyserial = "*"
-keras = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.13"
+python_version = "3.10"
