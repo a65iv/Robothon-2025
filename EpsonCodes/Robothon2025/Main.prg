@@ -65,6 +65,7 @@ Function main
    EndIf
    
    If LCase$(indata$(0)) = "local" Then ' map to local coordinate
+   ' Python has to issue command to EPSON in this format: local blueX,blueY,redX,redY
    		Real px1, py1, px2, py2
      	px1 = Val(Trim$(indata$(1)))
         py1 = Val(Trim$(indata$(2)))
@@ -77,7 +78,7 @@ Function main
 		ZOffset = 522
 		P332 = Here :X(px1) :Y(py1) :Z(ZOffset) ' blue	
 		P333 = Here :X(px2) :Y(py2) :Z(ZOffset) ' knob
-		Local 1,(LBB:P332),(LK:P333) ' map those points to Local BB and Local Knob at z=521
+		Local 1,(calBlue:P332),(calRed:P333) ' map those points to Local BB and Local Knob at z=521
 		Power High
 		Speed 20
 		SpeedR 20
@@ -92,7 +93,11 @@ Function main
 	If LCase$(indata$(0)) = "go_penPick" Then
    		go_penPick
    	EndIf
-'   	
+   	
+	If LCase$(indata$(0)) = "go_penPlace" Then
+   		go_penPlace
+   	EndIf
+  	
 '	If LCase$(indata$(0)) = "go_press_blue_button" Then
 '		Speed 50
 '   		go_press_blue_button
@@ -233,16 +238,22 @@ Function go_pressRedBlueRed
 	Go BluePress LJM
 	Go BluePress +Z(30) LJM
 	Go RedPress +Z(30) LJM
+	Go redpress LJM
+	Go RedPress +Z(30) LJM
+	Go camRedBlueButtons LJM
+	sayOK
 Fend
 Function go_pressRedOnly
 	Go RedPress +Z(30) LJM
 	Go redpress LJM
-	Go RedPress +Z(30) LJM
+	Go RedPress +Z(300) LJM
+	sayOK
 Fend
 Function go_pressBlueOnly
 	Go BluePress +Z(30) LJM
 	Go Bluepress LJM
-	Go BluePress +Z(30) LJM
+	Go BluePress +Z(300) LJM
+	sayOK
 Fend
 Function go_penPick
 	Power High
@@ -259,6 +270,7 @@ Function go_penPick
 	On 10
 	Wait 1
 	Go penPickRetract LJM
+	sayOK
 Fend
 Function go_ballMaze1
 	Power High
@@ -300,6 +312,12 @@ Function go_ballMaze2 'must be executed right after go_ballMaze1
 	Go ballsensor1 LJM
 	Go ballPenRetractPoint LJM
 	Go ballPenRetractPoint +Z(200) LJM
+	sayOK
+Fend
+Function go_ballMazeAll
+	go_penPick
+	go_ballMaze1
+	go_ballMaze2
 Fend
 Function go_penPlace
 	Go penDropApproach +Z(20) LJM
@@ -308,6 +326,115 @@ Function go_penPlace
 	Off 10
 	Go penDropApproach +Z(20) LJM
 	On 10
+	sayOK
+Fend
+Function go_screenCamera
+
+	Go screenCameraPoint LJM
+	sayOK
+	
+Fend
+Function go_tapA
+	Go screenA +Z(10) LJM
+	Go screenA LJM
+	Wait 1
+	Go screenA +Z(10) LJM
+	Go screenCameraPoint LJM
+	sayOK
+	
+Fend
+Function go_tapB
+	Go screenB +Z(10) LJM
+	Go screenB LJM
+	Wait 1
+	Go screenB +Z(10) LJM
+	Go screenCameraPoint LJM
+	sayOK
+Fend
+Function go_tapBackground
+	Go screenABmid +Z(10) LJM
+	Go screenABmid LJM
+	Wait 1
+	Go screenABmid +Z(10) LJM
+	Go screenCameraPoint LJM
+	sayOK
+Fend
+Function go_doubletapA
+	Go screenA +Z(10) LJM
+	Go screenA LJM
+	Go screenA +Z(5) LJM
+	Go screenA LJM
+	Go screenA +Z(10) LJM
+	Go screenCameraPoint LJM
+	sayOK
+Fend
+Function go_doubletapB
+	Go screenB +Z(10) LJM
+	Go screenB LJM
+	Go screenB +Z(5) LJM
+	Go screenB LJM
+	Go screenB +Z(10) LJM
+	Go screenCameraPoint LJM
+	sayOK
+	
+Fend
+Function go_doubletapBackground
+	Go screenABmid +Z(10) LJM
+	Go screenABmid LJM
+	Go screenABmid +Z(5) LJM
+	Go screenABmid LJM
+	Go screenABmid +Z(10) LJM
+	Go screenCameraPoint LJM
+	sayOK
+	
+Fend
+Function go_swipeAB
+	Go screenA +Z(10) LJM
+	Go screenA LJM
+	Go screenB LJM
+	Go screenB +Z(10) LJM
+	Go screenCameraPoint LJM
+	sayOK
+Fend
+Function go_swipeBA
+	Go screenB +Z(10) LJM
+	Go screenB LJM
+	Go screenA LJM
+	Go screenA +Z(10) LJM
+	Go screenCameraPoint LJM
+	sayOK
+Fend
+Function go_swipeBackgroundA
+	Go screenABmid +Z(10) LJM
+	Go screenABmid LJM
+	Go screenA LJM
+	Go screenA +Z(10) LJM
+	Go screenCameraPoint LJM
+	sayOK
+Fend
+Function go_swipeBackgroundB
+	Go screenABmid +Z(10) LJM
+	Go screenABmid LJM
+	Go screenB LJM
+	Go screenB +Z(10) LJM
+	Go screenCameraPoint LJM
+	sayOK
+Fend
+Function go_swipeABackground
+	Go screenA +Z(10) LJM
+	Go screenA LJM
+	Go screenABmid LJM
+	Go screenABmid +Z(10) LJM
+	Go screenCameraPoint LJM
+	sayOK
+Fend
+Function go_swipeBBackground
+	Go screenB +Z(10) LJM
+	Go screenB LJM
+	Go screenABmid LJM
+	Go screenABmid +Z(10) LJM
+	Go screenCameraPoint LJM
+	sayOK
 Fend
 Function drawCircle
 	Arc3 Here -X(radius), Here -X(radius) +Y(radius) CP
@@ -342,6 +469,49 @@ Function circle
 	Move Here +Y(20)
 	penUp
 	Move Here -Y(10)
+Fend
+Function go_drawCircle
+	Go screenABmid -Y(10) +Z(10) LJM
+	Arc3 Here -X(10) +Y(10), Here +X(0) +Y(20)
+	Arc3 Here +X(10) -Y(10), Here +X(0) -Y(20)
+	Go Here +Z(10) LJM
+	Go screenCameraPoint LJM
+Fend
+Function go_drawTriangle
+	Go screenABmid +Z(10) LJM
+	Go Here +Y(10) -X(10)
+	Go Here +X(20)
+	Go Here -X(10) -Y(10)
+	Go Here +Z(10) LJM
+	Go screenCameraPoint LJM
+Fend
+Function go_drawSquare
+	Go screenA +Z(10) LJM
+	Go Here +Y(10)
+	Go Here +X(20)
+	Go Here -Y(10)
+	Go Here -X(20)
+	Go Here +Z(10) LJM
+	Go screenCameraPoint LJM
+Fend
+Function sayOK
+	'Print #201, "OK"
+Fend
+Function testSequence
+	Go CameraPoint LJM
+	go_pressRedBlueRed
+	go_pressRedOnly
+	go_penPick
+	go_screenCamera
+	go_drawCircle
+	go_drawTriangle
+	go_drawSquare
+	go_tapA
+	go_swipeAB
+	go_tapB
+	go_ballMaze1
+	go_ballMaze2
+	go_penPlace
 Fend
 Function penUp
 	Move Here +Z(10)
