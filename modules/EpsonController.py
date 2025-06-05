@@ -1,3 +1,4 @@
+from enum import Enum
 import cv2
 import math
 import socket
@@ -42,6 +43,37 @@ MAX_X = -400
 calibrator = Calibrator()
 
 class EpsonController:
+
+    class Action(Enum):
+        PRESS_RED_BLUE_RED = "go_pressRedBlueRed"
+        PRESS_RED = "go_pressRedOnly"
+        PRESS_BLUE = "go_pressBlueOnly"
+
+        BALL_MAZE_1 = "go_ballMaze1"
+        BALL_MAZE_2 = "go_ballMaze2"
+
+        SWIPE_AB = "go_swipeAB"
+        SWIPE_BA = "go_swipeBA"
+        SWIPE_AG = "go_swipeABackground"
+        SWIPE_BG = "go_swipeBBackground"
+        SWIPE_GA = "go_swipeBackgroundA"
+        SWIPE_GB = "go_swipeBackgroundB"
+
+        TAP_A = "go_tapA"
+        TAP_B = "go_tapB"
+        TAP_G = "go_tapBackground"
+        DTAP_A = "go_doubletapA"
+        DTAP_B = "go_doubletapB"
+        DTAP_G = "go_doubletapBackground"
+
+        PEN_PLACE = "go_penPlace"
+        PEN_PICK = "go_penPick"
+
+        SCREEN_CAMERA = "go_screenCamera"
+
+        DRAW_CIRCLE = "go_drawCircle"
+        DRAW_TRIANGLE = "go_drawTriangle"
+
     def __init__(self):
 
         # setting up socket
@@ -86,7 +118,6 @@ class EpsonController:
         self.robot_y = y
         self.robot_z = z
 
-
     def goHome(self):
         self.goto(HOMEX, HOMEY, HOMEZ, 90)
         try:
@@ -129,7 +160,18 @@ class EpsonController:
         else:
             return DROP_PLASTIC_X, DROP_PLASTIC_Y, DROPZ
 
-
+    def executeTask(self, action):
+        if isinstance(action, self.Action):
+            command = f"{action.value}\r\n"
+            print(f"Sending command: {command.strip()}")
+            self.clientSocket.send(command.encode())
+            try:
+                confirmation = self.clientSocket.recv(1023)
+                print("result:", confirmation)
+            except:
+                pass
+        else:
+            print("Invalid action provided.")
 
 
 
@@ -142,6 +184,7 @@ def main():
     parser.add_argument("--train", type=int, help="Trains points for the epson robot to remember, you can specify the number of points to train.")
     parser.add_argument("--point_control", action="store_true", help="Control the robot using the mouse to select points on the screen.")
     parser.add_argument("--goCamera", action="store_true", help="Go to camera position.")
+    parser.add_argument("--task", type=str, help="Execute a taskboard pattern on the robot.")
 
     args = parser.parse_args()
     epson = EpsonController()
@@ -223,6 +266,8 @@ def main():
             cv2.destroyAllWindows()
         else:
             cam.release()
+    elif args.task:
+        epson.executeTask(EpsonController.Action[args.execute.upper()])
     else:
         print("No valid command provided. Use --help for usage information.")
 
