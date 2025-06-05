@@ -1,4 +1,5 @@
 import cv2
+from Point import Point
 import numpy as np
 from typing import List, Tuple, Dict, Optional
 
@@ -46,8 +47,11 @@ class ColorPerception:
             filters: Optional list of custom ColorFilter instances.
         """
         self.filters = filters if filters is not None else [self.RED_FILTER, self.BLUE_FILTER]
+    
+    def set_filters(self, filters: Optional[List[ColorFilter]] = None):
+        self.filters = filters if filters is not None else [self.RED_FILTER, self.BLUE_FILTER]
 
-    def detect_main_color_midpoints(self, image_bgr: np.ndarray) -> Tuple[np.ndarray, Dict[str, Optional[Tuple[int, int]]]]:
+    def detect_main_color_midpoints(self, image_bgr: np.ndarray) -> Tuple[np.ndarray, Dict[str, Optional[Point]]]:
         """
         Detects midpoints of the largest contour for each color in the filter list,
         optionally applying brightness filtering.
@@ -75,13 +79,14 @@ class ColorPerception:
                 if brightness < f.brightness_threshold:
                     midpoint = None  # Detected region too dark
 
-            results[f.name] = midpoint
+            midpoint = Point(midpoint[0], midpoint[1])
+            results[f.name] = midpoint 
 
             # Draw on annotated image
             if midpoint:
                 color_bgr = self._label_color(f.name)
-                cv2.circle(annotated, midpoint, 6, color_bgr, -1)
-                cv2.putText(annotated, f.name.upper(), (midpoint[0]+5, midpoint[1]),
+                cv2.circle(annotated, (midpoint.x, midpoint.y), 6, color_bgr, -1)
+                cv2.putText(annotated, f.name.upper(), (midpoint.x + 5, midpoint.y),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, color_bgr, 2)
 
         return annotated, results
@@ -104,7 +109,7 @@ class ColorPerception:
         }.get(name.lower(), (255, 255, 255))  # default: white
 
 if __name__ == "__main__":
-    image = cv2.imread("red_on.png")  # Replace with your actual image
+    image = cv2.imread("./output/red_on.png")  # Replace with your actual image
     perception = ColorPerception(filters=[ColorPerception.BLUE_FILTER, ColorPerception.RED_FILTER])
 
     annotated_image, points = perception.detect_main_color_midpoints(image)

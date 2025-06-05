@@ -2,6 +2,7 @@ from enum import Enum
 import cv2
 import math
 import socket
+import Point
 import argparse
 from Camera import Cam
 from Calibrator import Calibrator
@@ -75,14 +76,7 @@ class EpsonController:
         DRAW_CIRCLE = "go_drawCircle"
         DRAW_TRIANGLE = "go_drawTriangle"
 
-    class Point():
-        def __init__(self, x: float, y: float ):
-            self.x = x
-            self.y = y
-        
-        def __str__(self):
-            return f"Point: ({self.x}, {self.y})"
-        
+       
     def __init__(self):
 
         # setting up socket
@@ -155,11 +149,11 @@ class EpsonController:
         except:
             pass
 
-    def getWorldCoordinates(self, x, y):
+    def getWorldCoordinates(self, point: Point):
         # self.calibrator.rotate(90)
-        x_world, y_world = self.calibrator.predict({'x':x, 'y': y})
-        print(x, y, )
-        return x_world, y_world
+        x_world, y_world = self.calibrator.predict({'x':point.x, 'y': point.y})
+        print(str(point))
+        return Point(x_world, y_world)
 
     def getPixelCoordinates(x_real, y_real):
         x_pixel = (x_real - XINTERCEPT) / XGRADIENT 
