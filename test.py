@@ -1,5 +1,5 @@
+import cv2
 import numpy as np
-from modules.Point import Point
 from modules.Camera import Cam 
 from modules.EpsonController import EpsonController
 from modules.ColorPerception import ColorPerception, ColorFilter
@@ -48,22 +48,29 @@ epson = EpsonController()
 colorPerception = ColorPerception()
 
 # take picture from home point
-cam.take_picture(filename="local-frame.png")
+cam.take_picture(filename="./local-frame.png")
 
 # find red and blue buttons
 colorPerception.set_filters([RED_FILTER_OFF, BLUE_FILTER_OFF])
 
 # get the point values for right and left
-_, points = colorPerception.detect_main_color_midpoints("local-frame.png")
+print("Detecting red and blue buttons....")
+image = cv2.imread("./local-frame.png")
+_, points = colorPerception.detect_main_color_midpoints(image)
+
 
 cam_point_A = points.get("red")
 cam_point_B = points.get("blue")
 
-# get the world coordinate system
-robot_point_A = epson.getWorldCoordinates(cam_point_A.x, cam_point_A.y)
-robot_point_B = epson.getWorldCoordinates(cam_point_B.x, cam_point_B.y)
+print("Found buttons:", "blue button:", str(cam_point_B), "red button:", str(cam_point_A))
 
-epson.setLocalFrame(robot_point_A, robot_point_B) 
+# get the world coordinate system
+robot_point_A = epson.getWorldCoordinates(cam_point_A)
+robot_point_B = epson.getWorldCoordinates(cam_point_B)
+
+epson.setLocalFrame(robot_point_B, robot_point_A) 
+
+epson.executeTask(EpsonController.Action.PEN_PICK)
 
 
 

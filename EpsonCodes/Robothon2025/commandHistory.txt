@@ -1,44 +1,3 @@
-go RedPress ljm
-go RedPress +z(30) ljm
-go RedPress ljm
-go RedPress +z(30) ljm
-off 10
-go screenA +z(30) ljm
-go screenA  ljm
-go screenA +z(10) ljm
-go screenABmid +z(10) ljm
-go screenB +z(10) ljm
-go screenB ljm
-go screenB +z(10) ljm
-go FlippingPoint
-go FlippingPoint ljm
-go penFlippedReadyforBall ljm
-speeds 60
-speedr 60
-go penFlippedReadyforBall ljm
-go BallSensor1 +z(20) ljm
-go BallSensor1 ljm
-go BallWpt1 ljm
-go ballwpt2 ljm
-go BallSensor2 ljm
-go BallSensor1 +z(20) ljm
-go BallSensor1 ljm
-go BallWpt1 ljm
-go ballwpt2 ljm
-go BallSensor2 ljm
-go ballwpt3 ljm
-go ballwpt4 ljm
-go ballwpt5 ljm
-go ballwpt6 ljm
-go ballwpt7 ljm
-go BallWpt8
-go ballwpt7 ljm
-go BallWpt8 ljm
-go ballsensor3a ljm
-go BallSensor3b ljm
-go ballwpt9 ljm
-go ballwpt10 ljm
-go ballwpt11 ljm
 go BallSensor1 ljm
 go penRetractionPoint ljm
 go ballPenRetractPoint +z(100) ljm
@@ -98,3 +57,44 @@
 go here :x(17) :y(664) :z(560)
 go camRedBlueButtons
 go here +z(50)
+go BluePress +z(30) ljm
+motor On
+go BluePress +z(30) ljm
+print p332
+print p333
+go BluePress +z(50) ljm
+print p332
+print p333
+go BluePress +z(50) ljm
+print p332
+print p333
+go CameraPoint ljm
+go here -z(100)
+go BluePress +z(50) ljm
+Local 1,( calBlue :P332),( calRed :P333)
+go BluePress +z(50) ljm
+go here -z(50)
+go BluePress +z(50) ljm
+go redPress +z(50) ljm
+Local 1,( calBlue :P332),( calRed :P333)
+go redPress +z(50) ljm
+print p332
+print p333
+print calred
+print calblue
+Local 1,( calBlue :P332),( calRed :P333)
+go calBlue
+go calBlue ljm
+> Local 1,( calBlue :P332),( calRed :P333)
+Local 1,( calBlue :P332),( calRed :P333)
+go CameraPoint ljm
+go BluePress +z(50) ljm
+P332 = Here :X(-68.2) :Y(759.42) :Z(500)
+P333 = Here :X(126.82) :Y(758.08) :Z(500)
+Local 1,( calBlue :P332),( calRed :P333)
+go redPress +z(50) ljm
+OFF 10
+ON 10
+go redPress +z(100) ljm
+go CameraPoint ljm
+go redPress +z(100) ljm

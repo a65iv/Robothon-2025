@@ -73,12 +73,16 @@ Function main
         py2 = Val(Trim$(indata$(4)))
         
    		Print "Mapping world coordinate to local"
-   		Print "Blue button:", px1, ",", py1, "  Knob:", px2, ",", px2
+   		Print "Blue button:", px1, ",", py1, "  Red button:", px2, ",", py2
 		Real ZOffset
 		ZOffset = 522
 		P332 = Here :X(px1) :Y(py1) :Z(ZOffset) ' blue	
-		P333 = Here :X(px2) :Y(py2) :Z(ZOffset) ' knob
-		Local 1,(calBlue:P332),(calRed:P333) ' map those points to Local BB and Local Knob at z=521
+		P333 = Here :X(px2) :Y(py2) :Z(ZOffset) ' red
+		SavePoints "robot1.pts"
+		Print Local(1)
+		Local 1,(calBlue:P332),(calRed:P333) ' map those points to Local BB and RB at z=521
+		
+		Print Local(1)
 		Power High
 		Speed 20
 		SpeedR 20
@@ -92,6 +96,7 @@ Function main
 '	' --------- tasks -------
 	If LCase$(indata$(0)) = "go_penPick" Then
    		go_penPick
+   		Print 'run pen pick'
    	EndIf
    	
 	If LCase$(indata$(0)) = "go_penPlace" Then
@@ -174,8 +179,7 @@ Function main
 '	If LCase$(indata$(0)) = "go_stow_finished" Then
 '   		go_stow_finished
 '   	EndIf
-'   	
-'	If LCase$(indata$(0)) = "go_press_red_button" Then
+'   		If LCase$(indata$(0)) = "go_press_red_button" Then
 '   		go_press_red_button
 '   	EndIf
 	' --------- end tasks -------

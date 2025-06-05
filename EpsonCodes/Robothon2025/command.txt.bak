@@ -101,11 +101,11 @@ print here
 > !!Error: 1501, Command was not completed within the specified time.
 > 
 > 
-> P332 = Here :X(-80.32) :Y(757.42) :Z(500)
+> P332 = Here :X(-68.2) :Y(759.42) :Z(500)
 > 
 > 
 >
-> P333 = Here :X(112.82) :Y(758.08) :Z(500)
+> P333 = Here :X(126.82) :Y(758.08) :Z(500)
 > 
 > 
 > 
@@ -603,7 +603,8 @@ print here
 !!Error: 4001, Arm reached the limit of motion range.
 > 
 !!Error: 4001, Arm reached the limit of motion range.
-> go CameraPoint
+> go CameraPoint ljm
+> 
 > 
 > 
 > 
@@ -632,4 +633,81 @@ print here
 > 
 !!Error: 4007, Coordinates conversion error. The end/mid point is out of the motion area. Jogging to the outside of the motion area.
 > 
+> go BluePress +z(30) ljm 
+!!Error: 4007, Coordinates conversion error. The end/mid point is out of the motion area. Jogging to the outside of the motion area.
+> 
+!!Error: 4007, Coordinates conversion error. The end/mid point is out of the motion area. Jogging to the outside of the motion area.
+> motor On
+> print p332
+ X:  124.980 Y:  759.430 Z:  522.000 U:    0.000 V:    0.000 W:  -90.000 /R /A /NF /J6F1 /J4F0 /0
+> 
+ X:  124.980 Y:  759.430 Z:  522.000 U:    0.000 V:    0.000 W:  -90.000 /R /A /NF /J6F1 /J4F0 /0
+> print p333
+ X:  -67.490 Y:  762.110 Z:  522.000 U:    0.000 V:    0.000 W:  -90.000 /R /A /NF /J6F1 /J4F0 /0
+> 
+ X: -195.120 Y:  777.530 Z:  522.000 U:    0.000 V:    0.000 W:  -90.000 /R /A /NF /J6F1 /J4F0 /0
+> go BluePress +z(50) ljm
+!!Error: 4007, Coordinates conversion error. The end/mid point is out of the motion area. Jogging to the outside of the motion area.
+> 
+!!Error: 4007, Coordinates conversion error. The end/mid point is out of the motion area. Jogging to the outside of the motion area.
+> 
+!!Error: 4007, Coordinates conversion error. The end/mid point is out of the motion area. Jogging to the outside of the motion area.
+> 
+!!Error: 4007, Coordinates conversion error. The end/mid point is out of the motion area. Jogging to the outside of the motion area.
+> print p332
+ X:  124.980 Y:  758.760 Z:  522.000 U:    0.000 V:    0.000 W:  -90.000 /R /A /NF /J6F1 /J4F0 /0
+> print p333
+ X:  -67.490 Y:  761.440 Z:  522.000 U:    0.000 V:    0.000 W:  -90.000 /R /A /NF /J6F1 /J4F0 /0
+> go CameraPoint ljm
+> 
+> go here -z(100)
+> go redPress +z(50) ljm
+> 
+!!Error: 4007, Coordinates conversion error. The end/mid point is out of the motion area. Jogging to the outside of the motion area.
+> 
+!!Error: 4007, Coordinates conversion error. The end/mid point is out of the motion area. Jogging to the outside of the motion area.
+> 
+!!Error: 4007, Coordinates conversion error. The end/mid point is out of the motion area. Jogging to the outside of the motion area.
+> 
+!!Error: 4007, Coordinates conversion error. The end/mid point is out of the motion area. Jogging to the outside of the motion area.
+> go here -z(50)
+> 
+> 
+!!Error: 4007, Coordinates conversion error. The end/mid point is out of the motion area. Jogging to the outside of the motion area.
+> Local 1,( calBlue :P332),( calRed :P333)
+> go calBlue ljm
+!!Error: 4001, Arm reached the limit of motion range.
+> 
+>  P332 = Here :X(-68.2) :Y(759.42) :Z(500)
+> 
+> OFF 10
+> ON 10
+> 
+> 
+>  go redPress +z(100) ljm
+> 
+> 
+> 
+> 
+>
+> P333 = Here :X(126.82) :Y(758.08) :Z(500)
+> 
+> 
+> 
+> 
+!!Error: 4001, Arm reached the limit of motion range.
+>  Local 1,( calBlue :P332),( calRed :P333)
+> 
+> 
+!!Error: 3100, Syntax error.
+> 
+> 
+> print p332
+ X:  124.980 Y:  759.430 Z:  522.000 U:    0.000 V:    0.000 W:  -90.000 /R /A /NF /J6F1 /J4F0 /0
+> print p333
+ X:  -67.490 Y:  762.110 Z:  522.000 U:    0.000 V:    0.000 W:  -90.000 /R /A /NF /J6F1 /J4F0 /0
+> print calred
+ X:  192.290 Y:    0.000 Z:  500.000 U:    0.000 V:    0.000 W:  -90.000 /R /A /NF /J6F1 /J4F0 /1
+> print calblue
+ X:    0.000 Y:    0.000 Z:  500.000 U:    0.000 V:    0.000 W:  -90.000 /R /A /NF /J6F1 /J4F0 /1
 > 

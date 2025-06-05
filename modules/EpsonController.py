@@ -2,10 +2,15 @@ from enum import Enum
 import cv2
 import math
 import socket
-import Point
 import argparse
-from Camera import Cam
-from Calibrator import Calibrator
+
+from modules.Camera import Cam
+from modules.PointClass import Point
+from modules.Calibrator import Calibrator
+
+# from Camera import Cam
+# from PointClass import Point
+# from Calibrator import Calibrator
 
 # setting up constants
 EPSON_ROBOT_IP = "192.168.1.2"
@@ -124,7 +129,8 @@ class EpsonController:
 
     def setLocalFrame(self, pointA: Point, pointB: Point):
         print(f"Setting a new local frame\n pointA: {str(pointA)}\n pointB: {str(pointB)}")
-        command= f"local {pointA.x}, {pointA.y}, {pointB.x}, {pointB.y}\r\n"
+        command= f"local {pointA.x:.2f} {pointA.y:.2f} {pointB.x:.2f} {pointB.y:.2f}\r\n"
+        print("command:", command)
         self.clientSocket.send(command.encode())
         try:
             confirmation = self.clientSocket.recv(1023)
@@ -236,8 +242,8 @@ def main():
                 cv2.imshow('point', copy)
 
                 # Go to position
-                x_world, y_world = epson.getWorldCoordinates(x=x, y=y)
-                epson.goto(x=x_world, y=y_world)
+                point = epson.getWorldCoordinates(Point(x=x, y=y))
+                epson.goto(x=point.x, y=point.y)
 
         cam = Cam(0)
         cam.take_picture(filename="./point_control.png")

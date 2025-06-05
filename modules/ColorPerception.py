@@ -1,5 +1,7 @@
 import cv2
-from Point import Point
+from modules.PointClass import Point
+from modules.Camera import Cam
+from modules.Calibrator import Calibrator
 import numpy as np
 from typing import List, Tuple, Dict, Optional
 
@@ -109,13 +111,31 @@ class ColorPerception:
         }.get(name.lower(), (255, 255, 255))  # default: white
 
 if __name__ == "__main__":
-    image = cv2.imread("./output/red_on.png")  # Replace with your actual image
+
+    
+    cam = Cam(0)
+    calibrator = Calibrator()
+    cam.take_picture(filename="./local-frame.png")
+    image = cv2.imread("./local-frame.png")  # Replace with your actual image
     perception = ColorPerception(filters=[ColorPerception.BLUE_FILTER, ColorPerception.RED_FILTER])
 
     annotated_image, points = perception.detect_main_color_midpoints(image)
 
     print("Red midpoint:", points.get("red"))
     print("Blue midpoint:", points.get("blue"))
+    
+    
+
+    cam_point_A = points.get("red")
+    cam_point_B = points.get("blue")
+
+    print("Found buttons:", "blue button:", str(cam_point_B), "red button:", str(cam_point_A))
+
+    # get the world coordinate system
+    robot_point_A = calibrator.predict({"x":cam_point_A.x, "y": cam_point_A.y})
+    robot_point_B = calibrator.predict({"x":cam_point_B.x, "y": cam_point_B.y})
+    
+    print("Found buttons:", "blue button:", str(robot_point_A), "red button:", str(robot_point_B))
 
     cv2.imshow("Detected Points", annotated_image)
     cv2.waitKey(0)
