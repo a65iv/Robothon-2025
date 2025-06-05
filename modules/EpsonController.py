@@ -193,7 +193,7 @@ def main():
     parser.add_argument("--train", type=int, help="Trains points for the epson robot to remember, you can specify the number of points to train.")
     parser.add_argument("--point_control", action="store_true", help="Control the robot using the mouse to select points on the screen.")
     parser.add_argument("--goCamera", action="store_true", help="Go to camera position.")
-    parser.add_argument("--task", type=str, help="Execute a taskboard pattern on the robot.")
+    parser.add_argument("--execute_task", type=str, help="Execute a taskboard pattern on the robot.")
 
     args = parser.parse_args()
     epson = EpsonController()
@@ -275,8 +275,8 @@ def main():
             cv2.destroyAllWindows()
         else:
             cam.release()
-    elif args.task:
-        epson.executeTask(EpsonController.Action[args.execute.upper()])
+    elif args.execute_task:
+        epson.executeTask(EpsonController.Action[args.execute_task.upper()])
     else:
         print("No valid command provided. Use --help for usage information.")
 
