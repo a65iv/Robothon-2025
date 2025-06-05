@@ -83,15 +83,360 @@ print here
 > 
 > 
 > 
-> P332 = Here :X(-91.124) :Y(625.500) :Z(500)
+> P332 = Here :X(-74.92) :Y(754.06) :Z(500)
+> 
+
+
+> !!Error: 1501, Command was not completed within the specified time.
+> 
+> 
+> 
+> 
+> go here -z(50)
+> 
+> p333 = here :x(-74) :y(752) :z(500)
+> 
+> 
+> 
+> !!Error: 1501, Command was not completed within the specified time.
+> 
+> 
+> P332 = Here :X(-80.32) :Y(757.42) :Z(500)
+> 
 > 
 >
-> p333 = here :x(85.133) :y(551.750) :z(500)
+> P333 = Here :X(112.82) :Y(758.08) :Z(500)
+> 
+> 
+> 
+> 
+> 
+> 
+> p333 = 
+> 
 > go p332 ljm
 > go here :x(-91.124) :y(625.5) ljm
+!!Error: 10000, Command aborted by user
 > 
 > 
-> Local 1,( BlueButton :P332),( RedButton :P333)
+> 
+> Local 1,( calBlue :P332),( calRed :P333)
+> print here
+ X:   17.611 Y:  664.015 Z:  560.202 U:    0.196 V:    0.000 W:  -90.000 /R /A /F /J6F1 /J4F0 /0
+> go here :x(17) :y(664) :z(560)
+> go camRedBlueButtons
+> go here +z(50)
+> 
+> 
+> 
+> 
+> 
+> print here
+ X:    0.461 Y:  768.066 Z:  511.886 U:   -0.000 V:    0.000 W:  -90.000 /R /A /NF /J6F0 /J4F1 /0
+> go here :x(0) :y(767) :z(500) ljm 
+> print here
+ X:   -0.000 Y:  606.508 Z:  676.168 U:   -0.000 V:   -0.000 W:  -90.000 /R /A /NF /J6F0 /J4F0 /0
+> go here :z(650) :x(0) :y(600)
+> print here
+ X:   -0.000 Y:  600.000 Z:  650.000 U: -180.000 V:   -0.562 W:   90.000 /R /A /NF /J6F0 /J4F0 /0
+> go here :v(0)
+> go here :u(-180)
+> go BallSensor1
+!!Error: 10000, Command aborted by user
+> go flippedPenReadyforBall
+> go BallWpt4 ljm
+> go BallWpt6 ljm
+> go BallWpt7 ljm
+> go BallSensor1 ljm
+> go penRetractionPoint :z(600) ljm 
+> 
+> go flippedPenReadyforBall ljm
+> go PenPickupPoint ljm
+> go 
+!!Error: 10000, Command aborted by user
+> 
+> 
+> go penApproach ljm
+> 
+!!Error: 10000, Command aborted by user
+> 
+> 
+> 
+> go CameraPoint ljm
+> go BluePress ljm
+> go Bluepress +z(100) ljm
+> 
+> go Bluepress ljm
+> go Bluepress +z(30) ljm
+> go MidPointRedBlue ljm
+> go RedPress +z(10) ljm
+> off 10
+> go screenA +z(10) ljm
+> go screenABmid +z(10) ljm
+> go screenB +z(10) ljm
+> go FlippingPoint ljm
+> go penFlippedReadyforBall ljm
+> go BallSensor1 +z(20) ljm
+> 
+> go BallSensor1 ljm
+> 
+> 
+> go BallWpt1 ljm
+>
+> 
+> go ballwpt2 ljm
+> go BluePress +z(100) ljm
+!!Error: 10000, Command aborted by user
+> go ballHole +z(50) ljm
+> go ballHole +z(50) ljm
+> go ballhole ljm
+> 
+!!Error: 2513, Specified point label is not defined.
+> 
+> 
+> 
+> 
+> 
+> 
+> go BallSensor2 ljm
+> 
+> 
+> go BallSensor2 +z(100) ljm
+> 
+> go ballwpt3 ljm
+> 
+> 
+> 
+> go ballwpt4 ljm
+!!Error: 4007, Coordinates conversion error. The end/mid point is out of the motion area. Jogging to the outside of the motion area.
+> 
+!!Error: 4007, Coordinates conversion error. The end/mid point is out of the motion area. Jogging to the outside of the motion area.
+> 
+!!Error: 4007, Coordinates conversion error. The end/mid point is out of the motion area. Jogging to the outside of the motion area.
+> 
+!!Error: 4007, Coordinates conversion error. The end/mid point is out of the motion area. Jogging to the outside of the motion area.
+> 
+> go ballwpt5 ljm
+> 
+> 
+> go ballwpt6 ljm
+> 
+> go ballwpt7 ljm
+> 
+> Reset
+> motor On
+!!Error: 4025, Cannot execute a motion command during emergency stop condition.
+> motor On
+!!Error: 4025, Cannot execute a motion command during emergency stop condition.
+> Reset
+> motor On
+> go RedPress +z(30) ljm
+> go MidPointRedBlue ljm
+> 
+> go BallWpt8 ljm
+> 
+> go ballsensor3a ljm
+> 
+> go BallSensor3b ljm
+> 
+> go ballwpt9 ljm
+> 
+> go ballwpt10 ljm
+> 
+> go ballwpt11 ljm
+> 
+> go BallSensor1 ljm
+> 
+> go ballPenRetractPoint ljm
+> 
+> go ballPenRetractPoint +z(200) ljm
+> 
+> go penDropApproach +z(20) ljm
+> go penDropApproach ljm
+> go penDrop ljm
+> off 10
+> go penDropApproach +z(20) ljm
+> on 10
+> go penFlippedReadyforBall ljm
+> go BallSensor1 ljm
+> 
+> 
+> 
+> 
+> 
+!!Error: 10000, Command aborted by user
+> speeds 60
+> speedr 60
+> 
+!!Error: 10000, Command aborted by user
+> 
+> 
+> 
+> 
+> 
+> 
+> go RedPress ljm
+> 
+> 
+> Reset
+> on 10
+> go CameraPoint
+!!Error: 4031, Cannot execute a motion command when the motor is in the off state.
+> Reset
+> motor On
+> 
+> 
+!!Error: 10000, Command aborted by user
+> power High
+> 
+> 
+> 
+> 
+> 
+> 
+> go penReady ljm
+> 
+!!Error: 10000, Command aborted by user
+> 
+> 
+> 
+> go BluePress +z(30)  ljm
+> go here +x(100) ljm
+> go RedPress +z(30) ljm
+> print here
+ X:   32.245 Y:  622.802 Z:  584.160 U:  -92.615 V:    4.708 W: -176.858 /R /A /F /J6F0 /J4F1 /0
+> go here :u(0) :w(-180) ljm
+!!Error: 10000, Command aborted by user
+> go CameraPoint ljm
+> p29 = p28 +z(100)
+> SavePoints "robot1.pts"
+> 
+!!Error: 10000, Command aborted by user
+> 
+!!Error: 10000, Command aborted by user
+> 
+> go RedPress ljm
+> 
+!!Error: 2513, Specified point label is not defined.
+> 
+> 
+> 
+!!Error: 10000, Command aborted by user
+> 
+> 
+> 
+> go BluePress
+> 
+> go RedButton ljm
+> 
+> go PenPickupPoint ljm
+> 
+> 
+> 
+> 
+> 
+> 
+> go CameraPoint
+> 
+> 
+> 
+> go CameraPoint
+> go CameraPoint
+> 
+> power on
+> Reset
+> go here +z(100) ljm
+> 
+!!Error: 10000, Command aborted by user
+> 
+!!Error: 4031, Cannot execute a motion command when the motor is in the off state.
+> motor On
+> 
+> 
+> go RedButton  ljm
+> go CornerScrew2 ljm
+> go BallSensor2 ljm
+> 
+> 
+> p31 = p1 -y(146)
+> p32 = p2 -y(146)
+> p31 = p1
+> p32 = p2
+> p1 = p1 -y(146)
+> p2 = p2 -y(146)
+> SavePoints "robot1.pts"
+> p3 = p3-146
+!!Error: 3100, Syntax error.
+> p3 = p3 - 146
+!!Error: 3100, Syntax error.
+> p23 = p23 -y(146)
+> SavePoints "robot1.pts"
+> go BallSensor1 ljm
+> move BallWpt1
+!!Error: 4062, Orientation variation is over 360 degrees.
+> 
+> move BallSensor2
+!!Error: 4062, Orientation variation is over 360 degrees.
+> go BallSensor2 ljm
+> go CameraPoint
+> 
+> go BallWpt2 ljm
+> 
+> 
+> go BallWpt10 ljm
+> go BallWpt11 ljm
+> 
+> 
+> 
+> 
+> 
+> 
+!!Error: 10000, Command aborted by user
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+!!Error: 3111, Specified variable is not an array variable.
+> 
+!!Error: 3111, Specified variable is not an array variable.
+> go BlueButton -y(146) ljm
+> move RedButton -y(146)
+!!Error: 4062, Orientation variation is over 360 degrees.
+> go BallSensor3a -y(146) ljm
+> 
+> go RedButton -y(146) ljm
+> move BlueButton -y(146)
+!!Error: 4062, Orientation variation is over 360 degrees.
+> 
+!!Error: 4062, Orientation variation is over 360 degrees.
+> 
+!!Error: 10000, Command aborted by user
+> 
+!!Error: 3111, Specified variable is not an array variable.
+> 
+!!Error: 3111, Specified variable is not an array variable.
+> 
+> 
+!!Error: 10000, Command aborted by user
+> 
 > print P332
 !!Error: 7007, Specified point number was not defined. Specify a teach point number.
 > 
@@ -258,6 +603,7 @@ print here
 !!Error: 4001, Arm reached the limit of motion range.
 > 
 !!Error: 4001, Arm reached the limit of motion range.
+> go CameraPoint
 > 
 > 
 > 

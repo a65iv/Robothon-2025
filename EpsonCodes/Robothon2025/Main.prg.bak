@@ -77,7 +77,7 @@ Function main
 		ZOffset = 522
 		P332 = Here :X(px1) :Y(py1) :Z(ZOffset) ' blue	
 		P333 = Here :X(px2) :Y(py2) :Z(ZOffset) ' knob
-		Local 3,(LBB:P332),(LK:P333) ' map those points to Local BB and Local Knob at z=521
+		Local 1,(LBB:P332),(LK:P333) ' map those points to Local BB and Local Knob at z=521
 		Power High
 		Speed 20
 		SpeedR 20
@@ -89,9 +89,9 @@ Function main
    
  
 '	' --------- tasks -------
-'	If LCase$(indata$(0)) = "go_click_m5" Then
-'   		go_click_m5
-'   	EndIf
+	If LCase$(indata$(0)) = "go_penPick" Then
+   		go_penPick
+   	EndIf
 '   	
 '	If LCase$(indata$(0)) = "go_press_blue_button" Then
 '		Speed 50
@@ -222,7 +222,88 @@ Function ErrFunc
 
   Send
 Fend
-
+Function go_pressRedBlueRed
+	Go CameraPoint LJM
+	Go RedPress +Z(100) LJM
+	Go RedPress +Z(30) LJM
+	Go redpress LJM
+	Go RedPress +Z(30) LJM
+	Go MidPointRedBlue LJM
+	Go BluePress +Z(30) LJM
+	Go BluePress LJM
+	Go BluePress +Z(30) LJM
+	Go RedPress +Z(30) LJM
+Fend
+Function go_pressRedWaitforLight
+	Go RedPress +Z(30) LJM
+	Go redpress LJM
+	Go RedPress +Z(30) LJM
+Fend
+Function go_penPick
+	Power High
+	Speed 10
+	SpeedR 10
+	Accel 10, 10
+	AccelR 10, 10
+	SpeedS 10
+	AccelS 10, 10
+	Go FlippingPoint LJM
+	Go penApproach LJM
+	Off 10
+	Go penPick LJM
+	On 10
+	Wait 1
+	Go penPickRetract LJM
+Fend
+Function go_ballMaze1
+	Power High
+	Speed 8
+	SpeedR 8
+	Accel 10, 10
+	AccelR 10, 10
+	SpeedS 10
+	AccelS 10, 10
+	Go penFlippedReadyforBall LJM
+	Go BallSensor1 +Z(20) LJM
+	Go BallSensor1 LJM
+	Go BallWpt1 LJM
+	Go ballwpt2 LJM
+	Go BallSensor2 LJM
+	Go ballHole LJM
+	Wait 1
+	Go ballHole +Z(50) LJM
+	Go penBluePressApproach LJM
+	Go penBluePress LJM
+	Wait 3
+	Go penBluePressApproach LJM
+	Go ballHole +Z(50) LJM
+	Go ballHole LJM
+Fend
+Function go_ballMaze2 'must be executed right after go_ballMaze1
+	Go BallSensor2 LJM
+	Go BallWpt3 LJM
+	Go BallWpt4 LJM
+	Go BallWpt5 LJM
+	Go BallWpt6 LJM
+	Go BallWpt7 LJM
+	Go BallWpt8 LJM
+	Go BallSensor3a LJM
+	Go BallSensor3b LJM
+	Go BallWpt9 LJM
+	Go BallWpt10 LJM
+	Go BallWpt11 LJM
+	Go ballsensor1 LJM
+	Go ballPenRetractPoint LJM
+	Go ballPenRetractPoint +Z(200) LJM
+Fend
+Function go_penPlace
+	Go penDropApproach +Z(20) LJM
+	Go penDropApproach LJM
+	Go penDrop LJM
+	Off 10
+	Go penDropApproach +Z(20) LJM
+	On 10
+Fend
 Function drawCircle
 	Arc3 Here -X(radius), Here -X(radius) +Y(radius) CP
 	Arc3 Here +X(radius), Here +X(radius) -Y(radius) CP

@@ -19,8 +19,8 @@ class Cam:
                 self.cap = cv2.VideoCapture(index, cv2.CAP_DSHOW)
 
                 self.cap.set(cv2.CAP_PROP_FPS, 30)
-                self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
-                self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+                # self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+                # self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
                 self.cap.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter.fourcc('M','J','P','G'))
             elif os_name == "Linux":
                 self.cap = cv2.VideoCapture(index)  # Default backend is usually fine

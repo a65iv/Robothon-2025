@@ -95,6 +95,13 @@ class EpsonController:
         except:
             pass
 
+    def goCamera(self):
+        self.goto(0, 750, 800, 90)
+        try:
+            confirmation = self.clientSocket.recv(1023)
+            print("result:", confirmation)
+        except:
+            pass
 
     def getWorldCoordinates(self, x, y):
         # self.calibrator.rotate(90)
@@ -134,6 +141,7 @@ def main():
     parser.add_argument("--loc", action="store_true", help="Print out the current location of the robot")
     parser.add_argument("--train", type=int, help="Trains points for the epson robot to remember, you can specify the number of points to train.")
     parser.add_argument("--point_control", action="store_true", help="Control the robot using the mouse to select points on the screen.")
+    parser.add_argument("--goCamera", action="store_true", help="Go to camera position.")
 
     args = parser.parse_args()
     epson = EpsonController()
@@ -196,6 +204,8 @@ def main():
 
     elif args.home:
         epson.goHome()
+    elif args.goCamera:
+        epson.goCamera()
     elif args.loc: 
         epson.getLocation()
     elif args.train:
