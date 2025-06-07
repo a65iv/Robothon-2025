@@ -707,10 +707,67 @@ print here
 > go ballwpt6 ljm
 > go ballwpt7 ljm
 > 
+> go here :z(600) ljm
+> 
 > 
 > 
 >
 > P333 = Here :X(126.82) :Y(758.08) :Z(500)
+> go here -z(100) ljm
+> go penFlippedReadyforBall ljm
+> print here
+ X:  -30.956 Y:  600.862 Z:  650.000 U:  176.542 V:   -0.000 W:   90.000 /R /A /F /J6F0 /J4F0 /0
+> go here :u(-180) :w(-90) ljm
+!!Error: 4001, Arm reached the limit of motion range.
+> go here :u(180)
+!!Error: 4001, Arm reached the limit of motion range.
+> print here
+ X:  -13.763 Y:  646.541 Z:  600.000 U:    0.000 V:    0.000 W:  -90.000 /R /A /F /J6F0 /J4F0 /0
+> go camerapoint ljm
+> go camerapoint ljm
+> 
+> go CameraPoint
+!!Error: 10000, Command aborted by user
+> 
+> 
+!!Error: 10000, Command aborted by user
+> 
+> go CameraPoint ljm
+> 
+> 
+> go BYOD_penApproach ljm
+> print here
+ X:  -13.762 Y:  686.541 Z:  681.067 U:   -0.000 V:    0.000 W: -110.577 /R /A /NF /J6F0 /J4F0 /0
+> go here :w(-90) ljm
+> go here -y(40) ljm
+> 
+> print here
+ X:  -10.097 Y:  679.388 Z:  646.240 U:  -90.000 V:    0.000 W: -180.000 /R /A /NF /J6F1 /J4F0 /0
+> go here :u(0)
+> 
+> 
+> go BYOD_penPick
+> on 10
+> 
+> go penPick :z(700) ljm
+> print here
+ X:  -10.097 Y:  679.388 Z:  646.240 U:  -95.621 V:   -0.105 W: -179.297 /R /A /NF /J6F0 /J4F0 /0
+> go here :u(-90)
+> go here :w (-180)
+> go here :v(0)
+> print here
+ X:  -10.097 Y:  679.388 Z:  646.240 U:  -90.000 V:    0.000 W: -180.000 /R /A /NF /J6F0 /J4F0 /0
+> go here :z(700)
+> 
+> 
+> Power High
+	Speed 10
+	SpeedR 10
+	Accel 10, 10
+	AccelR 10, 10
+	SpeedS 10
+	AccelS 10, 10
+	AutoLJM On
 > 
 > 
 > 

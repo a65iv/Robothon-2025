@@ -17,7 +17,7 @@ picked_screws = []
 
 async def pick_screw(midpoint):
     global picked_screws
-    if isinstance(midpoint, list):
+    if isinstance(midpoint, list) and len(midpoint) > len(picked_screws):
         target = midpoint[len(picked_screws)]
         if (target not in picked_screws):
             world_point = epson.getWorldCoordinates(target)
@@ -27,10 +27,12 @@ async def pick_screw(midpoint):
             picked_screws.append(target)
 
 
-screwHoleDetector = ScrewHoleDetector(callback=pick_screw)
+screwHoleDetector = ScrewHoleDetector("ScrewHoleDetector", callback=pick_screw)
 
 async def main():
     cam.take_picture(filename="./local-frame.png")
+    
+    await epson.goto(0, 750, 500)
     await cam.live_feed(detectors=[screwHoleDetector])
 
 if __name__ == "__main__":

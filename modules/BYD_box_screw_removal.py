@@ -1,5 +1,9 @@
 import cv2
 import numpy as np
+from modules.Camera import Cam
+
+
+cam = Cam(0)
 
 def pick(x, y):
     """
@@ -34,8 +38,8 @@ def detect_screw_holes(image):
         minDist=50,        # Minimum distance between circle centers
         param1=50,         # Upper threshold for edge detection
         param2=20,         # Accumulator threshold for center detection
-        minRadius=10,       # Minimum circle radius
-        maxRadius=20       # Maximum circle radius
+        minRadius=12,       # Minimum circle radius
+        maxRadius=25       # Maximum circle radius
     )
     
     hole_centers = []
@@ -147,56 +151,12 @@ def detect_holes_by_contours(image, result):
     return hole_centers
 
 def capture_and_process_holes():
-    """
-    Capture image from webcam and process screw holes
-    """
-    cap = cv2.VideoCapture(0)
-    
-    # Set camera resolution
-    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
-    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
-    
-    if not cap.isOpened():
-        print("Error: Could not open webcam")
-        return
-    
-    print("Electronic Box Screw Hole Detection")
-    print("==================================")
-    print("Position the electronic box in view...")
     
     # Preview mode
-    while True:
-        ret, frame = cap.read()
-        if not ret:
-            print("Error: Could not read frame from webcam")
-            cap.release()
-            return
-        
-        # Display preview with instructions
-        preview = frame.copy()
-        cv2.putText(preview, 'Position electronic box with 4 screw holes visible', (10, 30), 
-                   cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
-        cv2.putText(preview, 'Press SPACE to capture and detect holes', (10, 60), 
-                   cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
-        cv2.putText(preview, 'Press Q to quit', (10, 90), 
-                   cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-        
-        cv2.imshow('Electronic Box - Position for Capture', preview)
-        
-        key = cv2.waitKey(1) & 0xFF
-        if key == ord(' '):  # Space bar to capture
-            captured_frame = frame.copy()
-            print("Image captured! Detecting screw holes...")
-            break
-        elif key == ord('q'):
-            cap.release()
-            cv2.destroyAllWindows()
-            return
-    
-    cap.release()
+    cam.take_picture(filename="./byd-pic.png")
     
     # Process the captured image
-    hole_centers, result_image = detect_screw_holes(captured_frame)
+    hole_centers, result_image = detect_screw_holes(cv2.imread("./byd-pic.png"))
     
     if len(hole_centers) == 0:
         print("No screw holes detected in the captured image.")
@@ -295,6 +255,6 @@ if __name__ == "__main__":
     # Webcam capture mode with camera index 1
     print("Screw Hole Detection System")
     print("===========================")
-    print("Using webcam index 1...")
+    print("Using webcam")
     capture_and_process_holes()
 

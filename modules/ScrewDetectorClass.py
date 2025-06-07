@@ -5,15 +5,15 @@ from modules.DetectorClass import Detector, DetectionResult
 
 
 class ScrewHoleDetector(Detector):
-    def __init__(self, callback):
+    def __init__(self, name, callback):
+        self.name = name
         self.callback = callback
-        super().__init__("ScrewDetector")
 
-    def detect(self, frame) -> DetectionResult:
+    async def detect(self, frame) -> DetectionResult:
         holes_xy = self._detect_screw_holes(frame)   # list[(x,y)]
         points   = [Point(x, y) for (x, y) in holes_xy]
         if self.callback and points:
-            self.callback(points)
+            await self.callback(points)
         return DetectionResult(self.name, points if points else None)
 
     def _detect_screw_holes(self, image):

@@ -1,5 +1,12 @@
 import cv2
 import numpy as np
+from modules.Camera import Cam 
+from modules.EpsonController import EpsonController
+from modules.PointClass import Point
+from time import sleep
+
+import tracemalloc
+tracemalloc.start()
 
 def detect_bolts(image_path):
     """
@@ -83,6 +90,8 @@ def detect_bolts(image_path):
     
     return result, binary
 
+
+epson = EpsonController()
 def main():
     # You can change this to your image path
     image_path = "bolts_image.jpg"  # Replace with your image path
@@ -123,52 +132,11 @@ def pick_bolt(x, y):
     # time.sleep(1)  # Simulate time taken to pick bolt
     
 def capture_and_process_bolts():
-    """
-    Capture a single image from webcam, detect bolts, and cycle through center points
-    """
-    cap = cv2.VideoCapture(1)
-    
-    # Set camera resolution for better performance
-    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
-    
-    if not cap.isOpened():
-        print("Error: Could not open webcam")
-        return
-    
-    print("Initializing camera...")
-    
-    # Preview mode - show live feed until user presses SPACE to capture
-    while True:
-        ret, frame = cap.read()
-        if not ret:
-            print("Error: Could not read frame from webcam")
-            cap.release()
-            return
-        
-        # Display preview with instructions
-        preview = frame.copy()
-        cv2.putText(preview, 'Press SPACE to capture image', (10, 30), 
-                   cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
-        cv2.putText(preview, 'Press Q to quit', (10, 60), 
-                   cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-        
-        cv2.imshow('Camera Preview - Position your bolts', preview)
-        
-        key = cv2.waitKey(1) & 0xFF
-        if key == ord(' '):  # Space bar to capture
-            captured_frame = frame.copy()
-            print("Image captured! Processing...")
-            break
-        elif key == ord('q'):
-            cap.release()
-            cv2.destroyAllWindows()
-            return
-    
-    cap.release()
+    cam = Cam(0)
+    cam.take_picture(filename="./byd-pic.png")
     
     # Process the captured image
-    bolt_centers = process_captured_image(captured_frame)
+    bolt_centers = process_captured_image(cv2.imread("./byd-pic.png"))
     
     if not bolt_centers:
         print("No bolts detected in the captured image.")
@@ -180,7 +148,13 @@ def capture_and_process_bolts():
     # Cycle through all center points and call pick_bolt function
     for i, (x, y) in enumerate(bolt_centers, 1):
         print(f"\nProcessing bolt {i}/{len(bolt_centers)}")
-        pick_bolt(x, y)
+        world_point = epson.getWorldCoordinates(Point(x, y))
+        # remember to put limiter here to make sure the point is inside the intended area
+        epson.goto(x=world_point.x, y=(world_point.y)-155, z=416)
+        sleep(5)
+        epson.goto(x=0, y=600, z=550)
+        sleep(5)        
+        # pick_bolt(x, y)
         
         # Optional: Add delay between picks
         # time.sleep(2)  # Uncomment if you want delay between picks
@@ -188,9 +162,9 @@ def capture_and_process_bolts():
     print(f"\nCompleted processing all {len(bolt_centers)} bolts!")
     
     # Keep the result window open until user presses a key
-    print("Press any key to close the result window...")
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    # print("Press any key to close the result window...")
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
 
 def process_captured_image(frame):
     """
@@ -249,24 +223,24 @@ def process_captured_image(frame):
             bolt_centers.append((cx, cy))
             
             # Draw visualization
-            cv2.drawContours(result, [contour], -1, (0, 255, 0), 2)
-            cv2.circle(result, (cx, cy), 5, (0, 0, 255), -1)  # Red filled circle
-            cv2.circle(result, (cx, cy), 8, (255, 0, 0), 2)   # Blue outline
-            cv2.putText(result, f'Bolt {len(bolt_centers)}', (cx - 30, cy - 15), 
-                       cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
+            # cv2.drawContours(result, [contour], -1, (0, 255, 0), 2)
+            # cv2.circle(result, (cx, cy), 5, (0, 0, 255), -1)  # Red filled circle
+            # cv2.circle(result, (cx, cy), 8, (255, 0, 0), 2)   # Blue outline
+            # cv2.putText(result, f'Bolt {len(bolt_centers)}', (cx - 30, cy - 15), 
+            #            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
             
-            print(f"Bolt {len(bolt_centers)}: Center at ({cx}, {cy}), Area: {area:.0f}, Circularity: {circularity:.2f}")
+            # print(f"Bolt {len(bolt_centers)}: Center at ({cx}, {cy}), Area: {area:.0f}, Circularity: {circularity:.2f}")
     
     # Display result
-    cv2.putText(result, f'Total bolts found: {len(bolt_centers)}', (10, 30), 
-               cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 255), 2)
+    # cv2.putText(result, f'Total bolts found: {len(bolt_centers)}', (10, 30), 
+    #            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 255), 2)
     
-    cv2.imshow('Detected Bolts - Processing Complete', result)
-    cv2.imshow('Binary Image', binary)
+    # cv2.imshow('Detected Bolts - Processing Complete', result)
+    # cv2.imshow('Binary Image', binary)
     
-    # Save the result
-    cv2.imwrite('bolt_detection_result.jpg', result)
-    print(f"\nResult image saved as 'bolt_detection_result.jpg'")
+    # # Save the result
+    # cv2.imwrite('bolt_detection_result.jpg', result)
+    # print(f"\nResult image saved as 'bolt_detection_result.jpg'")
     
     return bolt_centers
 

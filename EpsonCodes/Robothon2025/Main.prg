@@ -55,6 +55,7 @@ Function main
     
    		Print "Going to x=", x, " y=", y, " z=", z
 	   	Go Here :X(x) :Y(y) :Z(z)
+	   	sayOK
    EndIf
    
    If LCase$(indata$(0)) = "m" Then

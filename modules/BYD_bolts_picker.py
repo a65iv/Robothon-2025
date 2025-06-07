@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+from modules.Camera import Cam
 
 def detect_bolts(image_path):
     """
@@ -85,7 +86,14 @@ def detect_bolts(image_path):
 
 def main():
     # You can change this to your image path
-    image_path = "bolts_image.jpg"  # Replace with your image path
+    # image_path = "bolts_image.jpg"  # Replace with your image path
+    cam = Cam(0)
+    cam.take_picture(filename="./byd-pic.png")
+    
+    # Process the captured image
+    result, binary = detect_bolts(cv2.imread("./byd-pic.png"))
+    
+    
     
     # For webcam capture (uncomment the following lines if you want to use webcam)
     # cap = cv2.VideoCapture(0)
@@ -95,7 +103,7 @@ def main():
     #     image_path = "captured_frame.jpg"
     # cap.release()
     
-    result, binary = detect_bolts(image_path)
+    # result, binary = detect_bolts(image_path)
     
     if result is not None:
         # Display results
