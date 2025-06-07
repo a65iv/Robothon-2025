@@ -14,7 +14,7 @@ class DetectionResult:
         
 
 class Detector:
-    def __init__(self, name):
+    def __init__(self, name, callback: None):
         print(f"Initialized {name} Detector")
 
     def detect(self, imageBinary) -> DetectionResult:

@@ -51,12 +51,13 @@ class ColorDetector(Detector):
         brightness_threshold=10  # Only detect bright blue (50 is the max)
     )
 
-    def __init__(self, name, filters: Optional[List[ColorFilter]] = None):
+    def __init__(self, name, filters: Optional[List[ColorFilter]] = None, callback = None):
         """
         Args:
             filters: Optional list of custom ColorFilter instances.
         """
         self.name = name
+        self.callback = callback
         self.filters = filters if filters is not None else [self.RED_FILTER, self.BLUE_FILTER]
     
     def set_filters(self, filters: Optional[List[ColorFilter]] = None):
@@ -131,6 +132,8 @@ class ColorDetector(Detector):
             detectionResult.append(DetectionResult(self.name, points[key]))
         
         if (len(detectionResult)):
+            if self.callback:
+                self.callback(detectionResult[0].midpoint)
             return detectionResult[0]
         return DetectionResult(self.name, None)
 
