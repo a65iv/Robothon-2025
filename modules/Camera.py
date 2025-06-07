@@ -82,7 +82,7 @@ class Cam:
                     # detectors should as have a string value such that it prints out the output of the detections  
                     detection = detector.detect(frame)
                     
-                    if detection.midpoint is not None and (count % 5 == 0):
+                    if count % 5 == 0:
                         self.put_text(frame, str(detection), top= 20 + index * 25)
 
             if not ret:
