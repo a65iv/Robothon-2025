@@ -90,12 +90,10 @@ class ColorDetector(Detector):
                 if brightness < f.brightness_threshold:
                     midpoint = None  # Detected region too dark
 
-            if midpoint is not None:
-                midpoint = Point(midpoint[0], midpoint[1])
-                results[f.name] = midpoint 
-
             # Draw on annotated image
             if midpoint:
+                midpoint = Point(midpoint[0], midpoint[1])
+                results[f.name] = midpoint 
                 color_bgr = self._label_color(f.name)
                 cv2.circle(annotated, (midpoint.x, midpoint.y), 6, color_bgr, -1)
                 cv2.putText(annotated, f.name.upper(), (midpoint.x + 5, midpoint.y),
@@ -103,16 +101,23 @@ class ColorDetector(Detector):
 
         return annotated, results
 
-    def _get_largest_midpoint(self, contours: List[np.ndarray]) -> Optional[Tuple[int, int]]:
+    def _get_largest_midpoint(self, contours: List[np.ndarray], min_area: int = 500) -> Optional[Tuple[int, int]]:
         if not contours:
             return None
-        largest = max(contours, key=cv2.contourArea)
+
+        # Filter out small contours
+        large_contours = [c for c in contours if cv2.contourArea(c) >= min_area]
+        if not large_contours:
+            return None
+
+        largest = max(large_contours, key=cv2.contourArea)
         M = cv2.moments(largest)
         if M["m00"] == 0:
             return None
         cx = int(M["m10"] / M["m00"])
         cy = int(M["m01"] / M["m00"])
         return (cx, cy)
+
 
     def _label_color(self, name: str) -> Tuple[int, int, int]:
         return {
@@ -121,29 +126,21 @@ class ColorDetector(Detector):
         }.get(name.lower(), (255, 255, 255))  # default: white
 
     
-    def detect(self, imageBinary) -> DetectionResult:
+    async def detect(self, imageBinary) -> DetectionResult:
         _, points = self.detect_main_color_midpoints(image_bgr=imageBinary)
         keyList = list(points.keys())
 
         detectionResult = []
 
         for key in keyList:
+            print(key, points[key])
             detectionResult.append(DetectionResult(self.name, points[key]))
         
         if (len(detectionResult)):
-            if self.callback:
-                self.callback(detectionResult[0].midpoint)
+            print("Detected something", detectionResult[0].midpoint)
+            if self.callback and (detectionResult[0].midpoint is not None):
+                await self.callback(detectionResult[0].midpoint)
             return detectionResult[0]
+    
+        print("Did not detect")
         return DetectionResult(self.name, None)
-
-if __name__ == "__main__":
-    calibrator = Calibrator()
-    image = cv2.imread("./output/red_on.png")  # Replace with your actual image
-    perception = ColorDetector(filters=[ColorDetector.RED_FILTER, ColorDetector.BLUE_FILTER])
-
-    annotated_image, points = perception.detect_main_color_midpoints(image)
-
-
-    cv2.imshow("Detected Points", annotated_image)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()

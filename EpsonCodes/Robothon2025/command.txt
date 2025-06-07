@@ -697,6 +697,15 @@ print here
 > 
 > 
 > go camRedBlueButtons
+> go BallSensor1 ljm
+> go BallWpt1 ljm
+> go BallWpt2 ljm
+> go BallSensor2 ljm
+> go BallWpt3 ljm
+> go BallWpt4 ljm
+> go BallWpt5 ljm
+> go ballwpt6 ljm
+> go ballwpt7 ljm
 > 
 > 
 > 

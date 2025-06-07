@@ -1,12 +1,3 @@
-go penDropApproach +z(20) ljm
-on 10
-go penFlippedReadyforBall ljm
-go BallSensor1 ljm
-go BallWpt1 ljm
-go ballwpt2 ljm
-go BallSensor2 ljm
-go BallSensor2 +z(100) ljm
-go BallSensor2 ljm
 go BluePress +z(100) ljm
 go ballHole +z(100)
 go ballHole ljm
@@ -98,3 +89,12 @@
 go here -z(50)
 go here -z(100) ljm
 go camRedBlueButtons
+go BallSensor1 ljm
+go BallWpt1 ljm
+go BallWpt2 ljm
+go BallSensor2 ljm
+go BallWpt3 ljm
+go BallWpt4 ljm
+go BallWpt5 ljm
+go ballwpt6 ljm
+go ballwpt7 ljm

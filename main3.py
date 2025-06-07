@@ -97,24 +97,26 @@ async def main():
 
     await epson.executeTask(EpsonController.Action.SCREEN_CAMERA)
     await asyncio.sleep(1)
-
-    await epson.executeTask(EpsonController.Action.DRAW_CIRCLE)
-    await asyncio.sleep(1)
-
+    
     await epson.executeTask(EpsonController.Action.DRAW_TRIANGLE)
+    await asyncio.sleep(1)
+    
+    await epson.executeTask(EpsonController.Action.DRAW_CIRCLE)
     await asyncio.sleep(1)
 
     await epson.executeTask(EpsonController.Action.DRAW_SQUARE)
     await asyncio.sleep(1)
 
+    await epson.executeTask(EpsonController.Action.SWIPE_BA)
+    await asyncio.sleep(1)
+    
     await epson.executeTask(EpsonController.Action.TAP_A)
     await asyncio.sleep(1)
 
     await epson.executeTask(EpsonController.Action.SWIPE_AB)
     await asyncio.sleep(1)
     
-    await epson.executeTask(EpsonController.Action.SWIPE_GB)
-    await asyncio.sleep(1)
+
 
     await epson.executeTask(EpsonController.Action.BALL_MAZE_1)
     await asyncio.sleep(1)

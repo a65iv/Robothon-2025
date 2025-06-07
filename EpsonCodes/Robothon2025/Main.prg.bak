@@ -15,9 +15,11 @@ Function main
 	AccelS 10, 10
 	AutoLJM On
 	
+	
 ' going to camera position
   Go CameraPoint
-
+  On 10
+  
   SetNet #201, "192.168.1.2", 2001, CRLF
   ' SetNet #201, "127.0.0.1", 2001, CRLF
   OpenNet #201 As Server
@@ -284,9 +286,21 @@ Function go_penPick
 	On 10
 	Wait 1
 	Go penPickRetract LJM
+	Speed 15
+	SpeedR 15
+	Accel 10, 10
+	AccelR 10, 10
+	SpeedS 15
+	AccelS 10, 10
 	sayOK
 Fend
 Function go_ballMaze1
+	Speed 7
+	SpeedR 7
+	Accel 8, 8
+	AccelR 8, 8
+	SpeedS 7
+	AccelS 8, 8
 	Go penFlippedReadyforBall LJM
 	Go BallSensor1 +Z(20) LJM
 	Go BallSensor1 LJM
@@ -304,14 +318,16 @@ Function go_ballMaze1
 	Go ballPenRetractPoint LJM
 	Go penBluePressApproach LJM
 	Go penBluePress LJM
-	Wait 3
+	Wait 4
 	Go penBluePressApproach LJM
+	sayOK
 Fend
 Function go_ballMaze2 'must be executed right after go_ballMaze1
 	Go BallSensor1 LJM
 	Go BallWpt1 LJM
 	Go ballwpt2 LJM
 	Go BallSensor2 LJM
+	Wait 1
 	Go BallWpt3 LJM
 	Go BallWpt4 LJM
 	Go BallWpt5 LJM
@@ -334,148 +350,156 @@ Function go_ballMazeAll
 	go_ballMaze2
 Fend
 Function go_penPlace
+	Speed 15
+	SpeedR 15
+	Accel 10, 10
+	AccelR 10, 10
+	SpeedS 15
+	AccelS 10, 10
 	Go penDropApproach +Z(20) LJM
 	Go penDropApproach LJM
 	Go penDrop LJM
 	Off 10
 	Go penDropApproach +Z(20) LJM
 	On 10
+	Go CameraPoint LJM
 	sayOK
 Fend
 Function go_screenCamera
+	Go screenCameraPoint :Z(700) LJM
 	Go screenCameraPoint LJM
 	sayOK
 	
 Fend
 Function go_tapA
-	Go screenA +Z(10) LJM
-	Go screenA +Z(1.5) LJM
+	'Go screenA +Z(10) LJM
+	Go screenA +Z(3) LJM
 	Wait 1
-	Go screenA +Z(10) LJM
+	'Go screenA +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
 	
 Fend
 Function go_tapB
-	Go screenB +Z(10) LJM
-	Go screenB +Z(1.5) LJM
+	'Go screenB +Z(10) LJM
+	Go screenB +Z(3) LJM
 	Wait 1
-	Go screenB +Z(10) LJM
+	'Go screenB +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
 Fend
 Function go_tapBackground
-	Go screenABmid +Z(10) LJM
-	Go screenABmid +Z(1.5) LJM
+	'Go screenABmid +Z(10) LJM
+	Go screenABmid +Z(3) LJM
 	Wait 1
-	Go screenABmid +Z(10) LJM
+	'Go screenABmid +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
 Fend
 Function go_doubletapA
-	Go screenA +Z(10) LJM
-	Go screenA +Z(1.5) LJM
+	'Go screenA +Z(10) LJM
+	Go screenA +Z(3) LJM
 	Go screenA +Z(5) LJM
-	Go screenA +Z(1.5) LJM
-	Go screenA +Z(10) LJM
+	Go screenA +Z(3) LJM
+	'Go screenA +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
 Fend
 Function go_doubletapB
-	Go screenB +Z(10) LJM
-	Go screenB +Z(1.5) LJM
-	Go screenB +Z(5) LJM
-	Go screenB +Z(1.5) LJM
-	Go screenB +Z(10) LJM
+	'Go screenB +Z(10) LJM
+	Go screenB +Z(3) LJM
+	Go screenB +Z(4) LJM
+	Go screenB +Z(3) LJM
+	'Go screenB +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
 	
 Fend
 Function go_doubletapBackground
-	Go screenABmid +Z(10) LJM
+	'Go screenABmid +Z(10) LJM
 	Go screenABmid LJM
-	Go screenABmid +Z(5) LJM
+	Go screenABmid +Z(4) LJM
 	Go screenABmid LJM
-	Go screenABmid +Z(10) LJM
+	'Go screenABmid +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
 	
 Fend
 Function go_swipeAB
-	Go screenA +Z(10) LJM
-	Go screenA LJM
-	Go screenB LJM
-	Go screenB +Z(10) LJM
+	'Go screenA +Z(10) LJM
+	Go screenA +Z(3) LJM
+	Go screenB +Z(3) LJM
+	'Go screenB +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
 Fend
 Function go_swipeBA
-	Go screenB +Z(10) LJM
-	Go screenB +Z(1.5) LJM
-	Go screenA LJM
-	Go screenA +Z(10) LJM
+	'Go screenB +Z(10) LJM
+	Go screenB +Z(2.5) LJM
+	Go screenA +Z(2.5) LJM
+	'Go screenA +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
 Fend
 Function go_swipeBackgroundA
-	Go screenABmid +Z(10) LJM
-	Go screenABmid +Z(1.5) LJM
-	Go screenA LJM
+	'Go screenABmid +Z(10) LJM
+	Go screenABmid +Z(2.5) LJM
+	Go screenA +Z(2.5) LJM
 	Go screenA +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
 Fend
 Function go_swipeBackgroundB
-	Go screenABmid +Z(10) LJM
-	Go screenABmid +Z(1.5) LJM
-	Go screenB LJM
-	Go screenB +Z(10) LJM
+	'Go screenABmid +Z(10) LJM
+	Go screenABmid +Z(2.5) LJM
+	Go screenB +Z(2.5) LJM
+	'Go screenB +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
 Fend
 Function go_swipeABackground
-	Go screenA +Z(10) LJM
-	Go screenA +Z(1.5) LJM
+	'Go screenA +Z(10) LJM
+	Go screenA +Z(2.5) LJM
 	Go screenABmid LJM
 	Go screenABmid +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
 Fend
 Function go_swipeBBackground
-	Go screenB +Z(10) LJM
-	Go screenB +Z(1.5) LJM
+	'Go screenB +Z(10) LJM
+	Go screenB +Z(3) LJM
 	Go screenABmid LJM
-	Go screenABmid +Z(10) LJM
+	'Go screenABmid +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
 Fend
 Function go_drawCircle
-	Go screenABmid -Y(5) +Z(10) LJM
-	Go screenABmid -Y(5) +Z(1.5) LJM
+	'Go screenABmid -Y(5) +Z(10) LJM
+	Go screenABmid -Y(5) +Z(3) LJM
 	Arc3 Here -X(5) +Y(5), Here +X(0) +Y(10)
 	Arc3 Here +X(5) -Y(5), Here +X(0) -Y(10)
-	Go Here +Z(10) LJM
+	'Go Here +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
 Fend
 Function go_drawTriangle
-	Go screenABmid +Z(10) LJM
-	Go screenABmid +Z(1.5) LJM
+	'Go screenABmid +Z(10) LJM
+	Go screenABmid +Z(3) LJM
 	Go Here +Y(10) -X(10)
 	Go Here +X(20)
 	Go Here -X(10) -Y(10)
-	Go Here +Z(10) LJM
+	'Go Here +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
 Fend
 Function go_drawSquare
-	Go screenA +Z(10) LJM
-	Go screenA +Z(1.5) LJM
+	'Go screenA +Z(10) LJM
+	Go screenA +Z(3) LJM
 	Go Here +Y(10)
 	Go Here +X(20)
 	Go Here -Y(10)
 	Go Here -X(20)
-	Go Here +Z(10) LJM
+	'Go Here +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
 Fend

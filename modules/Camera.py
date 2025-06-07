@@ -1,3 +1,4 @@
+import asyncio
 import cv2
 import csv
 import math
@@ -13,6 +14,7 @@ class Cam:
         self.count = 0
         self.points = []
         self.selected_point = None
+
 
         if index != None:
             print(f"Initialize camera at index {index}")
@@ -33,7 +35,7 @@ class Cam:
         if not self.cap.isOpened():
             raise Exception("Error: Unable to open the camera.")
 
-    def take_picture(self, duration=10, filename="pic1.png"):
+    def take_picture(self, duration=20, filename="pic1.png"):
         count_duration = 0
         image_captured = False
 
@@ -82,33 +84,48 @@ class Cam:
                     lineType=cv2.LINE_AA)
 
 
-    def live_feed(self, detectors: list[Detector] = []):
+    async def live_feed(self, detectors: list[Detector] = []):
         self.running = True
-        while True:
+        count  = 0
+
+        while self.running:
+            count += 1
+            self._latest_detections = {}
             ret, frame = self.cap.read()
 
-            if detectors and len(detectors) != 0:
-                # we pass the detectors to detect things on each frame
-                for index, detector in enumerate(detectors):
-                    # detectors should return an object called a detection value
-                    # (true, midpoint, x,y,w,h) detectorName
-                    # detectors should as have a string value such that it prints out the output of the detections  
-                    detection = detector.detect(frame)
-                    
-                    
-                    self.put_text(frame, str(detection), top= 20 + index * 25)
-
-            if not ret:
+            if not ret or frame is None:
                 print("Error: Unable to read from the camera.")
                 break
             
             
-            cv2.imshow("Live Feed", frame)
+            async def detect_and_store(det, idx, current_frame):
+                result = await det.detect(current_frame)
+                self._latest_detections[idx] = str(result)
+
+            if detectors and count > 50:
+                for index, detector in enumerate(detectors):
+                    asyncio.create_task(detect_and_store(detector, index, frame.copy()))
+
+            # Draw previously stored detection results
+            for idx, text in self._latest_detections.items():
+                self.put_text(frame, text, top=20 + idx * 25)
+
+            try:
+                cv2.imshow("Live Feed", frame)
+            except cv2.error as e:
+                print("[cv2.imshow] Error:", e)
+                break
+
+            # waitKey MUST be called even in async apps or OpenCV won't show anything
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
 
+            # Give control back to event loop
+            await asyncio.sleep(0.001)
+
         self.release()
-    
+        cv2.destroyAllWindows()
+
     def stop_feed(self):
         self.running = False
 
@@ -150,7 +167,7 @@ class Cam:
             print(f"Coordinates saved to {filename}")
         return filename, self.points
 
-def main():
+async def main():
     parser = argparse.ArgumentParser(description="Perform Camera Operations like picture taking or live feed")
     parser.add_argument("--take_picture", type=int, nargs='?', const=0, help="Take a picture from the camera")
     parser.add_argument("--live_feed", action="store_true", help="Show a live feed from the camera")
@@ -167,13 +184,15 @@ def main():
         cam = Cam(0)
         cam.live_feed()
     elif args.live_feed_detect:
+        import tracemalloc
+        tracemalloc.start()
         cam = Cam(0)
 
         
         BLUE_FILTER_ON = ColorFilter("blue", [
             (np.array([100, 150, 0]), np.array([140, 255, 255]))
         ],
-            brightness_threshold=150  
+            brightness_threshold=200
         )
 
         RED_FILTER_ON = ColorFilter("red",[
@@ -189,7 +208,7 @@ def main():
         RedOnDetector = ColorDetector("RedOnDetector", filters=[RED_FILTER_ON]) 
         BlueOnDetector = ColorDetector("BlueOnDetector", filters=[BLUE_FILTER_ON]) 
  
-        cam.live_feed(detectors=[RedDetector, BlueDetector, RedOnDetector, BlueOnDetector])
+        await cam.live_feed(detectors=[RedOnDetector, BlueOnDetector])
 
     elif args.point:
         cam = Cam()
@@ -202,7 +221,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
 
 
 # Path: Modules/Calibrator.py

@@ -1,7 +1,8 @@
 from modules.PointClass import Point
+from typing import Optional
 
 class DetectionResult:
-    def __init__(self, name: str, midpoint: Point):
+    def __init__(self, name: str, midpoint: Optional[Point]):
         self.name = name
         self.midpoint = midpoint
 
