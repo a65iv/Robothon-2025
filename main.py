@@ -13,7 +13,7 @@ tracemalloc.start()
 # Initialization
 # ─────────────────────────────────────────────
 cam = Cam(0)
-lcd_cam = Cam(1)
+lcd_cam = Cam(2)
 epson = EpsonController()
 detector = ColorDetector("ColorPerception")
 
@@ -60,7 +60,7 @@ async def set_red_on(midpoint):
 
 async def read_instruction(led_instruction): 
     global count
-    if count > 6:
+    if count >= 6:
         lcd_cam.stop_feed()
         return
     print(led_instruction)
@@ -140,7 +140,6 @@ async def main():
 
     # Example switch statement using match-case (Python 3.10+)
     image = cv2.imread("./local-frame.png")
-    led_instruction = shapetextdetector.detect("./local-frame.png", "./local-frame.png")
     await lcd_cam.live_feed(detectors=[shapetextdetector])
 
 # instructions = [

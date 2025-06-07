@@ -8,11 +8,18 @@ import numpy as np
 import pytesseract
 import requests
 import Levenshtein
+import asyncio
 from PIL import Image
 from enum import Enum
-from modules.RecognizeText import detect_shape
+from modules.Camera import Cam
+
+
 
 from modules.DetectorClass import Detector, DetectionResult
+
+import tracemalloc
+tracemalloc.start()
+
 
 class OCRDetector(Enum):
     TESERACT = "teseract"
@@ -22,9 +29,14 @@ instructions = [
     "drag from b to background",
     "drag from b to back",
     "swipe up",
+    "swipe left",
+    "swipe right",
+    "swipe down",
     "drag from background to a",
+    "drag from background to b",
     "tap b",
     "long press b",
+    "long press a",
     "drag from a to background",
     "drag from b to a",
     "long press background",
@@ -52,13 +64,33 @@ def reduce_image_size(in_path: str, out_path: str, quality: int = 85) -> None:
         print(f"[!] File not found: {in_path}")
 
 
-def resize_image(in_path: str, out_path: str, width: int, height: int) -> None:
-    """Resize image to specific dimensions."""
+# def resize_image(in_path: str, out_path: str, width: int, height: int) -> None:
+#     """Resize image to specific dimensions."""
+#     try:
+#         img = Image.open(in_path)
+#         img.resize((width, height), Image.Resampling.LANCZOS).save(out_path)
+#     except FileNotFoundError:
+#         print(f"[!] File not found: {in_path}")
+
+
+def resize_image(image_bgr: np.ndarray, width: int, height: int) -> np.ndarray:
+    """
+    Resize an OpenCV (BGR) image in memory and return the resized image (still BGR).
+    
+    Args:
+        image_bgr (np.ndarray): The original OpenCV image (BGR format).
+        width (int): Target width.
+        height (int): Target height.
+
+    Returns:
+        np.ndarray: The resized OpenCV image.
+    """
     try:
-        img = Image.open(in_path)
-        img.resize((width, height), Image.Resampling.LANCZOS).save(out_path)
-    except FileNotFoundError:
-        print(f"[!] File not found: {in_path}")
+        resized = cv2.resize(image_bgr, (width, height), interpolation=cv2.INTER_LANCZOS4)
+        return resized
+    except Exception as e:
+        print(f"[!] Error resizing image: {e}")
+        return image_bgr  # Return original if resizing fails
 
 
 def circularity(contour: np.ndarray) -> float:
@@ -73,10 +105,9 @@ def approximate_polygon(contour: np.ndarray, eps_ratio: float = 0.02) -> np.ndar
     return cv2.approxPolyDP(contour, eps_ratio * perim, True)
 
 
-def detect_orange_shape(img_path: str) -> str:
-    img = cv2.imread(img_path)
+def detect_orange_shape(img) -> str:
     if img is None:
-        raise ValueError(f"Unable to load image: {img_path}")
+        raise ValueError(f"Unable to load image")
 
     h, w = img.shape[:2]
     blur = cv2.GaussianBlur(img, GAUSSIAN_BLUR, 0)
@@ -177,13 +208,12 @@ class EasyOCRRecognizer:
 class TesseractRecognizer:
     def __init__(self, lang: str = 'eng'):
         self.lang = lang
-        self.original_img_path = ""
 
-    def get_readable_text(self, img_path: str, original_img_path: str) -> str:
-        self.original_img_path = original_img_path
-        img = cv2.imread(img_path)
+    def get_readable_text(self, img) -> str:
+        # self.original_img_path = original_img_path
+        # img = cv2.imread(img_path)
         if img is None:
-            raise ValueError(f"Unable to load image: {img_path}")
+            raise ValueError(f"Unable to load image")
 
         roi = crop_region(img, CROP_REGION)
         if roi.size == 0:
@@ -204,25 +234,31 @@ class TesseractRecognizer:
             if len(result) > 0:
                 return ' '.join(result).lower()
 
-        return detect_orange_shape(original_img_path)
+        return detect_orange_shape(img)
 
 
 # ─── Detector Implementation ────────────────────────────────────────────────
 class ShapeTextDetector(Detector):
-    def __init__(self, model = OCRDetector.TESERACT, use_api: bool = True, callback = None):
+    def __init__(self, model = OCRDetector.TESERACT, use_api: bool = False, callback = None):
         self.use_api = use_api
         self.model: OCRDetector = model
         self.callback = callback
+        self.img_path = "./cropped.jpg"
 
-    def detect(self, img_path: str, originial_img_path: str) -> DetectionResult:
+    async def detect(self, frame) -> DetectionResult:
+        img = resize_image(frame, width=600, height=400)
         if self.use_api:
-            return self._detect_via_api(img_path)
+            return self._detect_via_api(self.img_path)
         
         if self.model == OCRDetector.TESERACT:
-            text = handle_levenshtein_distance(instructions, TesseractRecognizer().get_readable_text(img_path, originial_img_path))
+            text = handle_levenshtein_distance(instructions, TesseractRecognizer().get_readable_text(img))
+            if self.callback is not None:
+                await self.callback(text)
             return DetectionResult(text, None)
         else:
-            text = handle_levenshtein_distance(instructions, EasyOCRRecognizer().get_readable_text(img_path, originial_img_path))
+            text = handle_levenshtein_distance(instructions, EasyOCRRecognizer().get_readable_text(img, ""))
+            if self.callback is not None:
+                await self.callback(text)
             return DetectionResult(text, None)
 
     @staticmethod
@@ -239,18 +275,21 @@ class ShapeTextDetector(Detector):
 
 
 # ─── Main Execution ─────────────────────────────────────────────────────────
-def main():
-    img_src = './resources/messages/WIN_20250522_21_16_42_Pro.jpg'
-    out = './cropped.jpg'
-    resize_image(img_src, out, width=600, height=400)
+async def main():
+    # img_src = './resources/messages/WIN_20250522_21_16_42_Pro.jpg'
+    # out = './cropped.jpg'
+    # resize_image(img_src, out, width=600, height=400)
+    cam = Cam(2)
+    cam.take_picture(filename="piccc.png")
+    img = cv2.imread("piccc.png")
 
     detector = ShapeTextDetector(model=OCRDetector.TESERACT, use_api=False)
     start_time = time.time()
-    result = detector.detect(out, img_src)
+    result = await detector.detect(img)
     print(result)
     print(f"Elapsed: {time.time() - start_time:.2f}s")
 
 
 if __name__ == '__main__':
-    main()
+    asyncio.run(main())
 

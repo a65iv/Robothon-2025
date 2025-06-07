@@ -725,6 +725,7 @@ print here
  X:  -13.763 Y:  646.541 Z:  600.000 U:    0.000 V:    0.000 W:  -90.000 /R /A /F /J6F0 /J4F0 /0
 > go camerapoint ljm
 > go camerapoint ljm
+> 
 > go CameraPoint
 !!Error: 10000, Command aborted by user
 > 
