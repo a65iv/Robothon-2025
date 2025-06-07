@@ -3,7 +3,7 @@ import numpy as np
 from modules.Camera import Cam 
 from modules.EpsonController import EpsonController
 from modules.ColorPerception import ColorPerception, ColorFilter
-
+from time import sleep
 
 # Setting up color filters
 RED_FILTER_ON = ColorFilter(
@@ -69,10 +69,49 @@ robot_point_A = epson.getWorldCoordinates(cam_point_A)
 robot_point_B = epson.getWorldCoordinates(cam_point_B)
 
 epson.setLocalFrame(robot_point_B, robot_point_A) 
-
+epson.executeTask(EpsonController.Action.PRESS_RED_BLUE_RED)
+sleep(7)
+epson.executeTask(EpsonController.Action.PRESS_RED)
+sleep(3)
+#epson.executeTask(EpsonController.Action.PRESS_BLUE)
+#sleep(1)
 epson.executeTask(EpsonController.Action.PEN_PICK)
-
-
-
-
+sleep(7)
+epson.executeTask(EpsonController.Action.SCREEN_CAMERA)
+sleep(3)
+epson.executeTask(EpsonController.Action.DRAW_CIRCLE)
+sleep(3)
+# epson.executeTask(EpsonController.Action.DRAW_TRIANGLE)
+# sleep(3)
+# epson.executeTask(EpsonController.Action.DRAW_SQUARE)
+# sleep(3)
+# epson.executeTask(EpsonController.Action.TAP_A)
+# sleep(3)
+# epson.executeTask(EpsonController.Action.TAP_B)
+# sleep(3)
+# epson.executeTask(EpsonController.Action.TAP_G)
+# sleep(3)
+# epson.executeTask(EpsonController.Action.DTAP_A)
+# sleep(3)
+# epson.executeTask(EpsonController.Action.DTAP_B)
+# sleep(3)
+epson.executeTask(EpsonController.Action.DTAP_G)
+sleep(4)
+epson.executeTask(EpsonController.Action.SWIPE_AB)
+sleep(3)
+# epson.executeTask(EpsonController.Action.SWIPE_BA)
+# sleep(3)
+# epson.executeTask(EpsonController.Action.SWIPE_AG)
+# sleep(3)
+epson.executeTask(EpsonController.Action.SWIPE_BG)
+sleep(3)
+#epson.executeTask(EpsonController.Action.SWIPE_GA)
+#sleep(3)
+epson.executeTask(EpsonController.Action.SWIPE_GB)
+sleep(3)
+epson.executeTask(EpsonController.Action.BALL_MAZE_1)
+sleep(20)
+epson.executeTask(EpsonController.Action.BALL_MAZE_2)
+sleep(40)
+epson.executeTask(EpsonController.Action.PEN_PLACE)
 

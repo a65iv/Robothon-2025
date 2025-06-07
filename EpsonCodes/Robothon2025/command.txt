@@ -686,6 +686,15 @@ print here
 > 
 >  go redPress +z(100) ljm
 > 
+> go BluePress +z(100) ljm
+> 
+> 
+> go CameraPoint ljm
+> go here!!Error: 10000, Command aborted by user
+> 
+> go here -z(100) ljm
+> 
+> 
 > 
 > 
 > 
