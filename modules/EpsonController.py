@@ -87,7 +87,7 @@ class EpsonController:
         # setting up socket
         self.clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.clientSocket.connect((EPSON_ROBOT_IP, 2001))
-        self.clientSocket.settimeout(5) 
+        self.clientSocket.settimeout(30) 
 
         # set up calibrator
         self.calibrator = Calibrator()
