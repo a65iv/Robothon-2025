@@ -57,16 +57,30 @@ class Cam:
         return False
     
     def put_text(self, frame, text, left = 10, top = 30):
-        cv2.putText(
-            frame,
-            text,
-            org=(left, top),  # Top-left corner
-            fontFace=cv2.FONT_HERSHEY_SIMPLEX,
-            fontScale=0.8,
-            color=(0, 255, 0),  # Green
-            thickness=2,
-            lineType=cv2.LINE_AA
-        )
+        font_scale = 0.8
+        thickness = 2
+        font = cv2.FONT_HERSHEY_SIMPLEX
+
+        # Get text size
+        (text_width, text_height), _ = cv2.getTextSize(text, font, font_scale, thickness)
+
+        # Draw filled rectangle as background
+        cv2.rectangle(frame,
+                    (left - 5, top - text_height - 5),
+                    (left + text_width + 5, top + 5),
+                    (0, 0, 0),  # Black background
+                    thickness=cv2.FILLED)
+
+        # Draw text on top
+        cv2.putText(frame,
+                    text,
+                    org=(left, top),
+                    fontFace=font,
+                    fontScale=font_scale,
+                    color=(0, 255, 0),  # Green
+                    thickness=thickness,
+                    lineType=cv2.LINE_AA)
+
 
     def live_feed(self, detectors: list[Detector] = []):
         count = 0
