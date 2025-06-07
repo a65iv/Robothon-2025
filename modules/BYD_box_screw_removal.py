@@ -150,7 +150,7 @@ def capture_and_process_holes():
     """
     Capture image from webcam and process screw holes
     """
-    cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(0)
     
     # Set camera resolution
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
