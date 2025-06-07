@@ -4,6 +4,7 @@ import asyncio
 from modules.Camera import Cam
 from modules.EpsonController import EpsonController
 from modules.ColorDetectorClass import ColorDetector, ColorFilter
+from modules.ShapeTextDetector import ShapeTextDetector
 
 import tracemalloc
 tracemalloc.start()
@@ -12,6 +13,7 @@ tracemalloc.start()
 # Initialization
 # ─────────────────────────────────────────────
 cam = Cam(0)
+lcd_cam = Cam(1)
 epson = EpsonController()
 detector = ColorDetector("ColorPerception")
 
@@ -38,6 +40,7 @@ RED_FILTER_ON = ColorFilter(
 # ─────────────────────────────────────────────
 blue_on = False
 red_on = False
+count = 0
 
 async def set_blue_on(midpoint):
     global blue_on
@@ -54,6 +57,39 @@ async def set_red_on(midpoint):
         print("Red On", midpoint)
         await epson.executeTask(EpsonController.Action.PRESS_RED)
         cam.stop_feed()
+
+async def read_instruction(led_instruction): 
+    global count
+    if count > 6:
+        lcd_cam.stop_feed()
+        return
+    print(led_instruction)
+    match led_instruction:
+        case "circle":
+            print("Detected shape: Circle")
+            await epson.executeTask(EpsonController.Action.DRAW_CIRCLE)
+        case "triangle":
+            print("Detected shape: Triangle")
+            await epson.executeTask(EpsonController.Action.DRAW_TRIANGLE)
+        case "square":
+            print("Detected shape: Square")
+            await epson.executeTask(EpsonController.Action.DRAW_SQUARE)
+        case "drag from b to background":
+            await epson.executeTask(EpsonController.Action.SWIPE_BG)
+        case "drag from a to background":
+            await epson.executeTask(EpsonController.Action.SWIPE_AG)
+        case "drag from brackground to a":
+            await epson.executeTask(EpsonController.Action.SWIPE_GA)
+        case "tap b":
+            await epson.executeTask(EpsonController.Action.TAP_B)
+        case "drag from b to a":
+            await epson.executeTask(EpsonController.Action.SWIPE_BA)
+        case "double tap a":
+            await epson.executeTask(EpsonController.Action.DTAP_A)
+        case _:
+            print("Unknown shape detected")
+            await epson.executeTask(EpsonController.Action.TAP_G)
+    count += 1
 
 BlueOnDetector = ColorDetector("BlueOnDetector", filters=[BLUE_FILTER_ON], callback=set_blue_on)
 RedOnDetector = ColorDetector("RedOnDetector", filters=[RED_FILTER_ON], callback=set_red_on)
@@ -75,8 +111,10 @@ async def main():
 
     print(f"Found buttons: blue={cam_point_blue}, red={cam_point_red}")
 
-    blue_point = epson.getWorldCoordinates(cam_point_blue)
-    red_point = epson.getWorldCoordinates(cam_point_red)
+    if cam_point_blue:
+        blue_point = epson.getWorldCoordinates(cam_point_blue)
+    if cam_point_red: 
+        red_point = epson.getWorldCoordinates(cam_point_red)
 
     epson.setLocalFrame(blue_point, red_point)
 
@@ -98,23 +136,47 @@ async def main():
     await epson.executeTask(EpsonController.Action.SCREEN_CAMERA)
     await asyncio.sleep(1)
 
-    await epson.executeTask(EpsonController.Action.DRAW_CIRCLE)
-    await asyncio.sleep(1)
+    shapetextdetector = ShapeTextDetector(callback=read_instruction)
 
-    await epson.executeTask(EpsonController.Action.DRAW_TRIANGLE)
-    await asyncio.sleep(1)
+    # Example switch statement using match-case (Python 3.10+)
+    image = cv2.imread("./local-frame.png")
+    led_instruction = shapetextdetector.detect("./local-frame.png", "./local-frame.png")
+    await lcd_cam.live_feed(detectors=[shapetextdetector])
 
-    await epson.executeTask(EpsonController.Action.DRAW_SQUARE)
-    await asyncio.sleep(1)
+# instructions = [
+#     # "drag from b to background",
+#     # "drag from b to back",
+#     "swipe up",
+#     # "drag from background to a",
+#     # "tap b",
+#     "long press b",
+#     # "drag from a to background",
+#     # "drag from b to a",
+#     "long press background",
+#     # "double tap a",
+#     # "circle",
+#     # "rectangle",
+#     # "triangle"
+# ]
 
-    await epson.executeTask(EpsonController.Action.TAP_A)
-    await asyncio.sleep(1)
 
-    await epson.executeTask(EpsonController.Action.SWIPE_AB)
-    await asyncio.sleep(1)
+    # await epson.executeTask(EpsonController.Action.DRAW_CIRCLE)
+    # await asyncio.sleep(1)
+
+    # await epson.executeTask(EpsonController.Action.DRAW_TRIANGLE)
+    # await asyncio.sleep(1)
+
+    # await epson.executeTask(EpsonController.Action.DRAW_SQUARE)
+    # await asyncio.sleep(1)
+
+    # await epson.executeTask(EpsonController.Action.TAP_A)
+    # await asyncio.sleep(1)
+
+    # await epson.executeTask(EpsonController.Action.SWIPE_AB)
+    # await asyncio.sleep(1)
     
-    await epson.executeTask(EpsonController.Action.SWIPE_GB)
-    await asyncio.sleep(1)
+    # await epson.executeTask(EpsonController.Action.SWIPE_GB)
+    # await asyncio.sleep(1)
 
     await epson.executeTask(EpsonController.Action.BALL_MAZE_1)
     await asyncio.sleep(1)
