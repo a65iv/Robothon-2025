@@ -2,8 +2,9 @@ import cv2
 import numpy as np
 from modules.Camera import Cam 
 from modules.EpsonController import EpsonController
-from modules.ColorPerception import ColorPerception, ColorFilter
 from time import sleep
+from modules.ColorDetector import ColorDetector, ColorFilter
+
 
 # Setting up color filters
 RED_FILTER_ON = ColorFilter(
@@ -45,7 +46,7 @@ BLUE_FILTER_OFF = ColorFilter(
 
 cam = Cam(0)
 epson = EpsonController()
-colorPerception = ColorPerception()
+colorPerception = ColorDetector()
 
 # take picture from home point
 cam.take_picture(filename="./local-frame.png")

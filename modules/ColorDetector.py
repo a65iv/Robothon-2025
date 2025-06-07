@@ -1,7 +1,15 @@
 import cv2
-from modules.PointClass import Point
-from modules.Camera import Cam
-from modules.Calibrator import Calibrator
+
+
+from PointClass import Point
+from Detector import Detector, DetectionResult
+from Camera import Cam
+from Calibrator import Calibrator
+
+# from modules.PointClass import Point
+# from modules.Camera import Cam
+# from modules.Calibrator import Calibrator
+
 import numpy as np
 from typing import List, Tuple, Dict, Optional
 
@@ -24,7 +32,7 @@ class ColorFilter:
         self.brightness_threshold = brightness_threshold
 
 
-class ColorPerception:
+class ColorDetector(Detector):
     # Public, built-in filters
     RED_FILTER = ColorFilter(
         "red",
@@ -43,11 +51,12 @@ class ColorPerception:
         brightness_threshold=10  # Only detect bright blue (50 is the max)
     )
 
-    def __init__(self, filters: Optional[List[ColorFilter]] = None):
+    def __init__(self, detectorName, filters: Optional[List[ColorFilter]] = None):
         """
         Args:
             filters: Optional list of custom ColorFilter instances.
         """
+        self.detectorName = detectorName
         self.filters = filters if filters is not None else [self.RED_FILTER, self.BLUE_FILTER]
     
     def set_filters(self, filters: Optional[List[ColorFilter]] = None):
@@ -81,8 +90,9 @@ class ColorPerception:
                 if brightness < f.brightness_threshold:
                     midpoint = None  # Detected region too dark
 
-            midpoint = Point(midpoint[0], midpoint[1])
-            results[f.name] = midpoint 
+            if midpoint is not None:
+                midpoint = Point(midpoint[0], midpoint[1])
+                results[f.name] = midpoint 
 
             # Draw on annotated image
             if midpoint:
@@ -110,32 +120,25 @@ class ColorPerception:
             "blue": (255, 0, 0)
         }.get(name.lower(), (255, 255, 255))  # default: white
 
-if __name__ == "__main__":
-
     
-    cam = Cam(0)
+    def detect(self, imageBinary, callback) -> DetectionResult:
+        _, points = self.detect_main_color_midpoints(image_bgr=imageBinary)
+        keyList = list(points.keys())
+
+        detectionResult = []
+
+        for key in keyList:
+            detectionResult.append(DetectionResult(key, points[key], callback))
+        
+        return detectionResult[0]
+
+if __name__ == "__main__":
     calibrator = Calibrator()
-    cam.take_picture(filename="./local-frame.png")
-    image = cv2.imread("./local-frame.png")  # Replace with your actual image
-    perception = ColorPerception(filters=[ColorPerception.BLUE_FILTER, ColorPerception.RED_FILTER])
+    image = cv2.imread("./output/red_on.png")  # Replace with your actual image
+    perception = ColorDetector(filters=[ColorDetector.RED_FILTER, ColorDetector.BLUE_FILTER])
 
     annotated_image, points = perception.detect_main_color_midpoints(image)
 
-    print("Red midpoint:", points.get("red"))
-    print("Blue midpoint:", points.get("blue"))
-    
-    
-
-    cam_point_A = points.get("red")
-    cam_point_B = points.get("blue")
-
-    print("Found buttons:", "blue button:", str(cam_point_B), "red button:", str(cam_point_A))
-
-    # get the world coordinate system
-    robot_point_A = calibrator.predict({"x":cam_point_A.x, "y": cam_point_A.y})
-    robot_point_B = calibrator.predict({"x":cam_point_B.x, "y": cam_point_B.y})
-    
-    print("Found buttons:", "blue button:", str(robot_point_A), "red button:", str(robot_point_B))
 
     cv2.imshow("Detected Points", annotated_image)
     cv2.waitKey(0)

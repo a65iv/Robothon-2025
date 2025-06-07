@@ -2,6 +2,10 @@ import cv2
 import csv
 import math
 import platform
+import numpy as np
+import argparse
+from Detector import Detector
+from ColorDetector import ColorDetector, ColorFilter 
 
 
 class Cam:
@@ -51,14 +55,38 @@ class Cam:
                 print("Failed to read frame from camera.")
                 return False
         return False
+    
+    def put_text(self, frame, text, top = 10, left = 30):
+        cv2.putText(
+            frame,
+            text,
+            org=(top, left),  # Top-left corner
+            fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+            fontScale=0.8,
+            color=(0, 255, 0),  # Green
+            thickness=2,
+            lineType=cv2.LINE_AA
+        )
 
-    def live_feed(self):
+    def live_feed(self, detectors: list[Detector] = []):
         while True:
             ret, frame = self.cap.read()
+
+            if detectors and len(detectors) != 0:
+                # we pass the detectors to detect things on each frame
+                for index, detector in enumerate(detectors):
+                    # detectors should return an object called a detection value
+                    # (true, midpoint, x,y,w,h) detectorName
+                    # detectors should as have a string value such that it prints out the output of the detections  
+                    detection = detector.detect(frame)
+                    detection.callBack()
+                    self.put_text(frame, str(detection), top= index * 10)
+
             if not ret:
                 print("Error: Unable to read from the camera.")
                 break
-
+            
+            
             cv2.imshow("Live Feed", frame)
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
@@ -102,3 +130,63 @@ class Cam:
             csv_writer.writerows(self.points)
             print(f"Coordinates saved to {filename}")
         return filename, self.points
+
+def main():
+    parser = argparse.ArgumentParser(description="Perform Camera Operations like picture taking or live feed")
+    parser.add_argument("--take_picture", type=int, nargs='?', const=0, help="Take a picture from the camera")
+    parser.add_argument("--live_feed", action="store_true", help="Show a live feed from the camera")
+    parser.add_argument("--live_feed_detect", action="store_true", help="Show a live feed from the camera")
+    parser.add_argument("--point", type=str, help="Pick points on an image and get the pixel coordinates")
+
+
+    args = parser.parse_args()
+
+    if args.take_picture is not None:
+        cam = Cam(args.take_picture)
+        cam.take_picture()
+    elif args.live_feed:
+        cam = Cam(0)
+        cam.live_feed()
+    elif args.live_feed_detect:
+        cam = Cam(0)
+
+        
+        BLUE_FILTER_ON = ColorFilter("blue", [
+            (np.array([100, 150, 0]), np.array([140, 255, 255]))
+        ],
+            brightness_threshold=50  
+        )
+
+        RED_FILTER_ON = ColorFilter("red",[
+            (np.array([0, 100, 100]), np.array([10, 255, 255])),
+            (np.array([160, 100, 100]), np.array([180, 255, 255]))
+        ],
+            brightness_threshold=10  # Only detect bright red (50 is the max)
+        )
+
+        # detectors 
+        RedDetector = ColorDetector("RedDetector", filters=[ColorDetector.RED_FILTER]) 
+        BlueDetector = ColorDetector("BlueDetector", filters=[ColorDetector.BLUE_FILTER]) 
+        RedOnDetector = ColorDetector("RedOnDetector", filters=[RED_FILTER_ON]) 
+        BlueOnDetector = ColorDetector("BlueOnDetector", filters=[BLUE_FILTER_ON]) 
+ 
+        cam.live_feed(detectors=[RedDetector, BlueDetector, RedOnDetector, BlueOnDetector])
+
+    elif args.point:
+        cam = Cam()
+        img = cv2.imread(args.point)
+        cv2.imshow("point", img)
+        cv2.setMouseCallback('point', cam.point, {"image": img, "train": False})
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+        cam.dump_points()
+
+
+if __name__ == "__main__":
+    main()
+
+
+# Path: Modules/Calibrator.py
+# Example usage:
+# python ./modules/Camera.py --take_picture
+# python ./modules/Camera.py --live_feed
