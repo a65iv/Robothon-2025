@@ -1,4 +1,4 @@
-from PointClass import Point
+from modules.PointClass import Point
 
 class DetectionResult:
     def __init__(self, name: str, midpoint: Point):
@@ -14,7 +14,7 @@ class DetectionResult:
         
 
 class Detector:
-    def __init__(self, name, callback: None):
+    def __init__(self, name, **kwargs):
         print(f"Initialized {name} Detector")
 
     def detect(self, imageBinary) -> DetectionResult:

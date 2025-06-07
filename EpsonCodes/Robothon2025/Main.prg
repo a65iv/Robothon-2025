@@ -15,9 +15,11 @@ Function main
 	AccelS 10, 10
 	AutoLJM On
 	
+	
 ' going to camera position
   Go CameraPoint
-
+  On 10
+  
   SetNet #201, "192.168.1.2", 2001, CRLF
   ' SetNet #201, "127.0.0.1", 2001, CRLF
   OpenNet #201 As Server

@@ -8,10 +8,6 @@ from modules.Camera import Cam
 from modules.PointClass import Point
 from modules.Calibrator import Calibrator
 
-# from Camera import Cam
-# from PointClass import Point
-# from Calibrator import Calibrator
-
 # setting up constants
 EPSON_ROBOT_IP = "192.168.1.2"
 

@@ -1,10 +1,9 @@
 import cv2
 
 
-from PointClass import Point
-from Detector import Detector, DetectionResult
-from Camera import Cam
-from Calibrator import Calibrator
+from modules.PointClass import Point
+from modules.DetectorClass import Detector, DetectionResult
+from modules.Calibrator import Calibrator
 
 # from modules.PointClass import Point
 # from modules.Camera import Cam

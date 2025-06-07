@@ -452,8 +452,8 @@ Fend
 Function go_drawCircle
 	Go screenABmid -Y(5) +Z(10) LJM
 	Go screenABmid -Y(5) +Z(1.5) LJM
-	Arc3 Here -X(5) +Y(10), Here +X(0) +Y(15)
-	Arc3 Here +X(5) -Y(10), Here +X(0) -Y(15)
+	Arc3 Here -X(5) +Y(5), Here +X(0) +Y(10)
+	Arc3 Here +X(5) -Y(5), Here +X(0) -Y(10)
 	Go Here +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
