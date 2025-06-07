@@ -52,6 +52,7 @@ calibrator = Calibrator()
 class EpsonController:
 
     class Action(Enum):
+        G1 = "g1"
         PRESS_RED_BLUE_RED = "go_pressRedBlueRed"
         PRESS_RED = "go_pressRedOnly"
         PRESS_BLUE = "go_pressBlueOnly"
@@ -80,6 +81,8 @@ class EpsonController:
 
         DRAW_CIRCLE = "go_drawCircle"
         DRAW_TRIANGLE = "go_drawTriangle"
+        DRAW_SQUARE = "go_drawSquare"
+        
 
        
     def __init__(self):

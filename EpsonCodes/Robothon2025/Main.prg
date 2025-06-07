@@ -27,8 +27,12 @@ Function main
 
   Do
    Input #201, receive$
-   ParseStr receive$, indata$(), " " ' convert to lower case
+   ParseStr receive$, indata$(), " "
    Print "Received message: ", receive$
+   'Print "indata(0): ", indata$(0)
+   'Print "indata(1): ", indata$(1)
+   'Print "indata(2): ", indata$(2)
+   
    
   
    ' if the command is jump3
@@ -63,7 +67,7 @@ Function main
    		Print "Current location is ", P333
 	   	Print #201, P333
    EndIf
-   
+  	
    If LCase$(indata$(0)) = "local" Then ' map to local coordinate
    ' Python has to issue command to EPSON in this format: local blueX,blueY,redX,redY
    		Real px1, py1, px2, py2
@@ -75,7 +79,7 @@ Function main
    		Print "Mapping world coordinate to local"
    		Print "Blue button:", px1, ",", py1, "  Red button:", px2, ",", py2
 		Real ZOffset
-		ZOffset = 522
+		ZOffset = 500
 		P332 = Here :X(px1) :Y(py1) :Z(ZOffset) ' blue	
 		P333 = Here :X(px2) :Y(py2) :Z(ZOffset) ' red
 		SavePoints "robot1.pts"
@@ -90,121 +94,127 @@ Function main
 		AccelR 20, 20
 		SpeedS 20
 		AccelS 20, 20
+		sayOK
    EndIf
    
  
-'	' --------- tasks -------
-	If LCase$(indata$(0)) = "go_penPick" Then
-   		go_penPick
-   		Print 'run pen pick'
+	' --------- tasks -------
+   	
+    If indata$(0) = "go_pressRedBlueRed" Then
+      Print "run go_pressRedBlueRed"
+      go_pressRedBlueRed
+    EndIf
+
+   	If indata$(0) = "go_pressRedOnly" Then
+	   	Print 'run pressRedOnly'
+   		go_pressRedOnly
    	EndIf
    	
-	If LCase$(indata$(0)) = "go_penPlace" Then
+	If indata$(0) = "go_pressBlueOnly" Then
+	   	Print 'run pressBlueOnly'
+   		go_pressBlueOnly
+   	EndIf
+   	
+	If indata$(0) = "go_penPick" Then
+	   	Print 'run pen pick'
+   		go_penPick
+   	EndIf
+   	
+	If indata$(0) = "go_screenCamera" Then
+   		Print 'run screenCamera'
+   		go_screenCamera
+   	EndIf
+   	
+	If indata$(0) = "go_drawCircle" Then
+   		Print 'run drawCircle'
+   		go_drawCircle
+   	EndIf
+   	
+    If indata$(0) = "go_drawTriangle" Then
+   		Print 'run drawTriangle'
+   		go_drawTriangle
+   	EndIf
+   	
+   	If indata$(0) = "go_drawSquare" Then
+   		Print 'run drawSquare'
+   		go_drawSquare
+   	EndIf
+
+   	If indata$(0) = "go_tapA" Then
+   		Print 'run tapA'
+   		go_tapA
+   	EndIf
+ 
+ 	If indata$(0) = "go_tapB" Then
+   		Print 'run tapB'
+   		go_tapB
+   	EndIf
+   	
+   	If indata$(0) = "go_tapBackground" Then
+   		Print 'run tapBackground'
+   		go_tapBackground
+   	EndIf
+   	
+   	If indata$(0) = "go_doubletapA" Then
+   		Print 'run doubletapA'
+   		go_doubletapA
+   	EndIf
+   	
+   	If indata$(0) = "go_doubletapB" Then
+   		Print 'run doubletapB'
+   		go_doubletapB
+   	EndIf
+   	
+   	If indata$(0) = "go_doubletapBackground" Then
+   		Print 'run doubletapBackground'
+   		go_doubletapBackground
+   	EndIf
+   	
+   	If indata$(0) = "go_swipeAB" Then
+   		Print 'run swipeAB'
+   		go_swipeAB
+   	EndIf
+   	
+   	If indata$(0) = "go_swipeBA" Then
+   		Print 'run swipeBA'
+   		go_swipeBA
+   	EndIf
+   	
+   	If indata$(0) = "go_swipeABackground" Then
+   		Print 'run swipeABackground'
+   		go_swipeABackground
+   	EndIf
+   	
+   	If indata$(0) = "go_swipeBBackground" Then
+   		Print 'run swipeBBackground'
+   		go_swipeBBackground
+   	EndIf
+   	
+   	If indata$(0) = "go_swipeBackgroundA" Then
+   		Print 'run swipeBackgroundA'
+   		go_swipeBackgroundA
+   	EndIf
+   	
+   	If indata$(0) = "go_swipeBackgroundB" Then
+   		Print 'run swipeBackgroundB'
+   		go_swipeBackgroundB
+   	EndIf
+   	
+   	If indata$(0) = "go_ballMaze1" Then
+   		Print 'run ballMaze1'
+   		go_ballMaze1
+   	EndIf
+   	
+   	If indata$(0) = "go_ballMaze2" Then
+   		Print 'run ballMaze2'
+   		go_ballMaze2
+   	EndIf
+   	
+   	If indata$(0) = "go_penPlace" Then
+   		Print 'run pen place'
    		go_penPlace
    	EndIf
-  	
-'	If LCase$(indata$(0)) = "go_press_blue_button" Then
-'		Speed 50
-'   		go_press_blue_button
-'   	EndIf
-
    	
-'	If LCase$(indata$(0)) = "go_approach_slider" Then
-'		Speed 15
-'		Real starting_pos
-'		starting_pos = Val(Trim$(indata$(1)))
-'   		go_approach_slider(starting_pos)
-'   	EndIf
-'   	
-'	If LCase$(indata$(0)) = "go_check_display" Then
-'		Speed 50
-'   		go_check_display
-'   	EndIf
-'   	
-'	If LCase$(indata$(0)) = "go_slide" Then
-'		Speed 20
-'		Real mm
-'		mm = Val(Trim$(indata$(1)))
-'   		go_slide(mm)
-'   	EndIf
-'   	
-' 	If LCase$(indata$(0)) = "go_tool_up" Then
-'   		go_tool_up
-'   	EndIf
-'
-'   	If LCase$(indata$(0)) = "go_approach_plug1" Then
-'   		go_approach_plug1
-'   	EndIf
-'   	
-'   	If LCase$(indata$(0)) = "go_approach_plug2" Then
-'   		go_approach_plug2
-'   	EndIf
-'   	
-'   	If LCase$(indata$(0)) = "go_approach_plug3" Then
-'   		go_approach_plug3
-'   	EndIf
-'   	
-'	If LCase$(indata$(0)) = "go_open_door" Then
-'   		go_open_door
-'   	EndIf
-'   	
-'	If LCase$(indata$(0)) = "go_probe1" Then
-'   		go_probe1
-'   	EndIf
-'   	
-'	If LCase$(indata$(0)) = "go_probe2" Then
-'   		go_probe2
-'   	EndIf
-'   	
-'	If LCase$(indata$(0)) = "go_probedrop" Then
-'   		go_probedrop
-'   	EndIf
-'   	   	
-'   	If LCase$(indata$(0)) = "go_approach_cable" Then
-'   		go_approach_cable
-'   	EndIf
-'
-'   	If LCase$(indata$(0)) = "go_wind_cable" Then
-'   		go_wind_cable
-'   	EndIf
-'
-'	If LCase$(indata$(0)) = "go_catch_probe" Then
-'   		go_catch_probe
-'   	EndIf
-'   	
-'	If LCase$(indata$(0)) = "go_stow" Then
-'   		go_stow
-'   	EndIf
-'
-'	If LCase$(indata$(0)) = "go_stow_finished" Then
-'   		go_stow_finished
-'   	EndIf
-'   		If LCase$(indata$(0)) = "go_press_red_button" Then
-'   		go_press_red_button
-'   	EndIf
-	' --------- end tasks -------
-   
-    ' ---- demo ---
-' 	If LCase$(indata$(0)) = "approaching_meter" Then
-'   		approaching_meter
-'   	EndIf
-' 	If LCase$(indata$(0)) = "turn_meter" Then
-'   		turn_meter
-'   	EndIf
-' 	If LCase$(indata$(0)) = "approaching_probe" Then
-'   		approaching_probe
-'   	EndIf
-' 	If LCase$(indata$(0)) = "probing" Then
-'   		probing
-'   	EndIf
-' 	If LCase$(indata$(0)) = "probe_done" Then
-'   		probe_done
-'   	EndIf
-   	
-   
-	P777 = Here
-	Print #201, P777
-	
   Loop
 
   Exit Function
@@ -237,7 +247,7 @@ Function go_pressRedBlueRed
 	Go RedPress +Z(30) LJM
 	Go redpress LJM
 	Go RedPress +Z(30) LJM
-	Go MidPointRedBlue LJM
+	'Go MidPointRedBlue LJM
 	Go BluePress +Z(30) LJM
 	Go BluePress LJM
 	Go BluePress +Z(30) LJM
@@ -277,30 +287,30 @@ Function go_penPick
 	sayOK
 Fend
 Function go_ballMaze1
-	Power High
-	Speed 8
-	SpeedR 8
-	Accel 10, 10
-	AccelR 10, 10
-	SpeedS 10
-	AccelS 10, 10
 	Go penFlippedReadyforBall LJM
 	Go BallSensor1 +Z(20) LJM
 	Go BallSensor1 LJM
 	Go BallWpt1 LJM
 	Go ballwpt2 LJM
 	Go BallSensor2 LJM
-	Go ballHole LJM
+	'Go ballHole LJM
 	Wait 1
-	Go ballHole +Z(50) LJM
+	'Go ballHole +Z(50) LJM
+	'' --- now go back to base (ballSensor1)
+	Go BallWpt2 LJM
+	Go ballwpt1 LJM
+	Go BallSensor1 LJM
+	'' -- now retract and press blue button
+	Go ballPenRetractPoint LJM
 	Go penBluePressApproach LJM
 	Go penBluePress LJM
 	Wait 3
 	Go penBluePressApproach LJM
-	Go ballHole +Z(50) LJM
-	Go ballHole LJM
 Fend
 Function go_ballMaze2 'must be executed right after go_ballMaze1
+	Go BallSensor1 LJM
+	Go BallWpt1 LJM
+	Go ballwpt2 LJM
 	Go BallSensor2 LJM
 	Go BallWpt3 LJM
 	Go BallWpt4 LJM
@@ -333,14 +343,13 @@ Function go_penPlace
 	sayOK
 Fend
 Function go_screenCamera
-
 	Go screenCameraPoint LJM
 	sayOK
 	
 Fend
 Function go_tapA
 	Go screenA +Z(10) LJM
-	Go screenA LJM
+	Go screenA +Z(1.5) LJM
 	Wait 1
 	Go screenA +Z(10) LJM
 	Go screenCameraPoint LJM
@@ -349,7 +358,7 @@ Function go_tapA
 Fend
 Function go_tapB
 	Go screenB +Z(10) LJM
-	Go screenB LJM
+	Go screenB +Z(1.5) LJM
 	Wait 1
 	Go screenB +Z(10) LJM
 	Go screenCameraPoint LJM
@@ -357,7 +366,7 @@ Function go_tapB
 Fend
 Function go_tapBackground
 	Go screenABmid +Z(10) LJM
-	Go screenABmid LJM
+	Go screenABmid +Z(1.5) LJM
 	Wait 1
 	Go screenABmid +Z(10) LJM
 	Go screenCameraPoint LJM
@@ -365,18 +374,18 @@ Function go_tapBackground
 Fend
 Function go_doubletapA
 	Go screenA +Z(10) LJM
-	Go screenA LJM
+	Go screenA +Z(1.5) LJM
 	Go screenA +Z(5) LJM
-	Go screenA LJM
+	Go screenA +Z(1.5) LJM
 	Go screenA +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
 Fend
 Function go_doubletapB
 	Go screenB +Z(10) LJM
-	Go screenB LJM
+	Go screenB +Z(1.5) LJM
 	Go screenB +Z(5) LJM
-	Go screenB LJM
+	Go screenB +Z(1.5) LJM
 	Go screenB +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
@@ -402,7 +411,7 @@ Function go_swipeAB
 Fend
 Function go_swipeBA
 	Go screenB +Z(10) LJM
-	Go screenB LJM
+	Go screenB +Z(1.5) LJM
 	Go screenA LJM
 	Go screenA +Z(10) LJM
 	Go screenCameraPoint LJM
@@ -410,7 +419,7 @@ Function go_swipeBA
 Fend
 Function go_swipeBackgroundA
 	Go screenABmid +Z(10) LJM
-	Go screenABmid LJM
+	Go screenABmid +Z(1.5) LJM
 	Go screenA LJM
 	Go screenA +Z(10) LJM
 	Go screenCameraPoint LJM
@@ -418,7 +427,7 @@ Function go_swipeBackgroundA
 Fend
 Function go_swipeBackgroundB
 	Go screenABmid +Z(10) LJM
-	Go screenABmid LJM
+	Go screenABmid +Z(1.5) LJM
 	Go screenB LJM
 	Go screenB +Z(10) LJM
 	Go screenCameraPoint LJM
@@ -426,7 +435,7 @@ Function go_swipeBackgroundB
 Fend
 Function go_swipeABackground
 	Go screenA +Z(10) LJM
-	Go screenA LJM
+	Go screenA +Z(1.5) LJM
 	Go screenABmid LJM
 	Go screenABmid +Z(10) LJM
 	Go screenCameraPoint LJM
@@ -434,72 +443,45 @@ Function go_swipeABackground
 Fend
 Function go_swipeBBackground
 	Go screenB +Z(10) LJM
-	Go screenB LJM
+	Go screenB +Z(1.5) LJM
 	Go screenABmid LJM
 	Go screenABmid +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
 Fend
-Function drawCircle
-	Arc3 Here -X(radius), Here -X(radius) +Y(radius) CP
-	Arc3 Here +X(radius), Here +X(radius) -Y(radius) CP
-Fend
-
-
-Function dots
-	Integer i, j
-	Move Here :X(-100) :Y(500) :Z(600)
-	For i = 0 To 6
-		Go Here :X(-150 + (i * 50)) LJM
-		For j = 1 To 5
-			Go Here :Y(500 + (j * 50)) LJM
-			Move Here :Z(399.3)
-			penUp
-			'circle
-			MsgBox "Next stop", MB_OK
-		Next
-	Next
-Fend
-Function circle
-	penUp
-	Move Here -X(10)
-	penDown
-	Arc3 Here +X(10) +Y(10), Here +X(20) +Y(0) CP
-	Arc3 Here +X(-10) +Y(-10), Here +X(-20) +Y(0)
-	Move Here +X(20)
-	penUp
-	Move Here -X(10) -Y(10)
-	penDown
-	Move Here +Y(20)
-	penUp
-	Move Here -Y(10)
-Fend
 Function go_drawCircle
-	Go screenABmid -Y(10) +Z(10) LJM
-	Arc3 Here -X(10) +Y(10), Here +X(0) +Y(20)
-	Arc3 Here +X(10) -Y(10), Here +X(0) -Y(20)
+	Go screenABmid -Y(5) +Z(10) LJM
+	Go screenABmid -Y(5) +Z(1.5) LJM
+	Arc3 Here -X(5) +Y(5), Here +X(0) +Y(10)
+	Arc3 Here +X(5) -Y(5), Here +X(0) -Y(10)
 	Go Here +Z(10) LJM
 	Go screenCameraPoint LJM
+	sayOK
 Fend
 Function go_drawTriangle
 	Go screenABmid +Z(10) LJM
+	Go screenABmid +Z(1.5) LJM
 	Go Here +Y(10) -X(10)
 	Go Here +X(20)
 	Go Here -X(10) -Y(10)
 	Go Here +Z(10) LJM
 	Go screenCameraPoint LJM
+	sayOK
 Fend
 Function go_drawSquare
 	Go screenA +Z(10) LJM
+	Go screenA +Z(1.5) LJM
 	Go Here +Y(10)
 	Go Here +X(20)
 	Go Here -Y(10)
 	Go Here -X(20)
 	Go Here +Z(10) LJM
 	Go screenCameraPoint LJM
+	sayOK
 Fend
 Function sayOK
-	'Print #201, "OK"
+	Print "OK, task done!"
+	Print #201, "OK"
 Fend
 Function testSequence
 	Go CameraPoint LJM
