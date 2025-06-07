@@ -69,7 +69,7 @@ print("Found buttons:", "blue button:", str(cam_point_B), "red button:", str(cam
 robot_point_A = epson.getWorldCoordinates(cam_point_A)
 robot_point_B = epson.getWorldCoordinates(cam_point_B)
 
-epson.setLocalFrame(robot_point_B, robot_point_A) 
+epson.setLocalFrame(robot_point_B, robot_point_A)                   # localization
 epson.executeTask(EpsonController.Action.PRESS_RED_BLUE_RED)
 sleep(7)
 epson.executeTask(EpsonController.Action.PRESS_RED)

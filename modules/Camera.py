@@ -57,8 +57,8 @@ class Cam:
         return False
     
     def put_text(self, frame, text, left = 10, top = 30):
-        font_scale = 0.8
-        thickness = 2
+        font_scale = 0.5
+        thickness = 1
         font = cv2.FONT_HERSHEY_SIMPLEX
 
         # Get text size
@@ -96,8 +96,8 @@ class Cam:
                     # detectors should as have a string value such that it prints out the output of the detections  
                     detection = detector.detect(frame)
                     
-                    if count % 5 == 0:
-                        self.put_text(frame, str(detection), top= 20 + index * 25)
+                    
+                    self.put_text(frame, str(detection), top= 20 + index * 25)
 
             if not ret:
                 print("Error: Unable to read from the camera.")
