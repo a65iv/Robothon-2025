@@ -1,15 +1,15 @@
 from PointClass import Point
 
 class DetectionResult:
-    def __init__(self, name: str, midpoint: Point, callback):
+    def __init__(self, name: str, midpoint: Point):
         self.name = name
         self.midpoint = midpoint
 
     def __str__(self):
-        if (self.midpoint):
-            print(f"{self.name}: No detection")
+        if (self.midpoint is None):
+            return f"{self.name}: No detection"
         else:
-            print(f"{self.name}: [{self.midpoint.x}, {self.midpoint.y}]")
+            return f"{self.name}: [{self.midpoint.x}, {self.midpoint.y}]"
 
         
 
@@ -17,5 +17,5 @@ class Detector:
     def __init__(self, name):
         print(f"Initialized {name} Detector")
 
-    def detect(self, imageBinary, callback) -> DetectionResult:
+    def detect(self, imageBinary) -> DetectionResult:
         pass

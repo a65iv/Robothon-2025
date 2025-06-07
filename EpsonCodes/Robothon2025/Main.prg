@@ -349,7 +349,7 @@ Function go_screenCamera
 Fend
 Function go_tapA
 	Go screenA +Z(10) LJM
-	Go screenA +Z(1) LJM
+	Go screenA +Z(1.5) LJM
 	Wait 1
 	Go screenA +Z(10) LJM
 	Go screenCameraPoint LJM
@@ -358,7 +358,7 @@ Function go_tapA
 Fend
 Function go_tapB
 	Go screenB +Z(10) LJM
-	Go screenB +Z(1) LJM
+	Go screenB +Z(1.5) LJM
 	Wait 1
 	Go screenB +Z(10) LJM
 	Go screenCameraPoint LJM
@@ -366,7 +366,7 @@ Function go_tapB
 Fend
 Function go_tapBackground
 	Go screenABmid +Z(10) LJM
-	Go screenABmid +Z(1) LJM
+	Go screenABmid +Z(1.5) LJM
 	Wait 1
 	Go screenABmid +Z(10) LJM
 	Go screenCameraPoint LJM
@@ -374,18 +374,18 @@ Function go_tapBackground
 Fend
 Function go_doubletapA
 	Go screenA +Z(10) LJM
-	Go screenA +Z(1) LJM
+	Go screenA +Z(1.5) LJM
 	Go screenA +Z(5) LJM
-	Go screenA +Z(1) LJM
+	Go screenA +Z(1.5) LJM
 	Go screenA +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
 Fend
 Function go_doubletapB
 	Go screenB +Z(10) LJM
-	Go screenB +Z(1) LJM
+	Go screenB +Z(1.5) LJM
 	Go screenB +Z(5) LJM
-	Go screenB +Z(1) LJM
+	Go screenB +Z(1.5) LJM
 	Go screenB +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
@@ -411,7 +411,7 @@ Function go_swipeAB
 Fend
 Function go_swipeBA
 	Go screenB +Z(10) LJM
-	Go screenB +Z(1) LJM
+	Go screenB +Z(1.5) LJM
 	Go screenA LJM
 	Go screenA +Z(10) LJM
 	Go screenCameraPoint LJM
@@ -419,7 +419,7 @@ Function go_swipeBA
 Fend
 Function go_swipeBackgroundA
 	Go screenABmid +Z(10) LJM
-	Go screenABmid +Z(1) LJM
+	Go screenABmid +Z(1.5) LJM
 	Go screenA LJM
 	Go screenA +Z(10) LJM
 	Go screenCameraPoint LJM
@@ -427,7 +427,7 @@ Function go_swipeBackgroundA
 Fend
 Function go_swipeBackgroundB
 	Go screenABmid +Z(10) LJM
-	Go screenABmid +Z(1) LJM
+	Go screenABmid +Z(1.5) LJM
 	Go screenB LJM
 	Go screenB +Z(10) LJM
 	Go screenCameraPoint LJM
@@ -435,7 +435,7 @@ Function go_swipeBackgroundB
 Fend
 Function go_swipeABackground
 	Go screenA +Z(10) LJM
-	Go screenA +Z(1) LJM
+	Go screenA +Z(1.5) LJM
 	Go screenABmid LJM
 	Go screenABmid +Z(10) LJM
 	Go screenCameraPoint LJM
@@ -443,7 +443,7 @@ Function go_swipeABackground
 Fend
 Function go_swipeBBackground
 	Go screenB +Z(10) LJM
-	Go screenB +Z(1) LJM
+	Go screenB +Z(1.5) LJM
 	Go screenABmid LJM
 	Go screenABmid +Z(10) LJM
 	Go screenCameraPoint LJM
@@ -451,16 +451,16 @@ Function go_swipeBBackground
 Fend
 Function go_drawCircle
 	Go screenABmid -Y(5) +Z(10) LJM
-	Go screenABmid -Y(5) +Z(1) LJM
-	Arc3 Here -X(5) +Y(10), Here +X(0) +Y(15)
-	Arc3 Here +X(5) -Y(10), Here +X(0) -Y(15)
+	Go screenABmid -Y(5) +Z(1.5) LJM
+	Arc3 Here -X(5) +Y(5), Here +X(0) +Y(10)
+	Arc3 Here +X(5) -Y(5), Here +X(0) -Y(10)
 	Go Here +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
 Fend
 Function go_drawTriangle
 	Go screenABmid +Z(10) LJM
-	Go screenABmid +Z(1) LJM
+	Go screenABmid +Z(1.5) LJM
 	Go Here +Y(10) -X(10)
 	Go Here +X(20)
 	Go Here -X(10) -Y(10)
@@ -470,7 +470,7 @@ Function go_drawTriangle
 Fend
 Function go_drawSquare
 	Go screenA +Z(10) LJM
-	Go screenA +Z(1) LJM
+	Go screenA +Z(1.5) LJM
 	Go Here +Y(10)
 	Go Here +X(20)
 	Go Here -Y(10)

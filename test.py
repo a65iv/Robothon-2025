@@ -3,7 +3,7 @@ import numpy as np
 from modules.Camera import Cam 
 from modules.EpsonController import EpsonController
 from time import sleep
-from modules.ColorDetector import ColorDetector, ColorFilter
+from modules.ColorDetectorClass import ColorDetector, ColorFilter
 
 
 # Setting up color filters

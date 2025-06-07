@@ -1,4 +1,3 @@
-off 10
 go penDropApproach +z(20) ljm
 on 10
 go penFlippedReadyforBall ljm
@@ -98,3 +97,4 @@
 go CameraPoint ljm
 go here -z(50)
 go here -z(100) ljm
+go camRedBlueButtons

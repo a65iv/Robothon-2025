@@ -5,7 +5,7 @@ import platform
 import numpy as np
 import argparse
 from Detector import Detector
-from ColorDetector import ColorDetector, ColorFilter 
+from ColorDetectorClass import *
 
 
 class Cam:
@@ -56,11 +56,11 @@ class Cam:
                 return False
         return False
     
-    def put_text(self, frame, text, top = 10, left = 30):
+    def put_text(self, frame, text, left = 10, top = 30):
         cv2.putText(
             frame,
             text,
-            org=(top, left),  # Top-left corner
+            org=(left, top),  # Top-left corner
             fontFace=cv2.FONT_HERSHEY_SIMPLEX,
             fontScale=0.8,
             color=(0, 255, 0),  # Green
@@ -69,7 +69,9 @@ class Cam:
         )
 
     def live_feed(self, detectors: list[Detector] = []):
+        count = 0
         while True:
+            count += 1
             ret, frame = self.cap.read()
 
             if detectors and len(detectors) != 0:
@@ -79,8 +81,9 @@ class Cam:
                     # (true, midpoint, x,y,w,h) detectorName
                     # detectors should as have a string value such that it prints out the output of the detections  
                     detection = detector.detect(frame)
-                    detection.callBack()
-                    self.put_text(frame, str(detection), top= index * 10)
+                    
+                    if detection.midpoint is not None and (count % 5 == 0):
+                        self.put_text(frame, str(detection), top= 20 + index * 25)
 
             if not ret:
                 print("Error: Unable to read from the camera.")
@@ -154,14 +157,14 @@ def main():
         BLUE_FILTER_ON = ColorFilter("blue", [
             (np.array([100, 150, 0]), np.array([140, 255, 255]))
         ],
-            brightness_threshold=50  
+            brightness_threshold=150  
         )
 
         RED_FILTER_ON = ColorFilter("red",[
             (np.array([0, 100, 100]), np.array([10, 255, 255])),
             (np.array([160, 100, 100]), np.array([180, 255, 255]))
         ],
-            brightness_threshold=10  # Only detect bright red (50 is the max)
+            brightness_threshold=100  # Only detect bright red (50 is the max)
         )
 
         # detectors 

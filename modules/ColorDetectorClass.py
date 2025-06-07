@@ -51,12 +51,12 @@ class ColorDetector(Detector):
         brightness_threshold=10  # Only detect bright blue (50 is the max)
     )
 
-    def __init__(self, detectorName, filters: Optional[List[ColorFilter]] = None):
+    def __init__(self, name, filters: Optional[List[ColorFilter]] = None):
         """
         Args:
             filters: Optional list of custom ColorFilter instances.
         """
-        self.detectorName = detectorName
+        self.name = name
         self.filters = filters if filters is not None else [self.RED_FILTER, self.BLUE_FILTER]
     
     def set_filters(self, filters: Optional[List[ColorFilter]] = None):
@@ -121,16 +121,18 @@ class ColorDetector(Detector):
         }.get(name.lower(), (255, 255, 255))  # default: white
 
     
-    def detect(self, imageBinary, callback) -> DetectionResult:
+    def detect(self, imageBinary) -> DetectionResult:
         _, points = self.detect_main_color_midpoints(image_bgr=imageBinary)
         keyList = list(points.keys())
 
         detectionResult = []
 
         for key in keyList:
-            detectionResult.append(DetectionResult(key, points[key], callback))
+            detectionResult.append(DetectionResult(self.name, points[key]))
         
-        return detectionResult[0]
+        if (len(detectionResult)):
+            return detectionResult[0]
+        return DetectionResult(self.name, None)
 
 if __name__ == "__main__":
     calibrator = Calibrator()
