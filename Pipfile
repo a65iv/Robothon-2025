@@ -5,9 +5,9 @@ name = "pypi"
 
 [packages]
 numpy = "*"
-tensorflow = "*"
 opencv-python = "*"
 scikit-learn = "*"
+easyocr = "*"
 
 [dev-packages]
 
