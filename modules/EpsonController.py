@@ -2,6 +2,7 @@ from enum import Enum
 import cv2
 import math
 import socket
+import asyncio
 import argparse
 
 from modules.Camera import Cam
@@ -168,18 +169,28 @@ class EpsonController:
     def getLocation(self):
         print(f"x: {self.robot_x}, y: {self.robot_y}, z: {self.robot_z}")
 
-    def executeTask(self, action):
+
+    async def executeTask(self, action) -> bool:
         if isinstance(action, self.Action):
             command = f"{action.value}\r\n"
             print(f"Sending command: {command.strip()}")
-            self.clientSocket.send(command.encode())
-            try:
-                confirmation = self.clientSocket.recv(1023)
-                print("result:", confirmation)
-            except:
-                pass
+
+            def blocking_send_recv():
+                try:
+                    self.clientSocket.send(command.encode())
+                    confirmation = self.clientSocket.recv(1023)
+                    print("result:", confirmation)
+                    return True if confirmation else False
+                except Exception as e:
+                    print(f"Error during send/recv: {e}")
+                    return False
+
+            return await asyncio.to_thread(blocking_send_recv)
+        
         else:
             print("Invalid action provided.")
+            return False
+
 
 
 

@@ -83,9 +83,8 @@ class Cam:
 
 
     def live_feed(self, detectors: list[Detector] = []):
-        count = 0
+        self.running = True
         while True:
-            count += 1
             ret, frame = self.cap.read()
 
             if detectors and len(detectors) != 0:
@@ -109,6 +108,9 @@ class Cam:
                 break
 
         self.release()
+    
+    def stop_feed(self):
+        self.running = False
 
     def release(self):
         if self.cap.isOpened():
