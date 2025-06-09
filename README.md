@@ -5,7 +5,8 @@
 - Bittu
 - Ziad
 - Sydney
-- Aman
+
+Supporting roles: Aman, Harith
 
 Team video: https://youtu.be/bMHY1cCpEJ8
 Back-to-back video: https://youtu.be/63KU_glSCqs
@@ -14,7 +15,12 @@ Back-to-back video: https://youtu.be/63KU_glSCqs
 This project is part of Robothon Grand Challenge 2025 organized by Munich Institute of Robotics and Machine Intelligence (MIRMI), 
 Technical University of Munich (TUM).
 The challenge is to program a robot manipulator to do various tasks on a task board distributed by Robothon organizer, which is designed to emulate industrial tasks found in an electronic waste
-handling facility. It is designed to be used as a tool for developing, testing, and demonstrating robotic manipulation skill capabilities. The controller monitors the state of the task board and reports individual task completion times to a public web dashboard to easily share the results. 
+handling facility. It is designed to be used as a tool for developing, testing, and demonstrating robotic manipulation skill capabilities. 
+
+![Taskboard](https://github.com/a65iv/Robothon-2025/blob/main/photos/robothon2025_taskboard.png)
+figure-1: task board 2025
+
+The controller monitors the state of the task board and reports individual task completion times to a public web dashboard to easily share the results. 
 View the web dashboard at the following URL: https://bit.ly/robothon2025_dashboard 
 
 ### Parts List
@@ -27,6 +33,9 @@ View the web dashboard at the following URL: https://bit.ly/robothon2025_dashboa
 - Tesseract OCR module
 - Dlink wireless router as Ethernet network concentrator
 - DELL Laptop as Python code platform
+
+![photos/robothon2025_connectivity.png](https://github.com/a65iv/Robothon-2025/blob/main/photos/robothon2025_connectivitypng.png)
+figure-2: connectivity diagram
 
 ### Project History
 - **09-06-2025:** Completed BYOD 3x3 Slider Puzzle integration. Team video published. Document submitted.
