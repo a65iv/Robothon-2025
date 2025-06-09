@@ -91,6 +91,7 @@ class EpsonController:
 
         # set up calibrator
         self.calibrator = Calibrator()
+        self.isPerformingAction = False
         
         # EPSON STATE
         self.robot_camera_position = self.calibrator.predict({'x':HOMEX, 'y': HOMEY}, world=False)
@@ -168,9 +169,15 @@ class EpsonController:
     
     def getLocation(self):
         print(f"x: {self.robot_x}, y: {self.robot_y}, z: {self.robot_z}")
-
+    
 
     async def executeTask(self, action) -> bool:
+        if self.isPerformingAction:
+            # if the epson is already performing an action then do nothing
+            print("EPSON already performing an action, IGNORING NEW ACTION")
+            return False
+        
+        self.isPerformingAction = True
         if isinstance(action, self.Action):
             command = f"{action.value}\r\n"
             print(f"Sending command: {command.strip()}")
@@ -180,12 +187,15 @@ class EpsonController:
                     self.clientSocket.send(command.encode())
                     confirmation = self.clientSocket.recv(1023)
                     print("result:", confirmation)
+                    self.isPerformingAction = False
                     return True if confirmation else False
                 except Exception as e:
                     print(f"Error during send/recv: {e}")
+                    self.isPerformingAction = False
                     return False
 
-            return await asyncio.to_thread(blocking_send_recv)
+            actionComplete = await asyncio.to_thread(blocking_send_recv)
+            return actionComplete
         
         else:
             print("Invalid action provided.")
@@ -194,7 +204,7 @@ class EpsonController:
 
 
 
-def main():
+async def main():
     parser = argparse.ArgumentParser(description="Control the Epson robot from the command line.")
     parser.add_argument("--goto", nargs="+", type=float, metavar="N", help="Move the robot to the specified X, Y, Z coordinates.")
     parser.add_argument("-d", type=str, help="Pick a direction to move the robot, x, y, z, xy, yz, xz, xyz.")
@@ -286,9 +296,9 @@ def main():
         else:
             cam.release()
     elif args.execute_task:
-        epson.executeTask(EpsonController.Action[args.execute_task.upper()])
+        await epson.executeTask(EpsonController.Action[args.execute_task.upper()])
     else:
         print("No valid command provided. Use --help for usage information.")
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

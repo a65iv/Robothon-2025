@@ -1,4 +1,4 @@
-Global Integer Xmax, Xmin, Ymax, Ymin, Zmin, xpos, ypos, gap, radius, x, y, z, u, x1, x2, y1, y2
+Global Integer Xmax, Xmin, Ymax, Ymin, Zmin, xpos, ypos, gap, radius, pnum, x, y, z, u, x1, x2, y1, y2
 Global String p$, px1$, px2$, py1$, py2$
 
 Function main
@@ -7,12 +7,12 @@ Function main
 
 	Motor On
 	Power High
-	Speed 10
-	SpeedR 10
-	Accel 10, 10
-	AccelR 10, 10
-	SpeedS 10
-	AccelS 10, 10
+	Speed 20
+	SpeedR 20
+	Accel 20, 20
+	AccelR 20, 20
+	SpeedS 20
+	AccelS 20, 20
 	AutoLJM On
 	
 	
@@ -48,13 +48,26 @@ Function main
 	   	Jump3 Here +Z(50), Here :X(0) :Y(y) :Z(z + 50), Here :X(x) :Y(y) :Z(z) :U(u)
    EndIf
    
+   ' if the command is jump3
+   If indata$(0) = "touch" Then
+     	x = Val(Trim$(indata$(1)))
+    	y = Val(Trim$(indata$(2)))
+	    z = Val(indata$(3))
+	    u = Val(indata$(4))
+    
+   		Print "Touching cell #", x
+   		pnum = 60 + x
+   		
+	   	Go P(pnum) LJM
+   EndIf
+   
    If LCase$(indata$(0)) = "go" Then
      	x = Val(Trim$(indata$(1)))
     	y = Val(Trim$(indata$(2)))
 	    z = Val(indata$(3))
     
    		Print "Going to x=", x, " y=", y, " z=", z
-	   	Go Here :X(x) :Y(y) :Z(z)
+	   	Go Here :X(x) :Y(y) :Z(z) LJM
 	   	sayOK
    EndIf
    
@@ -528,6 +541,18 @@ Function testSequence
 	go_ballMaze1
 	go_ballMaze2
 	go_penPlace
+Fend
+Function BYOD_pickPenStand
+	Go CameraPoint LJM
+	Go BYOD_pen_stand_approach +Z(100) LJM
+	Off 10
+	Go BYOD_pen_stand_approach LJM
+	Go BYOD_pen_stand_pick LJM
+	On 10
+	Go BYOD_pen_stand_approach +Z(100) LJM
+	Go CameraPoint LJM
+	Wait 1
+	
 Fend
 Function penUp
 	Move Here +Z(10)

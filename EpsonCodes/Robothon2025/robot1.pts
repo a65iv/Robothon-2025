@@ -1,6 +1,6 @@
-ENVT0100,LM:2025/06/07 22:37:01:000,DS:0000016101,CS:10612,MA:3C-E4-B0-DF-04-B9,EI:           
+ENVT0100,LM:2025/06/09 15:42:03:000,DS:0000019535,CS:01798,MA:3C-E4-B0-DF-04-B9,EI:           
 sVersion="2.0.0"
-nNumberOfPoints=56
+nNumberOfPoints=68
 Point1 {
 	nNumber=0
 	sLabel=""
@@ -1115,33 +1115,264 @@ Point53 {
 	nJ4Flag=0
 }
 Point54 {
-	nNumber=332
-	sLabel=""
+	nNumber=58
+	sLabel="BYOD_pen_stand_approach"
 	sDescription=""
 	nUndefined=0
-	rX=-95.120003
-	rY=761.440002
-	rZ=500.000000
-	rU=0.000000
-	rV=0.000000
-	rW=-90.000000
+	rX=341.470215
+	rY=564.246155
+	rZ=369.612579
+	rU=-0.000118
+	rV=-0.000001
+	rW=-89.999985
 	rR=0.000000
 	rS=0.000000
 	rT=0.000000
 	nLocal=0
 	nHand=1
 	nElbow=1
-	nWrist=1
+	nWrist=2
 	nJ6Flag=0
 	nJ4Flag=0
 }
 Point55 {
-	nNumber=333
+	nNumber=59
+	sLabel="BYOD_pen_stand_slidein"
+	sDescription=""
+	nUndefined=0
+	rX=341.470215
+	rY=564.246155
+	rZ=334.944336
+	rU=-0.000108
+	rV=0.000004
+	rW=-89.999977
+	rR=0.000000
+	rS=0.000000
+	rT=0.000000
+	nLocal=0
+	nHand=1
+	nElbow=1
+	nWrist=2
+	nJ6Flag=0
+	nJ4Flag=0
+}
+Point56 {
+	nNumber=60
+	sLabel="BYOD_pen_stand_pick"
+	sDescription=""
+	nUndefined=0
+	rX=341.469971
+	rY=564.246033
+	rZ=320.243073
+	rU=0.000005
+	rV=-0.000008
+	rW=-89.999985
+	rR=0.000000
+	rS=0.000000
+	rT=0.000000
+	nLocal=0
+	nHand=1
+	nElbow=1
+	nWrist=2
+	nJ6Flag=0
+	nJ4Flag=0
+}
+Point57 {
+	nNumber=61
+	sLabel="BYOD_cell1"
+	sDescription=""
+	nUndefined=0
+	rX=40.000000
+	rY=590.000000
+	rZ=359.999969
+	rU=-0.000011
+	rV=0.000001
+	rW=-90.000000
+	rR=0.000000
+	rS=0.000000
+	rT=0.000000
+	nLocal=0
+	nHand=1
+	nElbow=1
+	nWrist=2
+	nJ6Flag=0
+	nJ4Flag=0
+}
+Point58 {
+	nNumber=62
+	sLabel="BYOD_cell2"
+	sDescription=""
+	nUndefined=0
+	rX=0.000000
+	rY=590.000000
+	rZ=359.999969
+	rU=-0.000011
+	rV=0.000001
+	rW=-90.000000
+	rR=0.000000
+	rS=0.000000
+	rT=0.000000
+	nLocal=0
+	nHand=1
+	nElbow=1
+	nWrist=2
+	nJ6Flag=0
+	nJ4Flag=0
+}
+Point59 {
+	nNumber=63
+	sLabel="BYOD_cell3"
+	sDescription=""
+	nUndefined=0
+	rX=-40.000000
+	rY=590.000000
+	rZ=359.999969
+	rU=-0.000011
+	rV=0.000001
+	rW=-90.000000
+	rR=0.000000
+	rS=0.000000
+	rT=0.000000
+	nLocal=0
+	nHand=1
+	nElbow=1
+	nWrist=2
+	nJ6Flag=0
+	nJ4Flag=0
+}
+Point60 {
+	nNumber=64
+	sLabel="BYOD_cell4"
+	sDescription=""
+	nUndefined=0
+	rX=40.000000
+	rY=630.000000
+	rZ=359.999969
+	rU=-0.000011
+	rV=0.000001
+	rW=-90.000000
+	rR=0.000000
+	rS=0.000000
+	rT=0.000000
+	nLocal=0
+	nHand=1
+	nElbow=1
+	nWrist=2
+	nJ6Flag=0
+	nJ4Flag=0
+}
+Point61 {
+	nNumber=65
+	sLabel="BYOD_cell5"
+	sDescription=""
+	nUndefined=0
+	rX=-0.000000
+	rY=630.000000
+	rZ=360.000000
+	rU=0.000000
+	rV=0.000008
+	rW=-89.999992
+	rR=0.000000
+	rS=0.000000
+	rT=0.000000
+	nLocal=0
+	nHand=1
+	nElbow=1
+	nWrist=2
+	nJ6Flag=0
+	nJ4Flag=0
+}
+Point62 {
+	nNumber=66
+	sLabel="BYOD_cell6"
+	sDescription=""
+	nUndefined=0
+	rX=-40.000000
+	rY=630.000000
+	rZ=359.999969
+	rU=-0.000011
+	rV=0.000001
+	rW=-90.000000
+	rR=0.000000
+	rS=0.000000
+	rT=0.000000
+	nLocal=0
+	nHand=1
+	nElbow=1
+	nWrist=2
+	nJ6Flag=0
+	nJ4Flag=0
+}
+Point63 {
+	nNumber=67
+	sLabel="BYOD_cell7"
+	sDescription=""
+	nUndefined=0
+	rX=40.000000
+	rY=630.000000
+	rZ=359.999969
+	rU=-0.000011
+	rV=0.000001
+	rW=-90.000000
+	rR=0.000000
+	rS=0.000000
+	rT=0.000000
+	nLocal=0
+	nHand=1
+	nElbow=1
+	nWrist=2
+	nJ6Flag=0
+	nJ4Flag=0
+}
+Point64 {
+	nNumber=68
+	sLabel="BYOD_cell8"
+	sDescription=""
+	nUndefined=0
+	rX=0.000000
+	rY=670.000000
+	rZ=359.999969
+	rU=-0.000011
+	rV=0.000001
+	rW=-90.000000
+	rR=0.000000
+	rS=0.000000
+	rT=0.000000
+	nLocal=0
+	nHand=1
+	nElbow=1
+	nWrist=2
+	nJ6Flag=0
+	nJ4Flag=0
+}
+Point65 {
+	nNumber=69
+	sLabel="BYOD_cell9"
+	sDescription=""
+	nUndefined=0
+	rX=-40.000000
+	rY=670.000000
+	rZ=359.999969
+	rU=-0.000011
+	rV=0.000001
+	rW=-90.000000
+	rR=0.000000
+	rS=0.000000
+	rT=0.000000
+	nLocal=0
+	nHand=1
+	nElbow=1
+	nWrist=2
+	nJ6Flag=0
+	nJ4Flag=0
+}
+Point66 {
+	nNumber=332
 	sLabel=""
 	sDescription=""
 	nUndefined=0
-	rX=95.309998
-	rY=746.690002
+	rX=-84.989998
+	rY=729.929993
 	rZ=500.000000
 	rU=0.000000
 	rV=0.000000
@@ -1153,10 +1384,31 @@ Point55 {
 	nHand=1
 	nElbow=1
 	nWrist=1
-	nJ6Flag=0
+	nJ6Flag=1
 	nJ4Flag=0
 }
-Point56 {
+Point67 {
+	nNumber=333
+	sLabel=""
+	sDescription=""
+	nUndefined=0
+	rX=97.339996
+	rY=780.210022
+	rZ=500.000000
+	rU=0.000000
+	rV=0.000000
+	rW=-90.000000
+	rR=0.000000
+	rS=0.000000
+	rT=0.000000
+	nLocal=0
+	nHand=1
+	nElbow=1
+	nWrist=1
+	nJ6Flag=1
+	nJ4Flag=0
+}
+Point68 {
 	nNumber=777
 	sLabel=""
 	sDescription=""

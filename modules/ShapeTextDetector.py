@@ -34,6 +34,7 @@ instructions = [
     "swipe down",
     "drag from background to a",
     "drag from background to b",
+    "tap a"
     "tap b",
     "long press b",
     "long press a",
@@ -279,9 +280,13 @@ async def main():
     # img_src = './resources/messages/WIN_20250522_21_16_42_Pro.jpg'
     # out = './cropped.jpg'
     # resize_image(img_src, out, width=600, height=400)
-    cam = Cam(2)
-    cam.take_picture(filename="piccc.png")
-    img = cv2.imread("piccc.png")
+    
+    # cam = Cam(2)
+    # cam.take_picture(filename="piccc.png")
+    # img = cv2.imread("piccc.png")
+    
+    img = cv2.imread("./resources/messages/_square1.png")
+    
 
     detector = ShapeTextDetector(model=OCRDetector.TESERACT, use_api=False)
     start_time = time.time()

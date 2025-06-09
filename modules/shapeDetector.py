@@ -69,3 +69,8 @@ def detect_shape(img_path):
         print(conf_pct)
 
         return shape
+    
+    
+    
+
+print(detect_shape("./resources/messages/_square1.png"))

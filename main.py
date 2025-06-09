@@ -59,10 +59,15 @@ async def set_red_on(midpoint):
         cam.stop_feed()
 
 async def read_instruction(led_instruction): 
+    if epson.isPerformingAction:
+        return
+    
     global count
     if count >= 6:
         lcd_cam.stop_feed()
         return
+    
+    
     print(led_instruction)
     match led_instruction:
         case "circle":
@@ -89,6 +94,8 @@ async def read_instruction(led_instruction):
         case _:
             print("Unknown shape detected")
             await epson.executeTask(EpsonController.Action.TAP_G)
+    
+    asyncio.sleep(1)
     count += 1
 
 BlueOnDetector = ColorDetector("BlueOnDetector", filters=[BLUE_FILTER_ON], callback=set_blue_on)

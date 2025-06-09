@@ -707,7 +707,30 @@ print here
 > go ballwpt6 ljm
 > go ballwpt7 ljm
 > 
-> go here :z(600) ljm
+> go here :z(783) ljm
+> 
+> print here
+ X:    0.000 Y:  750.000 Z:  800.000 U:    0.000 V:    0.000 W:  -90.000 /R /A /NF /J6F0 /J4F0 /0
+> 
+> 
+> go CameraPoint ljm
+> 
+> 
+!!Error: 10000, Command aborted by user
+> go screenCameraPoint
+!!Error: 10000, Command aborted by user
+> 
+> go here :z(400) :x(200)
+> go BYOD_pen_stand_slidein
+> off 10
+> go BYOD_pen_stand_approach +z(100) ljm
+> go CameraPoint ljm
+> 
+> 
+!!Error: 10000, Command aborted by user
+> 
+!!Error: 10000, Command aborted by user
+> 
 > 
 > 
 > 
@@ -720,6 +743,7 @@ print here
 > go here :u(-180) :w(-90) ljm
 !!Error: 4001, Arm reached the limit of motion range.
 > go screenCameraPoint ljm
+> go here :z(600)
 > 
 !!Error: 4001, Arm reached the limit of motion range.
 > print here
@@ -734,6 +758,33 @@ print here
 !!Error: 10000, Command aborted by user
 > 
 > go CameraPoint ljm
+> 
+!!Error: 4025, Cannot execute a motion command during emergency stop condition.
+> 
+> 
+> 
+> 
+>print here
+ X:    4.869 Y:  633.330 Z:  362.623 U:   -0.000 V:    0.000 W:  -90.000 /R /A /F /J6F0 /J4F0 /0
+> go here :x(0) :y(630) :z(360) ljm
+> print here
+ X:    0.000 Y:  630.000 Z:  360.000 U:    0.000 V:    0.000 W:  -90.000 /R /A /F /J6F0 /J4F0 /0
+> move here -x(30)
+> move BYOD_cell1
+> move BYOD_cell8
+> move BYOD_cell9
+> move BYOD_cell6
+> move BYOD_cell4
+> move BYOD_cell2
+> 
+> 
+!!Error: 10000, Command aborted by user
+> 
+> 
+!!Error: 3100, Syntax error.
+> 
+> 
+> 
 > 
 > 
 > go BYOD_penApproach ljm
