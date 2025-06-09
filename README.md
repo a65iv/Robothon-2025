@@ -17,6 +17,17 @@ The challenge is to program a robot manipulator to do various tasks on a task bo
 handling facility. It is designed to be used as a tool for developing, testing, and demonstrating robotic manipulation skill capabilities. The controller monitors the state of the task board and reports individual task completion times to a public web dashboard to easily share the results. 
 View the web dashboard at the following URL: https://bit.ly/robothon2025_dashboard 
 
+### Parts List
+- Epson VT6 manipulator robot with 6-axis
+- Custom pneumatic linear gripper and 3D printed carbon fiber fingers
+- USB FHD webcam for localization
+- USB 4K camera with zoomed optical lense for screen reading/OCR
+- Epson RC8+ software
+- Python 3
+- Tesseract OCR module
+- Dlink wireless router as Ethernet network concentrator
+- DELL Laptop as Python code platform
+
 ### Project History
 - **09-06-2025:** Completed BYOD 3x3 Slider Puzzle integration. Team video published. Document submitted.
 - **07-06-2025:** Integration and making video of 5x successive attempts 
