@@ -8,8 +8,8 @@
 
 Supporting roles: Aman, Harith
 
-Team video: https://youtu.be/bMHY1cCpEJ8
-Back-to-back video: https://youtu.be/63KU_glSCqs
+- Team video: https://youtu.be/bMHY1cCpEJ8
+- Uncut 5 consecutive attempt back-to-back video: https://youtu.be/63KU_glSCqs
 
 ### About
 This project is part of Robothon Grand Challenge 2025 organized by Munich Institute of Robotics and Machine Intelligence (MIRMI), 
