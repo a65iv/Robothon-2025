@@ -1,15 +1,27 @@
 # RoboTechX MDX Dubai's Robothon 2025 Repository
 
 ### Team Members
-
 - Judhi
 - Bittu
 - Ziad
 - Sydney
 - Aman
 
-### Project History
+Team video: https://youtu.be/bMHY1cCpEJ8
+Back-to-back video: https://youtu.be/63KU_glSCqs
 
+### About
+This project is part of Robothon Grand Challenge 2025 organized by Munich Institute of Robotics and Machine Intelligence (MIRMI), 
+Technical University of Munich (TUM).
+The challenge is to program a robot manipulator to do various tasks on a task board distributed by Robothon organizer, which is designed to emulate industrial tasks found in an electronic waste
+handling facility. It is designed to be used as a tool for developing, testing, and demonstrating robotic manipulation skill capabilities. The controller monitors the state of the task board and reports individual task completion times to a public web dashboard to easily share the results. 
+View the web dashboard at the following URL: https://bit.ly/robothon2025_dashboard 
+
+### Project History
+- **09-06-2025:** Completed BYOD 3x3 Slider Puzzle integration. Team video published. Document submitted.
+- **07-06-2025:** Integration and making video of 5x successive attempts 
+- **03-06-2025:** Image and task recognition
+- **27-05-2025:** Task board localization
 - **22-05-2025:** Software testing
 - **20-05-2025:** Initial setup
 
