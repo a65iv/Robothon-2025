@@ -57,6 +57,8 @@ class EpsonController:
         BALL_MAZE_1 = "go_ballMaze1"
         BALL_MAZE_2 = "go_ballMaze2"
 
+        SWIPE_UP_A = "go_swipeUpA"
+        SWIPE_UP_B = "go_swipeUpB"
         SWIPE_AB = "go_swipeAB"
         SWIPE_BA = "go_swipeBA"
         SWIPE_AG = "go_swipeABackground"
