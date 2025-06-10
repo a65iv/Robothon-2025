@@ -24,7 +24,7 @@ The controller monitors the state of the task board and reports individual task 
 View the web dashboard at the following URL: https://bit.ly/robothon2025_dashboard 
 
 The robot workflow is represented in this statemachine:
-![Task manager](https://github.com/a65iv/Robothon-2025/blob/main/photos/robothon2025_statemaching.png)
+![State machine](https://github.com/a65iv/Robothon-2025/blob/main/photos/robothon2025_statemachine.png)
 figure-3: State machine
 
 In our implementation, the sequence of the task can be re-arranged using Graphical User Interface (GUI) by doing drag-and-drop of the available functions. Any other related functions or dependencies will be automatically arranged accordingly. 
