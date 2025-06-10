@@ -311,9 +311,9 @@ class TesseractRecognizer:
 
         if start_idx is not None and len(texts[start_idx + 1:]) > 0:
             interested_texts = texts[start_idx + 1:]
-            result = [t.strip() for t in texts[start_idx + 1:] if t.strip() not in ('|', '_', '')]
+            result = [t.strip() for t in texts[start_idx + 1:] if t.strip().lower() not in ('|', '_', 'screen' '')]
             print("detected string ", result)
-            if len(result) > 0:
+            if len(result) > 0 :
                 return handle_levenshtein_distance(instructions, ' '.join(result).lower())
 
         return keras_detect_shape(img)
