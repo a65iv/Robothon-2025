@@ -400,6 +400,12 @@ Function go_ballMaze1
 	sayOK
 Fend
 Function go_ballMaze2 'must be executed right after go_ballMaze1
+	Speed 7
+	SpeedR 7
+	Accel 8, 8
+	AccelR 8, 8
+	SpeedS 7
+	AccelS 8, 8
 	Go BallSensor1 LJM
 	Go BallWpt1 LJM
 	Go ballwpt2 LJM
@@ -419,22 +425,23 @@ Function go_ballMaze2 'must be executed right after go_ballMaze1
 	Go ballsensor1 LJM
 	Go ballPenRetractPoint LJM
 	Go ballPenRetractPoint +Z(200) LJM
-	Speed 10
-	SpeedR 10
-	Accel 10, 10
-	AccelR 10, 10
-	SpeedS 10
 	sayOK
 Fend
 Function go_penPlace
+	Speed 25
+	SpeedR 25
+	Accel 25, 25
+	AccelR 25, 25
+	SpeedS 25
+	AccelS 25, 25
+	Go penDropApproach +Z(20) LJM
 	Speed 15
 	SpeedR 15
 	Accel 10, 10
 	AccelR 10, 10
 	SpeedS 15
 	AccelS 10, 10
-	Go penDropApproach +Z(20) LJM
-	Go penDropApproach LJM
+	Go penDropApproach LJM CP
 	Go penDrop LJM
 	Off 10
 	Go penDropApproach +Z(20) LJM
@@ -443,12 +450,24 @@ Function go_penPlace
 	sayOK
 Fend
 Function go_screenCamera
+	Speed 25
+	SpeedR 25
+	Accel 25, 25
+	AccelR 25, 25
+	SpeedS 25
+	AccelS 25, 25
 	Go screenCameraPoint :Z(700) LJM
 	Go screenCameraPoint LJM
 	sayOK
 	
 Fend
 Function go_tapA
+	Speed 25
+	SpeedR 25
+	Accel 25, 25
+	AccelR 25, 25
+	SpeedS 25
+	AccelS 25, 25
 	'Go screenA +Z(10) LJM
 	Go screenA +Z(3) LJM
 	Wait 1
@@ -458,6 +477,12 @@ Function go_tapA
 	
 Fend
 Function go_tapB
+	Speed 25
+	SpeedR 25
+	Accel 25, 25
+	AccelR 25, 25
+	SpeedS 25
+	AccelS 25, 25
 	'Go screenB +Z(10) LJM
 	Go screenB +Z(3) LJM
 	Wait 1
@@ -466,6 +491,12 @@ Function go_tapB
 	sayOK
 Fend
 Function go_tapBackground
+	Speed 25
+	SpeedR 25
+	Accel 25, 25
+	AccelR 25, 25
+	SpeedS 25
+	AccelS 25, 25
 	'Go screenABmid +Z(10) LJM
 	Go screenABmid +Z(3) LJM
 	Wait 1
@@ -474,6 +505,12 @@ Function go_tapBackground
 	sayOK
 Fend
 Function go_doubletapA
+	Speed 25
+	SpeedR 25
+	Accel 25, 25
+	AccelR 25, 25
+	SpeedS 25
+	AccelS 25, 25
 	'Go screenA +Z(10) LJM
 	Go screenA +Z(3) LJM
 	Go screenA +Z(5) LJM
@@ -483,6 +520,12 @@ Function go_doubletapA
 	sayOK
 Fend
 Function go_doubletapB
+	Speed 25
+	SpeedR 25
+	Accel 25, 25
+	AccelR 25, 25
+	SpeedS 25
+	AccelS 25, 25
 	'Go screenB +Z(10) LJM
 	Go screenB +Z(3) LJM
 	Go screenB +Z(4) LJM
@@ -549,6 +592,12 @@ Function go_swipeUpB
 	sayOK
 Fend
 Function go_swipeABackground
+	Speed 25
+	SpeedR 25
+	Accel 25, 25
+	AccelR 25, 25
+	SpeedS 25
+	AccelS 25, 25
 	'Go screenA +Z(10) LJM
 	Go screenA +Z(2.5) LJM
 	Go screenABmid LJM
@@ -557,6 +606,12 @@ Function go_swipeABackground
 	sayOK
 Fend
 Function go_swipeBBackground
+	Speed 25
+	SpeedR 25
+	Accel 25, 25
+	AccelR 25, 25
+	SpeedS 25
+	AccelS 25, 25
 	'Go screenB +Z(10) LJM
 	Go screenB +Z(3) LJM
 	Go screenABmid LJM
@@ -565,32 +620,50 @@ Function go_swipeBBackground
 	sayOK
 Fend
 Function go_drawCircle
+	Speed 25
+	SpeedR 25
+	Accel 25, 25
+	AccelR 25, 25
+	SpeedS 25
+	AccelS 25, 25
 	'Go screenABmid -Y(5) +Z(10) LJM
-	Go screenABmid -Y(5) +Z(3) LJM
-	Arc3 Here -X(5) +Y(5), Here +X(0) +Y(10)
-	Arc3 Here +X(5) -Y(5), Here +X(0) -Y(10)
-	'Go Here +Z(10) LJM
+	Go screenABmid -Y(10) +Z(2.5) LJM
+	Arc3 Here -X(10) +Y(10), Here +Y(20)
+	Arc3 Here +X(10) -Y(10), Here -Y(20)
+	Go Here +Z(10) CP LJM
 	Go screenCameraPoint LJM
 	sayOK
 Fend
 Function go_drawTriangle
+	Speed 25
+	SpeedR 25
+	Accel 25, 25
+	AccelR 25, 25
+	SpeedS 25
+	AccelS 25, 25
 	'Go screenABmid +Z(10) LJM
-	Go screenABmid +Z(3) LJM
+	Go screenABmid +Z(2.5) LJM
 	Go Here +Y(10) -X(10)
 	Go Here +X(20)
 	Go Here -X(10) -Y(10)
-	'Go Here +Z(10) LJM
+	Go Here +Z(10) CP LJM
 	Go screenCameraPoint LJM
 	sayOK
 Fend
 Function go_drawSquare
+	Speed 25
+	SpeedR 25
+	Accel 25, 25
+	AccelR 25, 25
+	SpeedS 25
+	AccelS 25, 25
 	'Go screenA +Z(10) LJM
-	Go screenA +Z(3) LJM
+	Go screenA +Z(2.5) LJM
 	Go Here +Y(10)
 	Go Here +X(20)
 	Go Here -Y(10)
 	Go Here -X(20)
-	'Go Here +Z(10) LJM
+	Go Here +Z(10) CP LJM
 	Go screenCameraPoint LJM
 	sayOK
 Fend

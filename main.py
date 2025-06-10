@@ -59,7 +59,6 @@ async def set_red_on(midpoint):
         cam.stop_feed()
 
 async def read_instruction(led_instruction): 
-<<<<<<< Updated upstream
     # if epson.isPerformingAction:
     #     return
     
@@ -70,13 +69,6 @@ async def read_instruction(led_instruction):
     
     
     print("From read instruction: ", led_instruction)
-=======
-    global count
-    if count > 6:
-        lcd_cam.stop_feed()
-        return
-    print(led_instruction) 
->>>>>>> Stashed changes
     match led_instruction:
         case "circle":
             print("Detected shape: Circle")

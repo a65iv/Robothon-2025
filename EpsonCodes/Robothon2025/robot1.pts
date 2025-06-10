@@ -1,4 +1,4 @@
-ENVT0100,LM:2025/06/10 15:47:03:000,DS:0000019535,CS:28023,MA:3C-E4-B0-DF-04-B9,EI:           
+ENVT0100,LM:2025/06/10 18:18:30:000,DS:0000019535,CS:04102,MA:3C-E4-B0-DF-04-B9,EI:           
 sVersion="2.0.0"
 nNumberOfPoints=68
 Point1 {
@@ -1371,8 +1371,8 @@ Point66 {
 	sLabel=""
 	sDescription=""
 	nUndefined=0
-	rX=-103.230003
-	rY=758.090027
+	rX=-72.160004
+	rY=726.580017
 	rZ=500.000000
 	rU=0.000000
 	rV=0.000000
@@ -1392,8 +1392,8 @@ Point67 {
 	sLabel=""
 	sDescription=""
 	nUndefined=0
-	rX=85.860001
-	rY=748.030029
+	rX=109.500000
+	rY=782.890015
 	rZ=500.000000
 	rU=0.000000
 	rV=0.000000

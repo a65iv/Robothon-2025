@@ -9,7 +9,6 @@ import pytesseract
 import requests
 import Levenshtein
 import asyncio
-from PIL import Image
 from enum import Enum
 # from keras.models import load_model
 import tensorflow as tf
@@ -37,7 +36,7 @@ instructions = [
     "swipe down",
     "drag from background to a",
     "drag from background to b",
-    "tap a"
+    "tap a",
     "tap b",
     "long press b",
     "long press a",
@@ -76,8 +75,8 @@ def keras_detect_shape(image_buffer):
              Returns None if model or label files are not found, or if the buffer is invalid.
     """
     # Define paths for the model and labels
-    model_path = "./keras_model.h5"
-    labels_path = "./labels.txt"
+    model_path = "./KerasModel/keras_model.h5"
+    labels_path = "./KerasModel/labels.txt"
 
     # --- Pre-computation Checks ---
     # Check if the required model and label files exist before proceeding
@@ -110,7 +109,7 @@ def keras_detect_shape(image_buffer):
 
     # UPDATED: Open the image from the in-memory byte buffer instead of a file path.
     try:
-        image = Image.open(io.BytesIO(image_buffer)).convert("RGB")
+        image = Image.fromarray(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
     except Exception as e:
         print(f"Error opening image from buffer: {e}")
         return None
@@ -141,7 +140,7 @@ def keras_detect_shape(image_buffer):
     print(f"Class: {class_name[2:]}")
     print(f"Confidence Score: {confidence_score:.4f}") # Formatted for readability
 
-    return class_name[2:]
+    return class_name[2:].lower()
 
 def reduce_image_size(in_path: str, out_path: str, quality: int = 85) -> None:
     """Compress image using Pillow."""
@@ -317,7 +316,7 @@ class TesseractRecognizer:
             if len(result) > 0:
                 return handle_levenshtein_distance(instructions, ' '.join(result).lower())
 
-        return detect_shape(img)
+        return keras_detect_shape(img)
 
 
 # ─── Detector Implementation ────────────────────────────────────────────────
@@ -367,7 +366,7 @@ async def main():
     # cam.take_picture(filename="piccc.png")
     # img = cv2.imread("piccc.png")
     
-    img = cv2.imread("./resources/messages/_square1.png")
+    img = cv2.imread("./resources/messages/_triangle1.png")
     
 
     detector = ShapeTextDetector(model=OCRDetector.TESERACT, use_api=False)

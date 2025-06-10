@@ -239,26 +239,31 @@ Function main
    	If indata$(0) = "go_penPlace" Then
    		Print 'run pen place'
    		go_penPlace
+   		sayOK
    	EndIf
 
    	If indata$(0) = "do_pressRBR" Then
    		Print 'do_pressRBR'
    		do_pressRBR
+   		sayOK
    	EndIf
 
    	If indata$(0) = "do_Maze1" Then
    		Print 'do_Maze1'
    		do_Maze1
+   		sayOK
    	EndIf
    	
    	If indata$(0) = "do_Maze2" Then
    		Print 'do_Maze2'
    		do_Maze2
+   		sayOK
    	EndIf
    	
     If indata$(0) = "armReady" Then
    		Print 'armReady'
    		Go CameraPoint :Z(600) LJM
+   		sayOK
    	EndIf
    	
     If indata$(0) = "penPic" Then
@@ -269,16 +274,19 @@ Function main
     If indata$(0) = "stylusReady" Then
    		Print 'stylusReady'
    		Go penReady LJM
+   		sayOK
    	EndIf
  
    	If indata$(0) = "magnetReady" Then
    		Print 'magnetReady'
    		Go penFlippedReadyforBall :Z(600) LJM
+   		sayOK
    	EndIf
 
    	If indata$(0) = "penPlace" Then
    		Print 'penPlace'
    		go_penPlace
+   		sayOK
    	EndIf
   Loop
 
@@ -392,6 +400,12 @@ Function go_ballMaze1
 	sayOK
 Fend
 Function go_ballMaze2 'must be executed right after go_ballMaze1
+	Speed 7
+	SpeedR 7
+	Accel 8, 8
+	AccelR 8, 8
+	SpeedS 7
+	AccelS 8, 8
 	Go BallSensor1 LJM
 	Go BallWpt1 LJM
 	Go ballwpt2 LJM
@@ -411,11 +425,6 @@ Function go_ballMaze2 'must be executed right after go_ballMaze1
 	Go ballsensor1 LJM
 	Go ballPenRetractPoint LJM
 	Go ballPenRetractPoint +Z(200) LJM
-	Speed 10
-	SpeedR 10
-	Accel 10, 10
-	AccelR 10, 10
-	SpeedS 10
 	sayOK
 Fend
 Function go_penPlace
@@ -558,31 +567,31 @@ Function go_swipeBBackground
 Fend
 Function go_drawCircle
 	'Go screenABmid -Y(5) +Z(10) LJM
-	Go screenABmid -Y(5) +Z(3) LJM
-	Arc3 Here -X(5) +Y(5), Here +X(0) +Y(10)
-	Arc3 Here +X(5) -Y(5), Here +X(0) -Y(10)
-	'Go Here +Z(10) LJM
+	Go screenABmid -Y(10) +Z(2.5) LJM
+	Arc3 Here -X(10) +Y(10), Here +Y(20)
+	Arc3 Here +X(10) -Y(10), Here -Y(20)
+	Go Here +Z(10) CP LJM
 	Go screenCameraPoint LJM
 	sayOK
 Fend
 Function go_drawTriangle
 	'Go screenABmid +Z(10) LJM
-	Go screenABmid +Z(3) LJM
+	Go screenABmid +Z(2.5) LJM
 	Go Here +Y(10) -X(10)
 	Go Here +X(20)
 	Go Here -X(10) -Y(10)
-	'Go Here +Z(10) LJM
+	Go Here +Z(10) CP LJM
 	Go screenCameraPoint LJM
 	sayOK
 Fend
 Function go_drawSquare
 	'Go screenA +Z(10) LJM
-	Go screenA +Z(3) LJM
+	Go screenA +Z(2.5) LJM
 	Go Here +Y(10)
 	Go Here +X(20)
 	Go Here -Y(10)
 	Go Here -X(20)
-	'Go Here +Z(10) LJM
+	Go Here +Z(10) CP LJM
 	Go screenCameraPoint LJM
 	sayOK
 Fend
