@@ -64,5 +64,5 @@ class ShapeDetector(Detector):
 
 
     async def detect(self, frame):  
-        name = await self._detect_shape(frame)
+        name = self._detect_shape(frame)
         return DetectionResult(name, midpoint=None)

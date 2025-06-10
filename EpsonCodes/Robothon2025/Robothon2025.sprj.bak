@@ -1,4 +1,4 @@
-ENVT0100,LM:2025/06/10 21:15:25:625,DS:0000007220,CS:27202,MA:00-09-0F-FE-00-01,EI:           
+ENVT0100,LM:2025/06/10 21:23:46:315,DS:0000007220,CS:27215,MA:00-09-0F-FE-00-01,EI:           
 SystemProperties {
 	sRCVersion="8.0.0"
 	sRCRevision=""
@@ -10,8 +10,8 @@ SystemProperties {
 	sGUID="7e344e5b-9be4-46ad-9849-1f6b0450f212"
 	sPath="C:\\Users\\Admin\\Desktop\\robothon-2025\\EpsonCodes\\Robothon2025"
 	sCreated="5/31/2025 12:21:09 PM"
-	sLastModified="6/11/2025 1:15:25 AM"
-	sLastSyncDate="6/11/2025 1:15:25 AM"
+	sLastModified="6/11/2025 1:23:46 AM"
+	sLastSyncDate="6/11/2025 1:22:22 AM"
 }
 UserProperties {
 	sVersion=""
@@ -35,7 +35,7 @@ ProgramFile1 {
 	sName="Main.prg"
 	bCompiled=True
 	bStoreInController=True
-	sTimeSavedInController="6/10/2025 9:02:38 PM"
+	sTimeSavedInController="6/10/2025 9:16:00 PM"
 }
 nIncludeFileCount=0
 nPointFileCount=1

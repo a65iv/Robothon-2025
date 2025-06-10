@@ -34,7 +34,7 @@ class TextDetector(Detector):
         value = self.get_readable_text(image_binary)
         return DetectionResult(value, midpoint=None)
     
-    def preprocess_for_tesseract(img: np.ndarray) -> np.ndarray:
+    def preprocess_for_tesseract(self, img: np.ndarray) -> np.ndarray:
         THRESH_BINARY = (100, 255)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         _, binary = cv2.threshold(gray, *THRESH_BINARY, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
