@@ -735,7 +735,8 @@ print here
 > print here
  X:  -30.425 Y:  661.567 Z:  547.298 U:   -4.064 V:   -0.000 W:  -90.000 /R /A /F /J6F1 /J4F0 /0
 > go penFlippedReadyforBall ljm
-> go here :z(500)
+> go here :z(600)
+> 
 > 
 > 
 > 
