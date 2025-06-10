@@ -1,7 +1,67 @@
+import cv2
+import numpy as np
+import asyncio
+from modules.Camera import Cam
+from modules.EpsonController import EpsonController
+from modules.ColorDetectorClass import ColorDetector, ColorFilter
+from modules.ShapeTextDetector import ShapeTextDetector
+
 import tkinter as tk
 from tkinter import ttk, messagebox
-import asyncio
 
+import tracemalloc
+tracemalloc.start()
+
+
+# ─────────────────────────────────────────────
+# Initialization
+# ─────────────────────────────────────────────
+cam = Cam(0)
+lcd_cam = Cam(2)
+epson = EpsonController()
+detector = ColorDetector("ColorPerception")
+
+# ─────────────────────────────────────────────
+# Color filters
+# ─────────────────────────────────────────────
+BLUE_FILTER_ON = ColorFilter(
+    "blue",
+    [(np.array([100, 150, 0]), np.array([140, 255, 255]))],
+    brightness_threshold=120
+)
+
+RED_FILTER_ON = ColorFilter(
+    "red",
+    [
+        (np.array([0, 100, 100]), np.array([10, 255, 255])),
+        (np.array([160, 100, 100]), np.array([180, 255, 255]))
+    ],
+    brightness_threshold=80
+)
+
+# ─────────────────────────────────────────────
+# State tracking
+# ─────────────────────────────────────────────
+blue_on = False
+red_on = False
+
+
+async def set_blue_on(midpoint):
+    global blue_on
+    if not blue_on and midpoint is not None:
+        blue_on = True
+        print("Blue On", midpoint)
+        await epson.executeTask(EpsonController.Action.PRESS_BLUE)
+        cam.stop_feed()
+
+async def set_red_on(midpoint):
+    global red_on
+    if not red_on and midpoint is not None:
+        red_on = True
+        print("Red On", midpoint)
+        await epson.executeTask(EpsonController.Action.PRESS_RED)
+        cam.stop_feed()
+        
 class RobotSequenceGUI:
     def __init__(self, root):
         self.root = root
@@ -477,7 +537,7 @@ class RobotSequenceGUI:
             return True
             
         elif func_name == 'setLocal':
-            # setLocal = setLocal()
+            setLocal = setLocal()
             print(f"Executing: setLocal()")
             # TODO: Uncomment when you have the function available
             # result = setLocal()
@@ -486,7 +546,7 @@ class RobotSequenceGUI:
             return True
             
         elif func_name == 'armReady':
-            # armReady = await epson.executeTask(EpsonController.Action.ARMREADY)
+            armReady = await epson.executeTask(EpsonController.Action.ARMREADY)
             print(f"Executing: await epson.executeTask(EpsonController.Action.ARMREADY)")
             # TODO: Uncomment when you have the epson controller available
             # result = await epson.executeTask(EpsonController.Action.ARMREADY)
@@ -495,7 +555,7 @@ class RobotSequenceGUI:
             return True
             
         elif func_name == 'stylusReady':
-            # stylusReady = await epson.executeTask(EpsonController.Action.STYLUSREADY)
+            stylusReady = await epson.executeTask(EpsonController.Action.STYLUSREADY)
             print(f"Executing: await epson.executeTask(EpsonController.Action.STYLUSREADY)")
             # TODO: Uncomment when you have the epson controller available
             # result = await epson.executeTask(EpsonController.Action.STYLUSREADY)
@@ -705,7 +765,27 @@ class RobotSequenceGUI:
         except Exception as e:
             self.update_execution_display("❌ EXECUTION ERROR", i if 'i' in locals() else 0, f"Error: {str(e)}")
 
+def setLocal():
+    cam.take_picture(filename="./local-frame.png")
 
+    print("Detecting red and blue buttons...")
+    detector.set_filters([ColorDetector.RED_FILTER, ColorDetector.BLUE_FILTER])
+    image = cv2.imread("./local-frame.png")
+    _, points = detector.detect_main_color_midpoints(image)
+
+    print(points)
+    cam_point_blue = points.get("blue")
+    cam_point_red = points.get("red")
+
+    print(f"Found buttons: blue={cam_point_blue}, red={cam_point_red}")
+
+    if cam_point_blue:
+        blue_point = epson.getWorldCoordinates(cam_point_blue)
+    if cam_point_red: 
+        red_point = epson.getWorldCoordinates(cam_point_red)
+
+    epson.setLocalFrame(blue_point, red_point)
+    
 def main():
     root = tk.Tk()
     app = RobotSequenceGUI(root)
