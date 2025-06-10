@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
+import asyncio
 
 class RobotSequenceGUI:
     def __init__(self, root):
@@ -67,8 +68,8 @@ class RobotSequenceGUI:
         
         for i, func_name in enumerate(self.available_functions):
             col = i
-            # Function button with color (acts as both display and add button)
-            func_button = tk.Button(funcs_frame, text=f"{func_name}\n(Click to Add)", 
+            # Function button with color (acts as both display and add button) - REMOVED "(Click to Add)"
+            func_button = tk.Button(funcs_frame, text=func_name, 
                                    bg=self.functions[func_name]["color"], 
                                    command=lambda fn=func_name: self.add_function(fn),
                                    font=("Arial", 9, "bold"), width=14, height=3)
@@ -87,9 +88,13 @@ class RobotSequenceGUI:
         # Configure grid weights
         funcs_container.columnconfigure(0, weight=1)
         
-        # User function reordering section
-        user_frame = ttk.LabelFrame(main_frame, text="Selected Functions (Drag to Rearrange, Right-click to Remove)", padding="10")
-        user_frame.grid(row=2, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=(0, 20))
+        # User function reordering section with controls on the right
+        user_section_frame = ttk.Frame(main_frame)
+        user_section_frame.grid(row=2, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=(0, 20))
+        
+        # Left side - user functions
+        user_frame = ttk.LabelFrame(user_section_frame, text="Selected Functions (Drag to Rearrange, Right-click to Remove)", padding="10")
+        user_frame.grid(row=0, column=0, sticky=(tk.W, tk.E), padx=(0, 20))
         
         # Canvas for user functions
         self.user_canvas = tk.Canvas(user_frame, height=80, bg="white")
@@ -101,22 +106,22 @@ class RobotSequenceGUI:
         self.user_canvas.bind("<ButtonRelease-1>", self.on_release)
         self.user_canvas.bind("<Button-3>", self.on_right_click)  # Right-click to remove
         
-        # Control buttons
-        controls_frame = ttk.Frame(main_frame)
-        controls_frame.grid(row=3, column=0, columnspan=2, pady=(0, 20))
+        # Right side - control buttons
+        controls_frame = ttk.Frame(user_section_frame)
+        controls_frame.grid(row=0, column=1, sticky=(tk.N))
         
         ttk.Button(controls_frame, text="Validate Sequence", 
-                  command=self.validate_sequence).grid(row=0, column=0, padx=(0, 10))
+                  command=self.validate_sequence).grid(row=0, column=0, pady=2, sticky=(tk.W, tk.E))
         
-        # PREVIEW Button
-        preview_button = ttk.Button(controls_frame, text="📋 PREVIEW Sequence", 
-                                   command=self.preview_sequence)
-        preview_button.grid(row=0, column=1, padx=(0, 10))
+        # GO Button (prominent and GREEN) - MADE BRIGHT GREEN AND BIGGER
+        go_button = tk.Button(controls_frame, text="🚀 GO - Start Execution", 
+                              command=self.start_execution,
+                              bg="#00FF00", fg="black", font=("Arial", 14, "bold"),
+                              width=20, height=2)
+        go_button.grid(row=1, column=0, pady=(10, 0), sticky=(tk.W, tk.E))
         
-        # GO Button (prominent)
-        go_button = ttk.Button(controls_frame, text="🚀 GO - Start Execution", 
-                              command=self.start_execution)
-        go_button.grid(row=0, column=2, padx=(20, 0))
+        # Configure grid weights for user section
+        user_section_frame.columnconfigure(0, weight=1)
         
         # Full sequence display
         sequence_frame = ttk.LabelFrame(main_frame, text="Complete Execution Sequence Preview", padding="10")
@@ -149,13 +154,13 @@ class RobotSequenceGUI:
         self.root.columnconfigure(0, weight=1)
         self.root.rowconfigure(0, weight=1)
         main_frame.columnconfigure(0, weight=1)
-        main_frame.rowconfigure(5, weight=1)
+        main_frame.rowconfigure(4, weight=1)
         user_frame.columnconfigure(0, weight=1)
         canvas_frame.columnconfigure(0, weight=1)
         sequence_frame.columnconfigure(0, weight=1)
         output_frame.columnconfigure(0, weight=1)
         output_frame.rowconfigure(0, weight=1)
-    
+
     def calculate_full_sequence(self):
         """Calculate the complete execution sequence based on state diagram rules"""
         self.full_sequence = []
@@ -197,16 +202,6 @@ class RobotSequenceGUI:
         """Find the path from current state to target state following the state diagram"""
         if from_state == to_state:
             return []
-        
-        # Define state transitions based on the diagram
-        transitions = {
-            'setLocal': ['armReady'],
-            'armReady': ['do_pressRBR', 'penPick'],  # do_pressRBR is handled separately
-            'penPick': ['stylusReady'],
-            'stylusReady': ['magnetReady'],
-            'magnetReady': ['stylusReady'],
-            'penPlace': ['armReady']
-        }
         
         # Handle special transitions and paths
         if from_state == 'setLocal' and to_state == 'armReady':
@@ -412,6 +407,182 @@ class RobotSequenceGUI:
                 return i
         return len(self.user_sequence) - 1
     
+    def update_execution_display(self, status, current_step, message):
+        """Update the execution display in real-time"""
+        def update_ui():
+            # Update the current executing index for visual progress
+            self.current_executing_index = current_step - 1 if current_step > 0 else -1
+            
+            # Update the sequence canvas to show progress
+            self.update_sequence_canvas()
+            
+            status_text = f"{status}\n" + "="*40 + "\n\n"
+            
+            for i, func in enumerate(self.full_sequence, 1):
+                func_type = "🎯" if self.functions[func]['type'] == 'user' else "🔧"
+                if i == current_step:
+                    status_text += f"► {i}. {func_type} {func} (EXECUTING...)\n"
+                elif i < current_step:
+                    status_text += f"✓ {i}. {func_type} {func} (COMPLETED)\n"
+                else:
+                    status_text += f"  {i}. {func_type} {func}\n"
+            
+            status_text += f"\n" + "="*40
+            status_text += f"\nProgress: {current_step}/{len(self.full_sequence)} functions\n"
+            status_text += f"Status: {message}\n"
+            
+            self.output_text.delete(1.0, tk.END)
+            self.output_text.insert(1.0, status_text)
+            
+            # Scroll to show current execution
+            self.output_text.see(tk.END)
+        
+        # Schedule UI update on main thread
+        self.root.after(0, update_ui)
+    
+    async def call_robot_function_async(self, func_name):
+        """
+        Call the actual async robot function with timeout handling
+        
+        Each function waits max 3 seconds for return value, then moves forward
+        """
+        
+        try:
+            # Execute function with 3 second timeout
+            result = await asyncio.wait_for(self._execute_robot_function(func_name), timeout=3.0)
+            return result
+        except asyncio.TimeoutError:
+            print(f"WARNING: {func_name} timed out after 3 seconds, moving to next function")
+            return True  # Continue with next function on timeout
+        except Exception as e:
+            print(f"ERROR in {func_name}: {str(e)}")
+            return False
+    
+    async def _execute_robot_function(self, func_name):
+        """
+        Execute the specific robot function based on your provided mapping
+        """
+        
+        # =================================================================
+        # ACTUAL ROBOT FUNCTION CALLS - Replace with your imports/objects
+        # =================================================================
+        
+        # TODO: Add these imports at the top of your file:
+        # from your_robot_module import takePicture, setLocal, drawScreen, epson, EpsonController
+        
+        if func_name == 'captureBoard':
+            # captureBoard = takePicture()
+            print(f"Executing: takePicture()")
+            # TODO: Uncomment when you have the function available
+            # result = takePicture()
+            # return True if result else False
+            await asyncio.sleep(0.1)  # Remove this line in production
+            return True
+            
+        elif func_name == 'setLocal':
+            # setLocal = setLocal()
+            print(f"Executing: setLocal()")
+            # TODO: Uncomment when you have the function available
+            # result = setLocal()
+            # return True if result else False
+            await asyncio.sleep(0.1)  # Remove this line in production
+            return True
+            
+        elif func_name == 'armReady':
+            # armReady = await epson.executeTask(EpsonController.Action.ARMREADY)
+            print(f"Executing: await epson.executeTask(EpsonController.Action.ARMREADY)")
+            # TODO: Uncomment when you have the epson controller available
+            # result = await epson.executeTask(EpsonController.Action.ARMREADY)
+            # return True if result else False
+            await asyncio.sleep(3)  # Remove this line in production
+            return True
+            
+        elif func_name == 'stylusReady':
+            # stylusReady = await epson.executeTask(EpsonController.Action.STYLUSREADY)
+            print(f"Executing: await epson.executeTask(EpsonController.Action.STYLUSREADY)")
+            # TODO: Uncomment when you have the epson controller available
+            # result = await epson.executeTask(EpsonController.Action.STYLUSREADY)
+            # return True if result else False
+            await asyncio.sleep(0.1)  # Remove this line in production
+            return True
+            
+        elif func_name == 'magnetReady':
+            # magnetReady = await epson.executeTask(EpsonController.Action.MAGNETREADY)
+            print(f"Executing: await epson.executeTask(EpsonController.Action.MAGNETREADY)")
+            # TODO: Uncomment when you have the epson controller available
+            # result = await epson.executeTask(EpsonController.Action.MAGNETREADY)
+            # return True if result else False
+            await asyncio.sleep(0.1)  # Remove this line in production
+            return True
+            
+        elif func_name == 'penPick':
+            # penPick = await epson.executeTask(EpsonController.Action.PENPICK)
+            print(f"Executing: await epson.executeTask(EpsonController.Action.PENPICK)")
+            # TODO: Uncomment when you have the epson controller available
+            # result = await epson.executeTask(EpsonController.Action.PENPICK)
+            # return True if result else False
+            await asyncio.sleep(0.1)  # Remove this line in production
+            return True
+            
+        elif func_name == 'penPlace':
+            # penPlace = await epson.executeTask(EpsonController.Action.PENPLACE)
+            print(f"Executing: await epson.executeTask(EpsonController.Action.PENPLACE)")
+            # TODO: Uncomment when you have the epson controller available
+            # result = await epson.executeTask(EpsonController.Action.PENPLACE)
+            # return True if result else False
+            await asyncio.sleep(0.1)  # Remove this line in production
+            return True
+            
+        elif func_name == 'do_pressRBR':
+            # do_pressRBR = await epson.executeTask(EpsonController.Action.DO_PRESSRBR)
+            print(f"Executing: await epson.executeTask(EpsonController.Action.DO_PRESSRBR)")
+            # TODO: Uncomment when you have the epson controller available
+            # result = await epson.executeTask(EpsonController.Action.DO_PRESSRBR)
+            # return True if result else False
+            await asyncio.sleep(0.1)  # Remove this line in production
+            return True
+            
+        elif func_name == 'do_drawScreen':
+            # do_drawScreen = await drawScreen()
+            print(f"Executing: await drawScreen()")
+            # TODO: Uncomment when you have the function available
+            # result = await drawScreen()
+            # return True if result else False
+            await asyncio.sleep(0.1)  # Remove this line in production
+            return True
+            
+        elif func_name == 'do_Maze1':
+            # do_Maze1 = await epson.executeTask(EpsonController.Action.DO_MAZE1)
+            print(f"Executing: await epson.executeTask(EpsonController.Action.DO_MAZE1)")
+            # TODO: Uncomment when you have the epson controller available
+            # result = await epson.executeTask(EpsonController.Action.DO_MAZE1)
+            # return True if result else False
+            await asyncio.sleep(0.1)  # Remove this line in production
+            return True
+            
+        elif func_name == 'do_Maze2':
+            # do_Maze2 = await epson.executeTask(EpsonController.Action.DO_MAZE2)
+            print(f"Executing: await epson.executeTask(EpsonController.Action.DO_MAZE2)")
+            # TODO: Uncomment when you have the epson controller available
+            # result = await epson.executeTask(EpsonController.Action.DO_MAZE2)
+            # return True if result else False
+            await asyncio.sleep(0.1)  # Remove this line in production
+            return True
+            
+        elif func_name == 'End':
+            # Sequence completion
+            print(f"Executing: Sequence End")
+            await asyncio.sleep(0.1)  # Remove this line in production
+            return True
+            
+        else:
+            print(f"WARNING: Unknown function {func_name}")
+            return False
+        
+        # =================================================================
+        # END ROBOT FUNCTION CALLS
+        # =================================================================
+    
     def add_function(self, func_name):
         """Add a function to the user sequence"""
         self.user_sequence.append(func_name)
@@ -419,12 +590,10 @@ class RobotSequenceGUI:
         self.update_display()
     
     def clear_sequence(self):
-        """Clear all functions from sequence"""
-        result = messagebox.askyesno("Clear Sequence", "Remove all functions from the sequence?")
-        if result:
-            self.user_sequence = []
-            self.calculate_full_sequence()
-            self.update_display()
+        """Clear all functions from sequence - NO CONFIRMATION POPUP"""
+        self.user_sequence = []
+        self.calculate_full_sequence()
+        self.update_display()
     
     def on_right_click(self, event):
         """Handle right-click to remove function"""
@@ -451,11 +620,10 @@ class RobotSequenceGUI:
                 self.update_display()
     
     def reset_sequence(self):
-        """Reset user functions to default order"""
+        """Reset user functions to default order - NO CONFIRMATION POPUP"""
         self.user_sequence = ['do_pressRBR', 'do_drawScreen', 'do_Maze1', 'do_Maze2']
         self.calculate_full_sequence()
         self.update_display()
-        messagebox.showinfo("Reset", "Function sequence reset to default order:\ndo_pressRBR → do_drawScreen → do_Maze1 → do_Maze2")
     
     def validate_sequence(self):
         """Validate that at least one function is selected"""
@@ -503,109 +671,6 @@ class RobotSequenceGUI:
             
         self.show_execution_status()
     
-    def generate_execution_code(self):
-        """Generate Python code for the current sequence"""
-        code = f"""# Robot Function Execution Sequence
-# Generated for user order: {' → '.join(self.user_sequence)}
-# Total sequence length: {len(self.full_sequence)} functions
-
-import time
-import logging
-
-class RobotController:
-    def __init__(self):
-        self.current_state = None
-        self.executed_functions = []
-        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
-        self.logger = logging.getLogger(__name__)
-        
-    def log(self, message):
-        self.logger.info(message)
-        print(f"[{{time.strftime('%H:%M:%S')}}] {{message}}")
-    
-    def update_state(self, new_state):
-        if new_state != self.current_state:
-            self.log(f"State transition: {{self.current_state}} → {{new_state}}")
-            self.current_state = new_state
-    
-"""
-        
-        # Generate individual function definitions
-        for func_name in set(self.full_sequence):
-            if func_name == 'End':
-                code += f"    def {func_name.lower()}(self):\n"
-                code += f"        \"\"\"Complete the robot sequence\"\"\"\n"
-                code += f"        self.log('🏁 Robot sequence completed successfully!')\n"
-                code += f"        self.update_state('End')\n"
-                code += f"        self.executed_functions.append('{func_name}')\n\n"
-            else:
-                code += f"    def {func_name}(self):\n"
-                code += f"        \"\"\"Execute {func_name}\"\"\"\n"
-                code += f"        self.log('🔧 Executing {func_name}...')\n"
-                code += f"        \n"
-                code += f"        # TODO: Implement actual {func_name} logic here\n"
-                code += f"        time.sleep(0.2)  # Simulate execution time\n"
-                code += f"        \n"
-                if func_name in ['armReady', 'magnetReady', 'stylusReady']:
-                    code += f"        self.update_state('{func_name}')\n"
-                code += f"        self.executed_functions.append('{func_name}')\n"
-                code += f"        self.log('✅ {func_name} completed')\n\n"
-        
-        # Generate execution sequence
-        code += "    def execute_sequence(self):\n"
-        code += "        \"\"\"Execute all functions in the specified order\"\"\"\n"
-        code += "        self.log('🚀 Starting robot execution sequence...')\n"
-        code += "        self.log(f'Sequence: {\", \".join([\"" + "\", \"".join(self.full_sequence) + "\"])}')\n"
-        code += "        \n"
-        code += "        try:\n"
-        
-        for i, func_name in enumerate(self.full_sequence, 1):
-            if func_name == 'End':
-                code += f"            # Step {i}: Complete sequence\n"
-                code += f"            self.end()\n"
-            else:
-                code += f"            # Step {i}: {func_name}\n"
-                code += f"            self.{func_name}()\n"
-            code += f"            \n"
-        
-        code += "            return True\n"
-        code += "            \n"
-        code += "        except Exception as e:\n"
-        code += "            self.log(f'❌ Execution failed at step: {e}')\n"
-        code += "            return False\n\n"
-        
-        code += f"""    def get_execution_summary(self):
-        \"\"\"Get a summary of the execution\"\"\"
-        return {{
-            'user_function_order': {self.user_sequence},
-            'total_steps': {len(self.full_sequence)},
-            'sequence': {self.full_sequence},
-            'executed_count': len(self.executed_functions)
-        }}
-
-# Usage example
-if __name__ == "__main__":
-    robot = RobotController()
-    
-    print("Robot Function Sequence Manager")
-    print("="*50)
-    print(f"User-defined order: {' → '.join(self.user_sequence)}")
-    print(f"Total sequence steps: {len(self.full_sequence)}")
-    print()
-    
-    success = robot.execute_sequence()
-    
-    if success:
-        print("\\n🎉 Robot sequence completed successfully!")
-        summary = robot.get_execution_summary()
-        print(f"Executed {{summary['executed_count']}}/{{summary['total_steps']}} functions")
-    else:
-        print("\\n❌ Robot sequence failed!")
-"""
-        
-        self.output_text.delete(1.0, tk.END)
-        self.output_text.insert(1.0, code)
-    
     def update_output(self):
         """Update the output display with simple execution status"""
         if not hasattr(self, 'output_text'):
@@ -649,7 +714,6 @@ if __name__ == "__main__":
     
     async def execute_sequence(self):
         """Execute the complete sequence with real-time updates (async version)"""
-        import asyncio
         
         # Initial status
         self.update_execution_display("🚀 EXECUTION STARTED", 0, "Initializing...")
@@ -675,110 +739,6 @@ if __name__ == "__main__":
             
         except Exception as e:
             self.update_execution_display("❌ EXECUTION ERROR", i if 'i' in locals() else 0, f"Error: {str(e)}")
-    
-    async def call_robot_function_async(self, func_name):
-        """
-        Call the actual async robot function - REPLACE WITH YOUR ASYNC ROBOT CONTROL CODE
-        
-        This is where you put your actual async robot function calls.
-        Return True if successful, False if failed.
-        """
-        
-        # =================================================================
-        # PLACEHOLDER: Replace these with your actual ASYNC robot function calls
-        # =================================================================
-        
-        if func_name == 'captureBoard':
-            # TODO: Add your async captureBoard implementation here
-            # Example: await robot.capture_board()
-            print(f"PLACEHOLDER: Calling async {func_name}")
-            await asyncio.sleep(0.1)  # Simulate async operation
-            return True
-            
-        elif func_name == 'setLocal':
-            # TODO: Add your async setLocal implementation here
-            # Example: await robot.set_local()
-            print(f"PLACEHOLDER: Calling async {func_name}")
-            await asyncio.sleep(0.1)  # Simulate async operation
-            return True
-            
-        elif func_name == 'penPick':
-            # TODO: Add your async penPick implementation here
-            # Example: await robot.pen_pick()
-            print(f"PLACEHOLDER: Calling async {func_name}")
-            await asyncio.sleep(0.1)  # Simulate async operation
-            return True
-            
-        elif func_name == 'armReady':
-            # TODO: Add your async armReady implementation here
-            # Example: await robot.arm_ready()
-            print(f"PLACEHOLDER: Calling async {func_name}")
-            await asyncio.sleep(0.1)  # Simulate async operation
-            return True
-            
-        elif func_name == 'penPlace':
-            # TODO: Add your async penPlace implementation here
-            # Example: await robot.pen_place()
-            print(f"PLACEHOLDER: Calling async {func_name}")
-            await asyncio.sleep(0.1)  # Simulate async operation
-            return True
-            
-        elif func_name == 'magnetReady':
-            # TODO: Add your async magnetReady implementation here
-            # Example: await robot.magnet_ready()
-            print(f"PLACEHOLDER: Calling async {func_name}")
-            await asyncio.sleep(0.1)  # Simulate async operation
-            return True
-            
-        elif func_name == 'stylusReady':
-            # TODO: Add your async stylusReady implementation here
-            # Example: await robot.stylus_ready()
-            print(f"PLACEHOLDER: Calling async {func_name}")
-            await asyncio.sleep(0.1)  # Simulate async operation
-            return True
-            
-        elif func_name == 'do_pressRBR':
-            # TODO: Add your async do_pressRBR implementation here
-            # Example: await robot.press_rbr()
-            print(f"PLACEHOLDER: Calling async {func_name}")
-            await asyncio.sleep(0.1)  # Simulate async operation
-            return True
-            
-        elif func_name == 'do_Maze1':
-            # TODO: Add your async do_Maze1 implementation here
-            # Example: await robot.solve_maze1()
-            print(f"PLACEHOLDER: Calling async {func_name}")
-            await asyncio.sleep(0.1)  # Simulate async operation
-            return True
-            
-        elif func_name == 'do_Maze2':
-            # TODO: Add your async do_Maze2 implementation here
-            # Example: await robot.solve_maze2()
-            print(f"PLACEHOLDER: Calling async {func_name}")
-            await asyncio.sleep(0.1)  # Simulate async operation
-            return True
-            
-        elif func_name == 'do_drawScreen':
-            # TODO: Add your async do_drawScreen implementation here
-            # Example: await robot.draw_screen()
-            print(f"PLACEHOLDER: Calling async {func_name}")
-            await asyncio.sleep(0.1)  # Simulate async operation
-            return True
-            
-        elif func_name == 'End':
-            # TODO: Add your async End/cleanup implementation here
-            # Example: await robot.finish_sequence()
-            print(f"PLACEHOLDER: Calling async {func_name}")
-            await asyncio.sleep(0.1)  # Simulate async operation
-            return True
-            
-        else:
-            print(f"WARNING: Unknown function {func_name}")
-            return False
-        
-        # =================================================================
-        # END PLACEHOLDER SECTION
-        # =================================================================
 
 def main():
     root = tk.Tk()
