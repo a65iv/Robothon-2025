@@ -23,6 +23,10 @@ figure-1: task board 2025
 The controller monitors the state of the task board and reports individual task completion times to a public web dashboard to easily share the results. 
 View the web dashboard at the following URL: https://bit.ly/robothon2025_dashboard 
 
+In our implementation, the sequence of the task can be re-arranged using Graphical User Interface (GUI) by doing drag-and-drop of the available functions. Any other related functions or dependencies will be automatically arranged accordingly. 
+![Task manager](https://github.com/a65iv/Robothon-2025/blob/main/photos/robothon_task_manager.png)
+figure-2: Task manager 2025
+
 ### Parts List
 - Epson VT6 manipulator robot with 6-axis
 - Custom pneumatic linear gripper and 3D printed carbon fiber fingers
@@ -35,7 +39,7 @@ View the web dashboard at the following URL: https://bit.ly/robothon2025_dashboa
 - DELL Laptop as Python code platform
 
 ![photos/robothon2025_connectivity.png](https://github.com/a65iv/Robothon-2025/blob/main/photos/robothon2025_connectivitypng.png)
-figure-2: connectivity diagram
+figure-3: connectivity diagram
 
 ### Project History
 - **09-06-2025:** Completed BYOD 3x3 Slider Puzzle integration. Team video published. Document submitted.
