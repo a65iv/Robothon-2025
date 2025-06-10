@@ -1,8 +1,8 @@
 import cv2
 import numpy as np
 from typing import * 
-from modules.PointClass import Point
-from modules.DetectorClass import Detector, DetectionResult
+from modules.Point import Point
+from modules.Detector import Detector, DetectionResult
 
 
 

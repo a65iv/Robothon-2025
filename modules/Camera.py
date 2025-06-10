@@ -5,8 +5,8 @@ import math
 import platform
 import numpy as np
 import argparse
-from modules.DetectorClass import DetectionResult, Detector
-from modules.ColorDetectorClass import ColorDetector, ColorFilter
+from modules.Detector import DetectionResult, Detector
+from modules.ColorDetector import ColorDetector, ColorFilter
 
 
 class Cam:

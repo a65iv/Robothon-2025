@@ -6,41 +6,11 @@ import asyncio
 import argparse
 
 from modules.Camera import Cam
-from modules.PointClass import Point
+from modules.Point import Point
 from modules.Calibrator import Calibrator
 
 # setting up constants
 EPSON_ROBOT_IP = "192.168.1.2"
-
-XGRADIENT = 0.3258
-XINTERCEPT =-281.96
-
-YGRADIENT = -0.3554
-YINTERCEPT = 869.52
-
-
-
-HOMEX = 0
-HOMEY= 524
-HOMEZ = 500
-
-
-PICKUPZ = 150
-
-DROP_METAL_X = 738 #Yellow box X
-DROP_METAL_Y = -284 #Yellow box Y
-DROP_PLASTIC_X = 459 # Green Box X
-DROP_PLASTIC_Y = -284 # Green Box Y
-DROP_PAPER_X = 459 # Red Box X
-DROP_PAPER_Y = 77.5 # Red Box Y
-DROP_GLASS_X = 738 # Blue Box X
-DROP_GLASS_Y = 77.5 # Blue Box Y
-DROPZ = 277
-
-
-# CONSTRAINTS
-MAX_Y = 800
-MAX_X = -400
 
 
 # Initialize calibrator
@@ -104,10 +74,6 @@ class EpsonController:
         self.isPerformingAction = False
         
         # EPSON STATE
-        self.robot_camera_position = self.calibrator.predict({'x':HOMEX, 'y': HOMEY}, world=False)
-        self.robot_x = HOMEX
-        self.robot_y = HOMEY
-        self.robot_z = HOMEZ   
         self.history = []
 
 
@@ -150,32 +116,12 @@ class EpsonController:
             pass
 
     
-    def goHome(self):
-        self.goto(HOMEX, HOMEY, HOMEZ, 90)
-        try:
-            confirmation = self.clientSocket.recv(1023)
-            print("result:", confirmation)
-        except:
-            pass
-
-    def goCamera(self):
-        self.goto(0, 750, 800, 90)
-        try:
-            confirmation = self.clientSocket.recv(1023)
-            print("result:", confirmation)
-        except:
-            pass
-
     def getWorldCoordinates(self, point: Point):
         # self.calibrator.rotate(90)
         x_world, y_world = self.calibrator.predict({'x':point.x, 'y': point.y})
         print(str(point))
         return Point(x_world, y_world)
 
-    def getPixelCoordinates(x_real, y_real):
-        x_pixel = (x_real - XINTERCEPT) / XGRADIENT 
-        y_pixel  =  (y_real - YINTERCEPT ) / YGRADIENT
-        return x_pixel, y_pixel
     
     def getLocation(self):
         print(f"x: {self.robot_x}, y: {self.robot_y}, z: {self.robot_z}")

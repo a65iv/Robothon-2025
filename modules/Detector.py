@@ -1,4 +1,4 @@
-from modules.PointClass import Point
+from modules.Point import Point
 from typing import Optional
 
 class DetectionResult:

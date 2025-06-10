@@ -17,7 +17,7 @@ import numpy as np
 import os
 import io
 
-from modules.DetectorClass import Detector, DetectionResult
+from modules.Detector import Detector, DetectionResult
 
 import tracemalloc
 tracemalloc.start()

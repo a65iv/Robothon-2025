@@ -1,12 +1,10 @@
 import cv2
 import numpy as np
 import pytesseract
-from collections import deque
-import numpy as np
-from modules.Camera import Cam 
-from modules.EpsonController import EpsonController
-from modules.PointClass import Point
 from time import sleep
+from collections import deque
+from modules.EpsonController import EpsonController
+
 import tracemalloc
 tracemalloc.start()
 
