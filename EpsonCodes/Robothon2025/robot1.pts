@@ -1,4 +1,4 @@
-ENVT0100,LM:2025/06/09 15:42:03:000,DS:0000019535,CS:01798,MA:3C-E4-B0-DF-04-B9,EI:           
+ENVT0100,LM:2025/06/10 15:47:03:000,DS:0000019535,CS:28023,MA:3C-E4-B0-DF-04-B9,EI:           
 sVersion="2.0.0"
 nNumberOfPoints=68
 Point1 {
@@ -532,7 +532,7 @@ Point26 {
 	sDescription=""
 	nUndefined=448
 	rX=192.291000
-	rY=-154.000000
+	rY=-159.000000
 	rZ=332.500000
 	rU=0.000000
 	rV=0.000000
@@ -1266,7 +1266,7 @@ Point61 {
 	sLabel="BYOD_cell5"
 	sDescription=""
 	nUndefined=0
-	rX=-0.000000
+	rX=0.000000
 	rY=630.000000
 	rZ=360.000000
 	rU=0.000000
@@ -1371,8 +1371,8 @@ Point66 {
 	sLabel=""
 	sDescription=""
 	nUndefined=0
-	rX=-84.989998
-	rY=729.929993
+	rX=-103.230003
+	rY=758.090027
 	rZ=500.000000
 	rU=0.000000
 	rV=0.000000
@@ -1392,8 +1392,8 @@ Point67 {
 	sLabel=""
 	sDescription=""
 	nUndefined=0
-	rX=97.339996
-	rY=780.210022
+	rX=85.860001
+	rY=748.030029
 	rZ=500.000000
 	rU=0.000000
 	rV=0.000000

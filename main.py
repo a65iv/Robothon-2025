@@ -40,7 +40,7 @@ RED_FILTER_ON = ColorFilter(
 # ─────────────────────────────────────────────
 blue_on = False
 red_on = False
-count = 0
+
 
 async def set_blue_on(midpoint):
     global blue_on
@@ -59,44 +59,69 @@ async def set_red_on(midpoint):
         cam.stop_feed()
 
 async def read_instruction(led_instruction): 
-    if epson.isPerformingAction:
-        return
+    # if epson.isPerformingAction:
+    #     return
     
-    global count
-    if count >= 6:
-        lcd_cam.stop_feed()
-        return
+    # global count
+    # if count >= 6:
+    #     lcd_cam.stop_feed()
+    #     return
     
     
-    print(led_instruction)
+    print("From read instruction: ", led_instruction)
     match led_instruction:
         case "circle":
             print("Detected shape: Circle")
-            await epson.executeTask(EpsonController.Action.DRAW_CIRCLE)
+            await epson.executeTask(EpsonController.Action.DRAW_TRIANGLE)
+            return 
         case "triangle":
             print("Detected shape: Triangle")
             await epson.executeTask(EpsonController.Action.DRAW_TRIANGLE)
+            return 
         case "square":
             print("Detected shape: Square")
             await epson.executeTask(EpsonController.Action.DRAW_SQUARE)
-        case "drag from b to background":
-            await epson.executeTask(EpsonController.Action.SWIPE_BG)
+            return 
         case "drag from a to background":
             await epson.executeTask(EpsonController.Action.SWIPE_AG)
+            return 
+        case "drag from b to background":
+            await epson.executeTask(EpsonController.Action.SWIPE_BG)
+            return 
         case "drag from brackground to a":
             await epson.executeTask(EpsonController.Action.SWIPE_GA)
-        case "tap b":
-            await epson.executeTask(EpsonController.Action.TAP_B)
+            return 
+        case "drag from brackground to b":
+            await epson.executeTask(EpsonController.Action.SWIPE_GB)
+            return 
+        case "drag from a to b":
+            await epson.executeTask(EpsonController.Action.SWIPE_AB)
+            return 
         case "drag from b to a":
             await epson.executeTask(EpsonController.Action.SWIPE_BA)
+            return 
+        case "tap a":
+            await epson.executeTask(EpsonController.Action.TAP_A)
+            return 
+        case "tap b":
+            await epson.executeTask(EpsonController.Action.TAP_B)
+            return 
         case "double tap a":
             await epson.executeTask(EpsonController.Action.DTAP_A)
+            return 
+        case "double tap b":
+            await epson.executeTask(EpsonController.Action.DTAP_B)
+            return 
+        case "double tap background":
+            await epson.executeTask(EpsonController.Action.DTAP_G)
+            return 
+        case "swipe right":
+            await epson.executeTask(EpsonController.Action.SWIPE_AB)
+            return 
         case _:
             print("Unknown shape detected")
             await epson.executeTask(EpsonController.Action.TAP_G)
-    
-    asyncio.sleep(1)
-    count += 1
+            return 
 
 BlueOnDetector = ColorDetector("BlueOnDetector", filters=[BLUE_FILTER_ON], callback=set_blue_on)
 RedOnDetector = ColorDetector("RedOnDetector", filters=[RED_FILTER_ON], callback=set_red_on)
@@ -125,8 +150,11 @@ async def main():
 
     epson.setLocalFrame(blue_point, red_point)
 
+    success = await epson.executeTask(EpsonController.Action.ARMREADY) # testing new action by Judhi 10-06-25 18:00 
+    await asyncio.sleep(1)
+    
     success = await epson.executeTask(EpsonController.Action.PRESS_RED_BLUE_RED)
-    await asyncio.sleep(3)
+    await asyncio.sleep(1)
 
     if not success:
         print("Failed to execute action.")
@@ -143,12 +171,23 @@ async def main():
     await epson.executeTask(EpsonController.Action.SCREEN_CAMERA)
     await asyncio.sleep(1)
 
-    shapetextdetector = ShapeTextDetector(callback=read_instruction)
+    shapetextdetector = ShapeTextDetector()
+    
+    detections = []
+    for i in range(6):
+        print("Epson Action: ", epson.isPerformingAction)
+        print(f"TAKE PICTURE {i}: ShapeTextDetection")
+        filename = f"./shape{i}.png"
+        lcd_cam.take_picture(filename=filename)
+        
+        detection = await shapetextdetector.detect(cv2.imread(filename))
+        detections.append(detection.name)
+        await read_instruction(detection.name)
+        
+    # await lcd_cam.live_feed(detectors=[shapetextdetector])
 
-    # Example switch statement using match-case (Python 3.10+)
-    image = cv2.imread("./local-frame.png")
-    await lcd_cam.live_feed(detectors=[shapetextdetector])
 
+    print("Detections:\n", detections)
 # instructions = [
 #     # "drag from b to background",
 #     # "drag from b to back",

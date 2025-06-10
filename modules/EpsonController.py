@@ -82,6 +82,14 @@ class EpsonController:
         DRAW_TRIANGLE = "go_drawTriangle"
         DRAW_SQUARE = "go_drawSquare"
         
+        DO_PRESS_RBR = "do_pressRBR"
+        DO_MAZE1 = "do_Maze1"
+        DO_MAZE2 = "do_Maze2"      
+        STYLUSREADY = "stylusReady"
+        MAGNETREADY = "magnetReady"
+        PENPICK = "penPick"
+        PENPLACE = "penPlace"
+        ARMREADY = "armReady"  
 
        
     def __init__(self):
@@ -89,7 +97,7 @@ class EpsonController:
         # setting up socket
         self.clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.clientSocket.connect((EPSON_ROBOT_IP, 2001))
-        self.clientSocket.settimeout(30) 
+        self.clientSocket.settimeout(60) 
 
         # set up calibrator
         self.calibrator = Calibrator()

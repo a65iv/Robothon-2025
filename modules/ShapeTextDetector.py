@@ -39,9 +39,12 @@ instructions = [
     "long press b",
     "long press a",
     "drag from a to background",
+    "drag from b to background",
     "drag from b to a",
+    "drag from a to b",
     "long press background",
     "double tap a",
+    "double tap b",
     "circle",
     "rectangle",
     "triangle"
@@ -94,54 +97,54 @@ def resize_image(image_bgr: np.ndarray, width: int, height: int) -> np.ndarray:
         return image_bgr  # Return original if resizing fails
 
 
-def circularity(contour: np.ndarray) -> float:
-    """Return circularity metric for a contour."""
-    area = cv2.contourArea(contour)
-    perim = cv2.arcLength(contour, True)
-    return 4 * math.pi * area / (perim**2) if perim else 0.0
+def detect_shape(image):
 
+    # Crop display area
+    h, w = image.shape[:2]
+    cropped = image[int(h * 0.2):int(h * 0.85), int(w * 0.15):int(w * 0.85)]
 
-def approximate_polygon(contour: np.ndarray, eps_ratio: float = 0.02) -> np.ndarray:
-    perim = cv2.arcLength(contour, True)
-    return cv2.approxPolyDP(contour, eps_ratio * perim, True)
+    # Convert to HSV
+    hsv = cv2.cvtColor(cropped, cv2.COLOR_BGR2HSV)
 
+    # Red mask
+    lower_red1 = np.array([0, 100, 100])
+    upper_red1 = np.array([10, 255, 255])
+    lower_red2 = np.array([160, 100, 100])
+    upper_red2 = np.array([180, 255, 255])
+    mask = cv2.inRange(hsv, lower_red1, upper_red1) | cv2.inRange(hsv, lower_red2, upper_red2)
 
-def detect_orange_shape(img) -> str:
-    if img is None:
-        raise ValueError(f"Unable to load image")
+    # Morphological filtering and blur
+    kernel = np.ones((3, 3), np.uint8)
+    mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
+    mask = cv2.GaussianBlur(mask, (5, 5), 0)
 
-    h, w = img.shape[:2]
-    blur = cv2.GaussianBlur(img, GAUSSIAN_BLUR, 0)
-    hsv = cv2.cvtColor(blur, cv2.COLOR_BGR2HSV)
-    mask = cv2.inRange(hsv, ORANGE_LOWER, ORANGE_UPPER)
+    # Contour detection
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-    kern_big = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (15, 15))
-    kern_med = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (9, 9))
-    mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kern_big)
-    mask = cv2.dilate(mask, kern_med, iterations=1)
-    mask = cv2.erode(mask, kern_med, iterations=1)
+    best_cnt = max(contours, key=cv2.contourArea, default=None)
+    shape_name = "Unknown"
 
-    cnts, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    min_area = 0.02 * h * w
+    if best_cnt is not None:
+        area = cv2.contourArea(best_cnt)
+        peri = cv2.arcLength(best_cnt, True)
+        circularity = 4 * np.pi * area / (peri * peri) if peri > 0 else 0
+        approx = cv2.approxPolyDP(best_cnt, 0.015 * peri, True)
+        vertices = len(approx)
 
-    for cnt in sorted(cnts, key=cv2.contourArea, reverse=True):
-        area = cv2.contourArea(cnt)
-        if area < min_area:
-            continue
-
-        poly = approximate_polygon(cnt)
-        vtx = len(poly)
-
-        if vtx == 3:
-            return 'Triangle'
-        elif vtx == 4:
-            x, y, w, h = cv2.boundingRect(poly)
-            return 'Rectangle'
+        # Shape logic
+        if circularity > 0.75 and vertices >= 8:
+            shape_name = "Circle"
+        elif vertices == 3:
+            shape_name = "Triangle"
+        elif vertices == 4:
+            x, y, w, h = cv2.boundingRect(approx)
+            ar = w / float(h)
+            shape_name = "Square"
         else:
-            return 'Circle'
-
-    return 'None'
-
+            shape_name = "Circle" 
+            
+    print("shape: ", shape_name)
+    return shape_name.lower()
 
 def crop_region(img: np.ndarray, region: tuple[int, int, int, int]) -> np.ndarray:
     x, y, w, h = region
@@ -169,7 +172,7 @@ def handle_levenshtein_distance(instructions, detected_intstruction):
             MIN_DISTANCE = distance
             decided_instruction = instruction
 
-    # print(decided_instruction)
+    print(detected_intstruction, decided_instruction)
     if decided_instruction == "drag from b to back":
         decided_instruction = "drag from b to background"
     return decided_instruction
@@ -197,12 +200,10 @@ class EasyOCRRecognizer:
             elif 'touch' in text.lower():
                 start = True
 
-        print(text_seq)
-
         text = ' '.join(text_seq).strip().lower()
-        print(text)
+        print("Text detected: ",  text)
         if text is None or text == " " or len(text_seq) == 0:
-            return detect_orange_shape(originial_img_path)
+            return detect_shape(originial_img_path)
         return text
 
 
@@ -223,19 +224,17 @@ class TesseractRecognizer:
         data = pytesseract.image_to_data(proc, lang=self.lang, output_type=pytesseract.Output.DICT)
 
         texts = data['text']
-        print(texts)
         start_idx = next((i for i, t in enumerate(texts) if 'touch' in t.lower() or 'screen' in t.lower()), None)
 
 
         if start_idx is not None and len(texts[start_idx + 1:]) > 0:
             interested_texts = texts[start_idx + 1:]
-            print(interested_texts)
             result = [t.strip() for t in texts[start_idx + 1:] if t.strip() not in ('|', '_', '')]
-            # print("detected string", result)
+            print("detected string ", result)
             if len(result) > 0:
-                return ' '.join(result).lower()
+                return handle_levenshtein_distance(instructions, ' '.join(result).lower())
 
-        return detect_orange_shape(img)
+        return detect_shape(img)
 
 
 # ─── Detector Implementation ────────────────────────────────────────────────
@@ -252,12 +251,12 @@ class ShapeTextDetector(Detector):
             return self._detect_via_api(self.img_path)
         
         if self.model == OCRDetector.TESERACT:
-            text = handle_levenshtein_distance(instructions, TesseractRecognizer().get_readable_text(img))
+            text = TesseractRecognizer().get_readable_text(img)
             if self.callback is not None:
                 await self.callback(text)
             return DetectionResult(text, None)
         else:
-            text = handle_levenshtein_distance(instructions, EasyOCRRecognizer().get_readable_text(img, ""))
+            text = EasyOCRRecognizer().get_readable_text(img, "")
             if self.callback is not None:
                 await self.callback(text)
             return DetectionResult(text, None)
