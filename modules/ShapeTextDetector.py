@@ -11,9 +11,12 @@ import Levenshtein
 import asyncio
 from PIL import Image
 from enum import Enum
-from modules.Camera import Cam
-
-
+# from keras.models import load_model
+import tensorflow as tf
+from PIL import Image, ImageOps 
+import numpy as np
+import os
+import io
 
 from modules.DetectorClass import Detector, DetectionResult
 
@@ -59,6 +62,87 @@ THRESH_BINARY = (100, 255)
 
 
 # ─── Utility Functions ───────────────────────────────────────────────────────
+
+
+def keras_detect_shape(image_buffer):
+    """
+    Detects a shape in an image using a pre-trained Keras model.
+
+    Args:
+        image_buffer (bytes): The image file content as a byte buffer.
+
+    Returns:
+        str: The predicted class name for the shape in the image.
+             Returns None if model or label files are not found, or if the buffer is invalid.
+    """
+    # Define paths for the model and labels
+    model_path = "./keras_model.h5"
+    labels_path = "./labels.txt"
+
+    # --- Pre-computation Checks ---
+    # Check if the required model and label files exist before proceeding
+    if not os.path.exists(model_path):
+        print(f"Error: Model file not found at {model_path}")
+        return None
+    if not os.path.exists(labels_path):
+        print(f"Error: Labels file not found at {labels_path}")
+        return None
+
+    # --- Keras/TensorFlow Setup ---
+    # Disable scientific notation for clarity in numpy
+    np.set_printoptions(suppress=True)
+
+    # Load the model.
+    # Using compile=False speeds up loading for inference-only models.
+    try:
+        model = tf.keras.models.load_model(model_path, compile=False)
+    except Exception as e:
+        print(f"Error loading model: {e}")
+        return None
+
+    # Load the labels, stripping out newline characters.
+    with open(labels_path, "r") as f:
+        class_names = [line.strip() for line in f.readlines()]
+
+    # --- Image Processing ---
+    # Create a numpy array with the right shape to feed into the Keras model.
+    data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
+
+    # UPDATED: Open the image from the in-memory byte buffer instead of a file path.
+    try:
+        image = Image.open(io.BytesIO(image_buffer)).convert("RGB")
+    except Exception as e:
+        print(f"Error opening image from buffer: {e}")
+        return None
+
+
+    # Resize the image to 224x224 and crop from the center.
+    size = (224, 224)
+    image = ImageOps.fit(image, size, Image.Resampling.LANCZOS)
+
+    # Convert the image into a numpy array.
+    image_array = np.asarray(image)
+
+    # Normalize the image data to the range of -1 to 1.
+    normalized_image_array = (image_array.astype(np.float32) / 127.5) - 1
+
+    # Load the processed image data into our batch array.
+    data[0] = normalized_image_array
+
+    # --- Prediction ---
+    # Run the model's prediction on the image data.
+    prediction = model.predict(data)
+    index = np.argmax(prediction)
+    class_name = class_names[index]
+    confidence_score = prediction[0][index]
+
+    # Print prediction and confidence score
+    # The class name is sliced [2:] to remove the leading number and space (e.g., "0 circle")
+    print(f"Class: {class_name[2:]}")
+    print(f"Confidence Score: {confidence_score:.4f}") # Formatted for readability
+
+    return class_name[2:]
+
 def reduce_image_size(in_path: str, out_path: str, quality: int = 85) -> None:
     """Compress image using Pillow."""
     try:
@@ -188,8 +272,7 @@ class EasyOCRRecognizer:
     def is_number(s: str) -> bool:
         return bool(re.fullmatch(r'-?\d+(\.\d+)?', s))
 
-    def get_readable_text(self, img_path: str, originial_img_path: str) -> str:
-        self.original_img_path = originial_img_path
+    def get_readable_text(self, img_path) -> str:
         results = self.reader.readtext(img_path)
         text_seq, start = [], False
 
@@ -203,7 +286,7 @@ class EasyOCRRecognizer:
         text = ' '.join(text_seq).strip().lower()
         print("Text detected: ",  text)
         if text is None or text == " " or len(text_seq) == 0:
-            return detect_shape(originial_img_path)
+            return detect_shape(img_path)
         return text
 
 
@@ -256,7 +339,7 @@ class ShapeTextDetector(Detector):
                 await self.callback(text)
             return DetectionResult(text, None)
         else:
-            text = EasyOCRRecognizer().get_readable_text(img, "")
+            text = EasyOCRRecognizer().get_readable_text(img)
             if self.callback is not None:
                 await self.callback(text)
             return DetectionResult(text, None)
