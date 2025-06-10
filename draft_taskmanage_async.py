@@ -106,19 +106,16 @@ class RobotSequenceGUI:
         self.user_canvas.bind("<ButtonRelease-1>", self.on_release)
         self.user_canvas.bind("<Button-3>", self.on_right_click)  # Right-click to remove
         
-        # Right side - control buttons
+        # Right side - control buttons (VALIDATE BUTTON REMOVED)
         controls_frame = ttk.Frame(user_section_frame)
         controls_frame.grid(row=0, column=1, sticky=(tk.N))
-        
-        ttk.Button(controls_frame, text="Validate Sequence", 
-                  command=self.validate_sequence).grid(row=0, column=0, pady=2, sticky=(tk.W, tk.E))
         
         # GO Button (prominent and GREEN) - MADE BRIGHT GREEN AND BIGGER
         go_button = tk.Button(controls_frame, text="🚀 GO - Start Execution", 
                               command=self.start_execution,
                               bg="#00FF00", fg="black", font=("Arial", 14, "bold"),
                               width=20, height=2)
-        go_button.grid(row=1, column=0, pady=(10, 0), sticky=(tk.W, tk.E))
+        go_button.grid(row=0, column=0, pady=2, sticky=(tk.W, tk.E))
         
         # Configure grid weights for user section
         user_section_frame.columnconfigure(0, weight=1)
@@ -626,47 +623,15 @@ class RobotSequenceGUI:
         self.update_display()
     
     def validate_sequence(self):
-        """Validate that at least one function is selected"""
+        """Validate that at least one function is selected - silent validation"""
         if not self.user_sequence:
-            messagebox.showerror("Validation Error", "At least one function must be selected!")
             return False
-        
-        messagebox.showinfo("Validation", f"✓ Sequence is valid!\n{len(self.user_sequence)} function(s) selected")
         return True
     
-    def preview_sequence(self):
-        """Show a detailed preview of the execution sequence"""
-        if not self.validate_sequence():
-            return
-            
-        preview_text = f"SEQUENCE PREVIEW\n{'='*30}\n\n"
-        
-        # Show function selection summary
-        func_counts = {}
-        for func in self.user_sequence:
-            func_counts[func] = func_counts.get(func, 0) + 1
-        
-        preview_text += "Selected Functions:\n"
-        for func, count in func_counts.items():
-            preview_text += f"  • {func}: {count} time(s)\n"
-        
-        preview_text += f"\nUser Order: {' → '.join(self.user_sequence)}\n\n"
-        preview_text += f"Complete Sequence ({len(self.full_sequence)} steps):\n"
-        
-        for i, func in enumerate(self.full_sequence, 1):
-            func_type = "🎯" if self.functions[func]['type'] == 'user' else "🔧"
-            preview_text += f"  {i:2d}. {func_type} {func}\n"
-        
-        preview_text += f"\n{'='*30}\n"
-        preview_text += "🔧 = Auto Function, 🎯 = User Function\n"
-        preview_text += "\nClick GO to start execution!"
-        
-        self.output_text.delete(1.0, tk.END)
-        self.output_text.insert(1.0, preview_text)
-    
     def start_execution(self):
-        """Start execution and show status"""
+        """Start execution with silent validation, only show popup if validation fails"""
         if not self.validate_sequence():
+            messagebox.showerror("Validation Error", "At least one function must be selected!")
             return
             
         self.show_execution_status()
