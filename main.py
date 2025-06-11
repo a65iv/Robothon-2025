@@ -85,10 +85,21 @@ async def read_instruction(led_instruction):
 
     elif led_instruction == "double tap background":
         await epson.executeTask(EpsonController.Action.DTAP_G)
+        
+    elif led_instruction == "long press a":
+        await epson.executeTask(EpsonController.Action.LONG_PRESS_A)
+
+    elif led_instruction == "long press b":
+        await epson.executeTask(EpsonController.Action.LONG_PRESS_B)
+    
+    elif led_instruction == "long press background":
+        await epson.executeTask(EpsonController.Action.LONG_PRESS_G)
 
     elif led_instruction == "swipe right":
         await epson.executeTask(EpsonController.Action.SWIPE_AB)
-
+        
+    elif led_instruction == "swipe left":
+        await epson.executeTask(EpsonController.Action.SWIPE_BA)
     else:
         print("Unknown shape detected")
         await epson.executeTask(EpsonController.Action.TAP_G)
@@ -128,7 +139,7 @@ async def main():
 
 
     # Additional Epson async task sequence
-    await epson.executeTask(EpsonController.Action.PEN_PICK)
+    await epson.executeTask(EpsonController.Action.PENPICK)
     await asyncio.sleep(1)
 
     await epson.executeTask(EpsonController.Action.SCREEN_CAMERA)

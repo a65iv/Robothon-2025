@@ -4,6 +4,7 @@ import asyncio
 from modules.Camera import Cam
 from modules.EpsonController import EpsonController
 from modules.ColorDetector import ColorDetector, ColorFilter
+from time import sleep
 
 import tkinter as tk
 from tkinter import ttk, messagebox
@@ -67,6 +68,7 @@ async def set_red_on(midpoint):
 BlueOnDetector = ColorDetector("BlueOnDetector", filters=[BLUE_FILTER_ON], callback=set_blue_on)
 RedOnDetector = ColorDetector("RedOnDetector", filters=[RED_FILTER_ON], callback=set_red_on)
 
+
 async def read_instruction(led_instruction):
     if led_instruction == "circle":
         print("Detected shape: Circle")
@@ -112,10 +114,21 @@ async def read_instruction(led_instruction):
 
     elif led_instruction == "double tap background":
         await epson.executeTask(EpsonController.Action.DTAP_G)
+        
+    elif led_instruction == "long press a":
+        await epson.executeTask(EpsonController.Action.LONG_PRESS_A)
+
+    elif led_instruction == "long press b":
+        await epson.executeTask(EpsonController.Action.LONG_PRESS_B)
+    
+    elif led_instruction == "long press background":
+        await epson.executeTask(EpsonController.Action.LONG_PRESS_G)
 
     elif led_instruction == "swipe right":
         await epson.executeTask(EpsonController.Action.SWIPE_AB)
-
+        
+    elif led_instruction == "swipe left":
+        await epson.executeTask(EpsonController.Action.SWIPE_BA)
     else:
         print("Unknown shape detected")
         await epson.executeTask(EpsonController.Action.TAP_G)
@@ -123,7 +136,11 @@ async def read_instruction(led_instruction):
 
 
 async def drawScreen():
+    await epson.executeTask(EpsonController.Action.SCREEN_CAMERA)
+    await asyncio.sleep(1)
+    
     for i in range(6):
+      
         print("Epson Action: ", epson.isPerformingAction)
         print(f"TAKE PICTURE {i}: ShapeTextDetection")
         filename = f"./output/shape{i}.png"
@@ -136,6 +153,7 @@ async def drawScreen():
             detection = await textDetector.detect(image_binary)
                 
         await read_instruction(detection.name)
+        await asyncio.sleep(5)
         
 class RobotSequenceGUI:
     def __init__(self, root):
@@ -581,7 +599,7 @@ class RobotSequenceGUI:
         
         try:
             # Execute function with 3 second timeout
-            result = await asyncio.wait_for(self._execute_robot_function(func_name), timeout=3.0)
+            result = await self._execute_robot_function(func_name)
             return result
         except asyncio.TimeoutError:
             print(f"WARNING: {func_name} timed out after 3 seconds, moving to next function")
@@ -603,7 +621,9 @@ class RobotSequenceGUI:
         # from your_robot_module import takePicture, setLocal, drawScreen, epson, EpsonController
         
 
-        if func_name == 'setLocal':
+        if func_name == 'captureBoard':
+            return True 
+        elif func_name == 'setLocal':
             print(f"Executing: setLocal()")
             # TODO: Uncomment when you have the function available
             setLocal()
@@ -833,6 +853,8 @@ class RobotSequenceGUI:
             self.update_execution_display("❌ EXECUTION ERROR", i if 'i' in locals() else 0, f"Error: {str(e)}")
 
 def setLocal():
+    epson.goto(x=0,y=750,z=800)
+    sleep(3)
     cam.take_picture(filename="./local-frame.png")
 
     print("Detecting red and blue buttons...")

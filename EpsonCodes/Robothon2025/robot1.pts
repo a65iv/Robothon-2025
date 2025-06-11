@@ -1,4 +1,4 @@
-ENVT0100,LM:2025/06/10 21:28:05:000,DS:0000019535,CS:28540,MA:3C-E4-B0-DF-04-B9,EI:           
+ENVT0100,LM:2025/06/11 01:49:23:000,DS:0000019535,CS:24951,MA:3C-E4-B0-DF-04-B9,EI:           
 sVersion="2.0.0"
 nNumberOfPoints=68
 Point1 {
@@ -1371,8 +1371,8 @@ Point66 {
 	sLabel=""
 	sDescription=""
 	nUndefined=0
-	rX=-107.949997
-	rY=747.359985
+	rX=-121.459999
+	rY=756.750000
 	rZ=500.000000
 	rU=0.000000
 	rV=0.000000
@@ -1384,7 +1384,7 @@ Point66 {
 	nHand=1
 	nElbow=1
 	nWrist=1
-	nJ6Flag=0
+	nJ6Flag=1
 	nJ4Flag=0
 }
 Point67 {
@@ -1392,8 +1392,8 @@ Point67 {
 	sLabel=""
 	sDescription=""
 	nUndefined=0
-	rX=81.129997
-	rY=753.390015
+	rX=66.949997
+	rY=731.270020
 	rZ=500.000000
 	rU=0.000000
 	rV=0.000000
@@ -1405,7 +1405,7 @@ Point67 {
 	nHand=1
 	nElbow=1
 	nWrist=1
-	nJ6Flag=0
+	nJ6Flag=1
 	nJ4Flag=0
 }
 Point68 {

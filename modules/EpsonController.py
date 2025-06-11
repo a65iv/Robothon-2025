@@ -33,8 +33,12 @@ class EpsonController:
         SWIPE_BA = "go_swipeBA"
         SWIPE_AG = "go_swipeABackground"
         SWIPE_BG = "go_swipeBBackground"
-        SWIPE_GA = "go_swipeBackgroundA"
+        SWIPE_GA = "go_swipeBackgroundA" 
         SWIPE_GB = "go_swipeBackgroundB"
+        
+        LONG_PRESS_A = "go_longA"
+        LONG_PRESS_B = "go_longB"
+        LONG_PRESS_G = "go_longG"
 
         TAP_A = "go_tapA"
         TAP_B = "go_tapB"

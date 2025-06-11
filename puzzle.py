@@ -4,6 +4,7 @@ import pytesseract
 from time import sleep
 from collections import deque
 from modules.EpsonController import EpsonController
+from playsound import playsound
 
 import tracemalloc
 tracemalloc.start()
@@ -17,8 +18,8 @@ zh = 325.2
 dist = 35
 
 cell = [[midx+dist,midy-dist,zh-0.5], [midx,midy-dist,zh-0.5], [midx-dist,midy-dist,zh-0.5],
-        [midx+dist,midy,zh-0.2],    [midx,midy,zh],    [midx-dist,midy,zh],
-        [midx+dist,midy+dist,zh+0.6], [midx,midy+dist,zh+0.6], [midx-dist,midy+dist,zh+0.5]]
+        [midx+dist,midy,zh-0.2],    [midx,midy,zh-0.2],    [midx-dist,midy,zh-0.5],
+        [midx+dist,midy+dist,zh+0.6], [midx,midy+dist,zh+0.5], [midx-dist,midy+dist,zh+0.4]]
 
 class SlidingPuzzleSolver:
     def __init__(self, camera_index=1):
@@ -385,6 +386,7 @@ class SlidingPuzzleSolver:
                                 epson.goto(x=pos[0], y=pos[1], z=pos[2]+10)
                             
                             epson.goto(x=0, y=750, z=800) # going to camera position
+                            
                         else:
                             print("No solution found. The puzzle might be unsolvable.")
                     else:

@@ -828,6 +828,7 @@ print here
 	AutoLJM On
 > 
 > 
+> go screenCameraPoint ljm
 > 
 > 
 !!Error: 4001, Arm reached the limit of motion range.

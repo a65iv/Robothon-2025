@@ -19,6 +19,10 @@ Function main
 ' going to camera position
   Go CameraPoint
   On 10
+  Wait 1
+  Off 10
+  Wait 1
+  On 10
   
   SetNet #201, "192.168.1.2", 2001, CRLF
   ' SetNet #201, "127.0.0.1", 2001, CRLF
@@ -131,7 +135,7 @@ Function main
    		go_pressBlueOnly
    	EndIf
    	
-	If indata$(0) = "go_penPick" Then
+	If indata$(0) = "penPick" Then
 	   	Print 'run pen pick'
    		go_penPick
    	EndIf
@@ -185,6 +189,23 @@ Function main
    		Print 'run doubletapBackground'
    		go_doubletapBackground
    	EndIf
+   	
+   	
+   	If indata$(0) = "go_longA" Then
+   		Print 'run go_longA'
+   		go_longA
+   	EndIf
+ 
+ 	If indata$(0) = "go_longB" Then
+   		Print 'run go_longB'
+   		go_longB
+   	EndIf
+   	
+   	If indata$(0) = "go_longG" Then
+   		Print 'run longG'
+   		go_longG
+   	EndIf
+   	
    	
    	If indata$(0) = "go_swipeAB" Then
    		Print 'run swipeAB'
@@ -299,6 +320,91 @@ Function main
 	Call ErrFunc
     EResume Next
 Fend
+Function BYOD_puzzle
+	String indata$(0), receive$
+  	Integer i, camX, camY, camZ
+
+	Motor On
+	Power High
+	speedMedium
+	
+	
+' going to camera position
+  Go CameraPoint
+  On 10
+  Wait 1
+  Off 10
+  Wait 1
+  On 10
+  
+  BYOD_pickPenStand
+  speedSuperFast
+  
+  SetNet #201, "192.168.1.2", 2001, CRLF
+  ' SetNet #201, "127.0.0.1", 2001, CRLF
+  OpenNet #201 As Server
+  Print "Robot ready, listening to network"
+  WaitNet #201
+  OnErr GoTo ehandle
+
+ 
+  
+  Do
+   Input #201, receive$
+   ParseStr receive$, indata$(), " "
+   Print "Received message: ", receive$
+   'Print "indata(0): ", indata$(0)
+   'Print "indata(1): ", indata$(1)
+   'Print "indata(2): ", indata$(2)
+   
+   
+  
+   ' if the command is jump3
+   If indata$(0) = "jump3" Then
+     	x = Val(Trim$(indata$(1)))
+    	y = Val(Trim$(indata$(2)))
+	    z = Val(indata$(3))
+	    u = Val(indata$(4))
+    
+   		Print "Jumping to x=", x, " y=", y, " z=", z
+	   	Jump3 Here +Z(50), Here :X(0) :Y(y) :Z(z + 50), Here :X(x) :Y(y) :Z(z) :U(u)
+   EndIf
+   
+   ' if the command is touch
+   If indata$(0) = "touch" Then
+     	x = Val(Trim$(indata$(1)))
+    	y = Val(Trim$(indata$(2)))
+	    z = Val(indata$(3))
+    
+   		Print "Going to x=", x, " y=", y, " z=", z
+	   	Go Here :X(x) :Y(y) :Z(z) LJM
+	   	sayOK
+   EndIf
+   
+   If LCase$(indata$(0)) = "go" Then
+     	x = Val(Trim$(indata$(1)))
+    	y = Val(Trim$(indata$(2)))
+	    z = Val(indata$(3))
+    
+   		Print "Going to x=", x, " y=", y, " z=", z
+	   	Go Here :X(x) :Y(y) :Z(z) LJM
+	   	sayOK
+   EndIf
+   
+   If LCase$(indata$(0)) = "m" Then
+     	p$ = Trim$(indata$(1))
+    
+   		Print "Going to ", p$
+	   	Move P(PNumber(p$))
+   EndIf
+  Loop
+
+  Exit Function
+
+  ehandle:
+	Call ErrFunc
+    EResume Next
+Fend
 Function ErrFunc
 
   Print ErrMsg$(Err(0))
@@ -348,11 +454,10 @@ Function go_pressBlueOnly
 	sayOK
 Fend
 Function go_penPick
-	Power High
 	speedFast
 	Go FlippingPoint LJM
+	Go penApproach LJM CP
 	speedMedium
-	Go penApproach LJM
 	Off 10
 	Go penPick LJM
 	On 10
@@ -363,31 +468,31 @@ Fend
 Function go_ballMaze1
 	speedFast
 	Go penFlippedReadyforBall LJM
+	Go BallSensor1 +Z(20) LJM CP
 	speedSlow
-	Go BallSensor1 +Z(20) LJM
 	Go BallSensor1 LJM
 	Go BallWpt1 LJM CP
 	Go ballwpt2 LJM CP
 	Go BallSensor2 LJM
 	'Go ballHole LJM
-	Wait 1
+	Wait 0.6
 	'Go ballHole +Z(50) LJM
 	'' --- now go back to base (ballSensor1)
-	Go BallWpt2 LJM
-	Go ballwpt1 LJM
-	Go BallSensor1 LJM
+	Go BallWpt2 LJM CP
+	Go ballwpt1 LJM CP
+	Go BallSensor1 LJM CP
 	'' -- now retract and press blue button
-	Go ballPenRetractPoint LJM
+	Go ballPenRetractPoint LJM CP
 	Speed 20
 	SpeedR 20
 	Accel 20, 20
 	AccelR 20, 20
 	SpeedS 20
 	AccelS 20, 20
-	Go penBluePressApproach LJM
+	Go penBluePressApproach LJM CP
 	Go penBluePress LJM
 	Wait 4
-	Go penBluePressApproach LJM
+	Go penBluePressApproach LJM CP
 	sayOK
 Fend
 Function go_ballMaze2 'must be executed right after go_ballMaze1
@@ -397,17 +502,17 @@ Function go_ballMaze2 'must be executed right after go_ballMaze1
 	Go BallWpt1 LJM CP
 	Go ballwpt2 LJM CP
 	Go BallSensor2 LJM
-	Wait 1
+	Wait 0.6
 	Go BallWpt3 LJM
-	Go BallWpt4 LJM
+	Go BallWpt4 LJM CP
 	Go BallWpt5 LJM
 	Go BallWpt6 LJM
 	Go BallWpt7 LJM
 	Go BallWpt8 LJM
 	Go BallSensor3a LJM
 	Go BallSensor3b LJM
-	Go BallWpt9 LJM
-	Go BallWpt10 LJM
+	Go BallWpt9 LJM CP
+	Go BallWpt10 LJM CP
 	Go BallWpt11 LJM
 	Go ballsensor1 LJM
 	Go ballPenRetractPoint LJM
@@ -437,8 +542,8 @@ Fend
 Function go_tapA
 	speedFast
 	'Go screenA +Z(10) LJM
-	Go screenA +Z(2.5) LJM
-	Wait 1
+	Go screenA +Z(2) LJM
+	Wait 0.3
 	'Go screenA +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
@@ -448,7 +553,7 @@ Function go_tapB
 	speedFast
 	'Go screenB +Z(10) LJM
 	Go screenB +Z(2.5) LJM
-	Wait 1
+	Wait 0.3
 	'Go screenB +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
@@ -456,8 +561,36 @@ Fend
 Function go_tapBackground
 	speedFast
 	'Go screenABmid +Z(10) LJM
-	Go screenABmid +Z(2.5) LJM
-	Wait 1
+	Go screenABmid +Z(2) LJM
+	Wait 0.3
+	Go screenABmid +Z(10) LJM
+	Go screenCameraPoint LJM
+	sayOK
+Fend
+Function go_longA
+	speedFast
+	'Go screenA +Z(10) LJM
+	Go screenA +Z(2) LJM
+	Wait 1.2
+	'Go screenA +Z(10) LJM
+	Go screenCameraPoint LJM
+	sayOK
+	
+Fend
+Function go_longB
+	speedFast
+	'Go screenB +Z(10) LJM
+	Go screenB +Z(2.5) LJM
+	Wait 1.2
+	'Go screenB +Z(10) LJM
+	Go screenCameraPoint LJM
+	sayOK
+Fend
+Function go_longG
+	speedFast
+	'Go screenABmid +Z(10) LJM
+	Go screenABmid +Z(2) LJM
+	Wait 1.2
 	Go screenABmid +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
@@ -465,9 +598,9 @@ Fend
 Function go_doubletapA
 	speedFast
 	Go screenA +Z(10) LJM
-	Go screenA +Z(2.5) LJM
+	Go screenA +Z(2) LJM
 	Go screenA +Z(5) LJM
-	Go screenA +Z(2.5) LJM
+	Go screenA +Z(2) LJM
 	Go screenA +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
@@ -477,7 +610,7 @@ Function go_doubletapB
 	Go screenB +Z(10) LJM
 	Go screenB +Z(2.5) LJM
 	Go screenB +Z(4) LJM
-	Go screenB +Z(2.5) LJM
+	Go screenB +Z(2) LJM
 	Go screenB +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
@@ -497,8 +630,8 @@ Fend
 Function go_swipeAB
 	speedFast
 	Go screenA +Z(10) LJM
-	Go screenA +Z(3) LJM
-	Go screenB +Z(3) LJM
+	Go screenA +Z(2) LJM
+	Go screenB +Z(2) LJM
 	Go screenB +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
@@ -506,8 +639,8 @@ Fend
 Function go_swipeBA
 	speedFast
 	Go screenB +Z(10) LJM
-	Go screenB +Z(2.5) LJM
-	Go screenA +Z(2.5) LJM
+	Go screenB +Z(2) LJM
+	Go screenA +Z(2) LJM
 	Go screenA +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
@@ -515,7 +648,7 @@ Fend
 Function go_swipeBackgroundA
 	speedFast
 	Go screenABmid +Z(10) LJM
-	Go screenABmid +Z(2.5) LJM
+	Go screenABmid +Z(2) LJM
 	Go screenA +Z(2.5) LJM
 	Go screenA +Z(10) LJM
 	Go screenCameraPoint LJM
@@ -523,21 +656,21 @@ Function go_swipeBackgroundA
 Fend
 Function go_swipeBackgroundB
 	'Go screenABmid +Z(10) LJM
-	Go screenABmid +Z(2.5) LJM
+	Go screenABmid +Z(2) LJM
 	Go screenB +Z(2.5) LJM
 	'Go screenB +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
 Fend
 Function go_swipeUpA
-	Go screenA +Z(2.5) LJM
+	Go screenA +Z(2) LJM
 	Go Here +Y(15) LJM
 	Go Here +Z(10) LJM
 	Go screenCameraPoint LJM
 	sayOK
 Fend
 Function go_swipeUpB
-	Go screenB +Z(2.5) LJM
+	Go screenB +Z(2) LJM
 	Go Here +Y(15) LJM
 	Go Here +Z(10) LJM
 	Go screenCameraPoint LJM
@@ -546,7 +679,7 @@ Fend
 Function go_swipeABackground
 	speedFast
 	'Go screenA +Z(10) LJM
-	Go screenA +Z(2.5) LJM
+	Go screenA +Z(2) LJM
 	Go screenABmid LJM
 	Go screenABmid +Z(10) LJM
 	Go screenCameraPoint LJM
@@ -555,7 +688,7 @@ Fend
 Function go_swipeBBackground
 	speedFast
 	'Go screenB +Z(10) LJM
-	Go screenB +Z(2.5) LJM
+	Go screenB +Z(2) LJM
 	Go screenABmid LJM
 	'Go screenABmid +Z(10) LJM
 	Go screenCameraPoint LJM
@@ -563,56 +696,43 @@ Function go_swipeBBackground
 Fend
 Function go_drawCircle
 	speedFast
-	'Go screenABmid -Y(5) +Z(10) LJM
-	Go screenABmid -Y(10) +Z(2.5) LJM
-	Arc3 Here -X(10) +Y(10), Here +Y(20)
+	Go screenABmid -Y(5) +Z(10) LJM
+	Go screenABmid -Y(5) +Z(1.5) LJM
+	Arc3 Here -X(10) +Y(10), Here +Y(20) CP
 	Arc3 Here +X(10) -Y(10), Here -Y(20)
 	Go Here +Z(10) CP LJM
+	speedFast
 	Go screenCameraPoint LJM
 	sayOK
 Fend
 Function go_drawTriangle
-	speedFast
-	'Go screenABmid +Z(10) LJM
-	Go screenABmid +Z(2.5) LJM
+	speedMedium
+	Go screenABmid +Z(10) LJM
+	Go screenABmid +Z(1.5) LJM
 	Go Here +Y(10) -X(10)
 	Go Here +X(20)
 	Go Here -X(10) -Y(10)
 	Go Here +Z(10) CP LJM
+	speedFast
 	Go screenCameraPoint LJM
 	sayOK
 Fend
 Function go_drawSquare
-	speedFast
-	'Go screenA +Z(10) LJM
-	Go screenA +Z(2.5) LJM
+	speedMedium
+	Go screenA +Z(10) LJM
+	Go screenA +Z(1.5) LJM
 	Go Here +Y(10)
 	Go Here +X(20)
 	Go Here -Y(10)
 	Go Here -X(20)
 	Go Here +Z(10) CP LJM
+	speedFast
 	Go screenCameraPoint LJM
 	sayOK
 Fend
 Function sayOK
 	Print "OK, task done!"
 	Print #201, "OK"
-Fend
-Function testSequence
-	Go CameraPoint LJM
-	go_pressRedBlueRed
-	go_pressRedOnly
-	go_penPick
-	go_screenCamera
-	go_drawCircle
-	go_drawTriangle
-	go_drawSquare
-	go_tapA
-	go_swipeAB
-	go_tapB
-	go_ballMaze1
-	go_ballMaze2
-	go_penPlace
 Fend
 Function BYOD_pickPenStand
 	Go CameraPoint LJM
@@ -649,22 +769,23 @@ Function do_pressRBR
 	sayOK
 Fend
 Function do_Maze1
-	speedSlow
+	speedSuperFast
 	Go penFlippedReadyforBall LJM
-	Go BallSensor1 +Z(20) LJM
+	Go BallSensor1 +Z(20) LJM CP
+	speedSlow
 	Go BallSensor1 LJM
-	Go BallWpt1 LJM
-	Go ballwpt2 LJM
+	Go BallWpt1 LJM CP
+	Go ballwpt2 LJM CP
 	Go BallSensor2 LJM
 	'Go ballHole LJM
-	Wait 1
+	Wait 0.5
 	'Go ballHole +Z(50) LJM
 	'' --- now go back to base (ballSensor1)
-	Go BallWpt2 LJM
-	Go ballwpt1 LJM
-	Go BallSensor1 LJM
+	Go BallWpt2 LJM CP
+	Go ballwpt1 LJM CP
+	Go BallSensor1 LJM CP
 	'' -- now retract and press blue button
-	Go ballPenRetractPoint LJM
+	Go ballPenRetractPoint LJM CP
 	speedFast
 	Go penBluePressApproach LJM
 	Go penBluePress LJM
@@ -676,23 +797,24 @@ Function do_Maze2
 	speedSlow
 	Go penFlippedReadyforBall LJM
 	Go BallSensor1 LJM
-	Go BallWpt1 LJM
-	Go ballwpt2 LJM
+	Go BallWpt1 LJM CP
+	Go ballwpt2 LJM CP
 	Go BallSensor2 LJM
-	Wait 1
+	Wait 0.5
 	Go BallWpt3 LJM
-	Go BallWpt4 LJM
-	Go BallWpt5 LJM
+	Go BallWpt4 LJM CP
+	Go BallWpt5 LJM CP
 	Go BallWpt6 LJM
 	Go BallWpt7 LJM
 	Go BallWpt8 LJM
 	Go BallSensor3a LJM
 	Go BallSensor3b LJM
-	Go BallWpt9 LJM
+	Go BallWpt9 LJM CP
 	Go BallWpt10 LJM
 	Go BallWpt11 LJM
-	Go ballsensor1 LJM
-	Go ballPenRetractPoint LJM
+	Go ballsensor1 LJM CP
+	speedFast
+	Go ballPenRetractPoint LJM CP
 	Go ballPenRetractPoint +Z(200) LJM
 	sayOK
 Fend
@@ -713,12 +835,12 @@ Function speedFast
 	AccelS 30, 30
 Fend
 Function speedMedium
-	Speed 20
-	SpeedR 20
-	Accel 20, 20
-	AccelR 20, 20
-	SpeedS 20
-	AccelS 20, 20
+	Speed 25
+	SpeedR 25
+	Accel 25, 25
+	AccelR 25, 25
+	SpeedS 25
+	AccelS 25, 25
 Fend
 Function speedSlow
 	Speed 7
